@@ -11,7 +11,14 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
+Route::get('/', 'HomeController@index');
+
+Route::get('/edit/{editor}/{action?}', function($editor, $action = 'articles'){
+	$data = array(
+		'serviceName'	=> $editor,
+		'action'		=> $action
+	);
+
+	return View::make('editor', $data);
 });
+
