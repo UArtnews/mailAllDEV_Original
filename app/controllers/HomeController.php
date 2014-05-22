@@ -18,10 +18,13 @@ class HomeController extends BaseController {
 	public function index()
 	{
 
+		$data = array(
+			'instances' => Instance::all(),
+		);
 
-		return View::make('landing');
+		return View::make('landing', $data);
 	}
 
-	
+
 
 }

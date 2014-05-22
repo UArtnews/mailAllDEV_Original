@@ -21,4 +21,3 @@ Route::get('/edit/{editor}/{action?}', function($editor, $action = 'articles'){
 
 	return View::make('editor', $data);
 });
-

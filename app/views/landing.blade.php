@@ -124,27 +124,15 @@
                 <div class="panel-heading">Please Choose an Email Service</div>
                 <div class="panel-body">
                     <br/>
+                    @foreach($instances as $instance)
                     <div class="col-xs-4 centerMe">
-                        <a href="{{URL::to('/edit/digest')}}">
-                            <div class="digestLogo logo">
-                                <img class="" src="{{URL::to('img/ua_digest.png')}}"/>
+                        <a href="{{URL::to('/edit/'.$instance->name)}}">
+                            <div class="{{$instance->name}}Logo logo">
+                                <img class="" src="{{URL::to('img/ua_'.$instance->name.'.png')}}"/>
                             </div>
                         </a>
                     </div>
-                    <div class="col-xs-4 centerMe">
-                        <a href="{{URL::to('/edit/zipmail')}}">
-                            <div class="zipmailLogo logo">
-                                <img class="" src="{{URL::to('img/ua_zipmail.png')}}"/>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-xs-4 centerMe">
-                        <a href="{{URL::to('/edit/waynemail')}}">
-                            <div class="waynemailLogo logo">
-                                <img class="" src="{{URL::to('img/ua_waynemail.png')}}"/>
-                            </div>
-                        </a>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>

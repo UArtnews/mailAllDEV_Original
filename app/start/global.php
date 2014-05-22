@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader
@@ -17,6 +19,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
+	app_path().'/libraries',
 
 ));
 
@@ -77,5 +80,11 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
+
+//Find or Fail stuff
+App::error(function(ModelNotFoundException $e)
+{
+    return Response::make('Instance Not Found', 404);
+});
 
 require app_path().'/filters.php';

@@ -11,33 +11,13 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <style>
-        @if($serviceName == 'digest')
         body {
-            background-color:#8AC8FF;
+            background-color:{{$tweakables['background-color']['value'] or '#222'}};
             color:#222;
         }
         h1 {
             text-shadow: 0 0 15px rgba(255,255,255,1);
         }
-
-        @elseif($serviceName == 'zipmail')
-        body {
-            background-color:#00285e;
-            color:#fff;
-        }
-        h1 {
-            text-shadow: 0 0 15px rgba(0,0,0,1);
-        }
-        @else
-        body {
-            background-color:#B56D6D;
-            color:#fff;
-        }
-        h1 {
-            text-shadow: 0 0 15px rgba(0,0,0,1);
-        }
-        @endif
-
 
         input {
             color:#222;
@@ -122,15 +102,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">{{ucfirst($serviceName)}}</a>
+      <a class="navbar-brand" href="#">{{ucfirst($instanceName)}}</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li @if($action == 'articles')class="active"@endif><a href="{{URL::to('edit/'.$serviceName.'/articles')}}">Articles</a></li>
-        <li @if($action == 'publications')class="active"@endif><a href="{{URL::to('edit/'.$serviceName.'/publications')}}">Publications</a></li>
-        <li @if($action == 'images')class="active"@endif><a href="{{URL::to('edit/'.$serviceName.'/images')}}">Images</a></li>
+        <li @if($action == 'articles')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/articles')}}">Articles</a></li>
+        <li @if($action == 'publications')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/publications')}}">Publications</a></li>
+        <li @if($action == 'images')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/images')}}">Images</a></li>
       </ul>
       <form class="navbar-form navbar-right" role="search">
         <div class="form-group">
@@ -161,13 +141,13 @@
                 <div class="panel-body" id="articlePanelBody">
                     <div class="col-xs-10 col-xs-offset-1" id="articleChooser">
                         <ul class="list-unstyled">
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 1');">{{ucfirst($serviceName)}} Article 1  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 2');">{{ucfirst($serviceName)}} Article 2  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 3');">{{ucfirst($serviceName)}} Article 3  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 4');">{{ucfirst($serviceName)}} Article 4  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 5');">{{ucfirst($serviceName)}} Article 5  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 6');">{{ucfirst($serviceName)}} Article 6  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($serviceName)}} Article 7');">{{ucfirst($serviceName)}} Article 7  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 1');">{{ucfirst($instanceName)}} Article 1  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 2');">{{ucfirst($instanceName)}} Article 2  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 3');">{{ucfirst($instanceName)}} Article 3  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 4');">{{ucfirst($instanceName)}} Article 4  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 5');">{{ucfirst($instanceName)}} Article 5  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 6');">{{ucfirst($instanceName)}} Article 6  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 7');">{{ucfirst($instanceName)}} Article 7  -  Created on 5/12/2015  by  Anon</a></li>
                         </ul>
                     </div>
                     <div class="row" id="articleEditor" style="display:none;">
@@ -188,13 +168,13 @@
                 <div class="panel-body" id="publicationPanelBody">
                     <div class="col-xs-10 col-xs-offset-1" id="publicationChooser">
                         <ul class="list-unstyled">
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 1');">{{ucfirst($serviceName)}} Publication 1  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 2');">{{ucfirst($serviceName)}} Publication 2  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 3');">{{ucfirst($serviceName)}} Publication 3  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 4');">{{ucfirst($serviceName)}} Publication 4  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 5');">{{ucfirst($serviceName)}} Publication 5  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 6');">{{ucfirst($serviceName)}} Publication 6  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($serviceName)}} Publication 7');">{{ucfirst($serviceName)}} Publication 7  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 1');">{{ucfirst($instanceName)}} Publication 1  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 2');">{{ucfirst($instanceName)}} Publication 2  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 3');">{{ucfirst($instanceName)}} Publication 3  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 4');">{{ucfirst($instanceName)}} Publication 4  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 5');">{{ucfirst($instanceName)}} Publication 5  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 6');">{{ucfirst($instanceName)}} Publication 6  -  Created on 5/12/2015  by  Anon</a></li>
+                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 7');">{{ucfirst($instanceName)}} Publication 7  -  Created on 5/12/2015  by  Anon</a></li>
                         </ul>
                     </div>
                     <div class="row" id="publicationEditor" style="display:none;">
