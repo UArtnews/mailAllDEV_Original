@@ -17,9 +17,6 @@ class UsersTableSeeder extends Seeder {
 				'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 				'updated_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 			));
-
 		}
-
 	}
-
 }

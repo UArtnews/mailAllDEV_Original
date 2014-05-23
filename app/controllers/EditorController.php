@@ -9,8 +9,13 @@ class EditorController extends \BaseController {
 	 */
 	public function index()
 	{
-		echo Request::segment(1);
-		return;
+		//Grab Instance Name from URI
+		$instanceName =  urldecode(Request::segment(2));
+
+		//Grab Action Type from URI
+		$action =  urldecode(Request::segment(3));
+
+		//Fetch Instance out of DB
 		$instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
 
 		$data = array(
@@ -18,8 +23,44 @@ class EditorController extends \BaseController {
 			'instanceId'	=> $instance->id,
 			'instanceName'	=> $instance->name,
 			'action'		=> $action,
-			'tweakables'	=> ArrayTools::reindexArray($instance->tweakables()->get(), 'parameter')
+			'tweakables'	=> ArrayTools::reindexArray($instance->tweakables()->get(), 'parameter'),
 		);
+
+		if($action == 'articles'){
+			$data['articles'] = Article::where('instance_id',$instance->id)->get();
+		}elseif($action == 'publications'){
+			$data['publications'] = Publication::where('instance_id', $instance->id)->get();
+			foreach($data['publications'] as $publication){
+				$data['publications']->articles = array();
+				$articleArray = json_decode($publication->article_order);
+				
+				foreach($articleArray as $articleID){
+					array_push($data['publications']->articles, Article::find($articleID));
+				}
+			}
+		}elseif($action == 'images'){
+			
+		}else{
+			//Get most recent live publication
+			$publication = Publication::where('instance_id',$instance->id)->
+                where('published','Y')->
+                orderBy('publish_date','desc')->first();
+			
+			$articles = array();
+
+			//Get the article order array and grab the articles
+			$articleArray = json_decode($publication->article_order);
+			
+			foreach($articleArray as $articleID){
+				array_push($articles, Article::find($articleID));
+			}
+
+			//Populate $data
+			$data['publication'] = $publication;
+			$data['publication']->articles = $articles;
+
+		}
+
 
 		return View::make('editor', $data);
 	}
@@ -67,7 +108,7 @@ class EditorController extends \BaseController {
 	}
 
 	/**
-	 * Update the specified resource in storage.
+	 * Update the specified resource in storage.R
 	 *
 	 * @param  int  $id
 	 * @return Response

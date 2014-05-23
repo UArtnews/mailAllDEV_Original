@@ -51,61 +51,28 @@
 
         #logo {
             margin-bottom:1.5em;
+            color:white;
+        }
+
+        a {
+            color:white;
+        }
+
+        a:hover {
+        	color:#aaa;
         }
 
         .centerMe {
             margin:0em auto;
             text-align:center;
+            margin-bottom:1.5em;
         }
 
         h1 {
             text-shadow: 0 0 15px rgba(0,0,0,1);
         }
 
-        .digestLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #B2E6FF;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .zipmailLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #00285E;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .waynemailLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #910F0F;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .logo:hover {
+        .logo-image:hover {
             box-shadow: 0 0 30px rgba(255,255,255,.6);
         }
 
@@ -128,7 +95,8 @@
                     <div class="col-xs-4 centerMe">
                         <a href="{{URL::to('/edit/'.$instance->name)}}">
                             <div class="{{$instance->name}}Logo logo">
-                                <img class="" src="{{URL::to('img/ua_'.$instance->name.'.png')}}"/>
+                                <img class="logo-image" src="{{$instance->banner_image_url.'/?'.rand(1,1000)}}"/><br/>
+                            	{{$instance->name}}
                             </div>
                         </a>
                     </div>

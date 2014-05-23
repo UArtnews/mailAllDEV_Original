@@ -15,6 +15,10 @@ class DatabaseSeeder extends Seeder {
 		$this->call('InstanceTableSeeder');
 		$this->call('UsersTableSeeder');
 		$this->call('ArticleTableSeeder');
+		$this->call('TweakableTableSeeder');
+		$this->call('PublicationTableSeeder');
+		$this->call('PublicationsTableSeeder');
+		$this->call('ArticlesTableSeeder');
 	}
 
 }

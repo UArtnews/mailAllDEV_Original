@@ -6,7 +6,7 @@ class Instance extends Eloquent {
 
 	protected $table = 'instance';
 
-	public $timestamps = false;
+	public $timestamps = true;
 
 	public function tweakables(){
 		return $this->hasMany('Tweakable', 'instance_id', 'id');

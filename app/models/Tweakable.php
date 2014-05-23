@@ -6,7 +6,7 @@ class Tweakable extends Eloquent {
 
 	protected $table = 'tweakable';
 
-	public $timestamps = false;
+	public $timestamps = true;
 
 	public function instance(){
 		return $this->bleongsTo('Instance', 'instance_id', 'id');

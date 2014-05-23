@@ -14,7 +14,7 @@ class CreateTweakableTable extends Migration {
 	{
 		Schema::create('tweakable', function(Blueprint $table) {
 			$table->increments('id');
-			$table->int('instance_id');
+			$table->integer('instance_id');
 			$table->string('parameter');
 			$table->string('value');
 			$table->timestamps();

@@ -2,21 +2,27 @@
 <html>
 <head>
 
-    <title>The University of Akron Article Editor</title>
+    <title>The University of Akron Publication Editor</title>
 
     <link async rel="StyleSheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
     <script type="text/javascript">
         document.write("    \<script src='//code.jquery.com/jquery-latest.min.js' type='text/javascript'>\<\/script>");
     </script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="{{ URL::to('js/ckeditor/ckeditor.js') }}"></script>
 
     <style>
         body {
-            background-color:{{$tweakables['background-color']['value'] or '#222'}};
+            background-color:#222;
             color:#222;
         }
+
+        p {
+        	font-size:{{$tweakables['global-font-size']['value'] or '1em'}};
+        }
+
         h1 {
-            text-shadow: 0 0 15px rgba(255,255,255,1);
+        	color:{{$tweakables['global-h2-color']['value'] or '#222'}};
         }
 
         input {
@@ -25,6 +31,11 @@
             border:0px;
             padding:1px;
             font-weight:700;
+        }
+
+        .colorPanel {
+            color:#222;
+            background-color:{{$tweakables['publication-background-color']['value'] or '#222'}};
         }
 
         .error {
@@ -40,6 +51,7 @@
             margin:0em auto;
             text-align:center;
         }
+
 
         .digestLogo {
             margin-bottom:1.5em;
@@ -88,7 +100,99 @@
             box-shadow: 0 0 30px rgba(255,255,255,.6);
         }
 
+        .contentDiv{
+            width:510px;
+            padding:5px;
+            margin:0em auto;
+            position:relative;
+            background-color:{{$tweakables['publication-border-color']['value'] or '#eee'}};
+
+        }
+
+        .publicationBanner {
+            margin-bottom:1em;
+        }
+
+        .editorSaveRevert {
+            background-color:rgba(255,255,255,0.5);
+            padding:5px;
+            position:absolute;
+            width:100px;
+        }
+
+        .editorIndicator {
+            background-color:rgba(255,0,0,0.75);
+            position:absolute;
+            width:5px;
+
+        }
+
     </style>
+
+    <script>
+        //EditorContents variable for storing/retrieving original copies of articles
+        var EditorData = (function(){
+            var editorContents = [];
+
+            return {
+                contents: editorContents,
+            };
+        })();
+
+        function revertEdits(id)
+        {
+            $('#'+id).html(EditorData.contents[id]);
+        }
+
+        function saveEdits(id)
+        {
+            EditorData.contents[id] = $('#'+id).html();
+            $('#'+id+'indicator').css('background-color','rgba(0,255,0,0.75)');
+            setTimeout(function(){
+                $('#'+id+'indicator').remove();
+            },2000);
+
+        }
+
+
+        $(document).ready(function(){
+
+            //Prepare click handler for all editable elements
+            $('.editable').click(function() {
+                //Save the content as it currently is into the
+                if(typeof EditorData.contents[this.id] == 'undefined'){
+                    EditorData.contents[this.id] = $(this).html();
+                }
+
+                //Remove all other editorSaveRevert divs
+                $('.editorSaveRevert').remove();
+
+                //Place save/revert controls off to side of article
+                $controls = '<div id="'+this.id+'save" class="editorSaveRevert" ><button type="button" class="btn btn-primary btn-block" onclick="saveEdits(\''+this.id+'\');">Save</button><button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+this.id+'\');">Revert</button></div>';
+                $(this).after($controls);
+
+                //Adjust positioning of save/revert controls
+                $('#'+this.id+'save').css('top',$(this).position().top+'px');
+                $('#'+this.id+'save').css('left',$(this).parent().outerWidth()+'px');
+
+                //Check if instance is already fired up.  Exit click handler if already fired up, we're done here.
+                var name;
+                for(name in CKEDITOR.instances) {
+                    var instance = CKEDITOR.instances[name];
+                    if(this && this == instance.element.$) {
+                        return;
+                    }
+                }
+
+                //Init editor since it's not fired up!
+                $(this).attr('contenteditable', true);
+                CKEDITOR.inline(this);
+                $(this).trigger('click');
+
+
+            });
+        });
+    </script>
 
 </head>
 <body>
@@ -102,7 +206,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">{{ucfirst($instanceName)}}</a>
+      <a class="navbar-brand" href="{{URL::to('edit/'.$instanceName)}}">{{ucfirst($instanceName)}}</a>
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -136,64 +240,99 @@
         <br/>
         <div class="col-xs-10 col-xs-offset-1">
         @if($action == 'articles')
-            <div class="panel panel-default">
-                <div class="panel-heading" id="articlePanelHead">Choose an Article</div>
+            <div class="panel panel-default colorPanel">
+                <div class="panel-heading" id="articlePanelHead">Article Editor</div>
                 <div class="panel-body" id="articlePanelBody">
                     <div class="col-xs-10 col-xs-offset-1" id="articleChooser">
                         <ul class="list-unstyled">
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 1');">{{ucfirst($instanceName)}} Article 1  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 2');">{{ucfirst($instanceName)}} Article 2  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 3');">{{ucfirst($instanceName)}} Article 3  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 4');">{{ucfirst($instanceName)}} Article 4  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 5');">{{ucfirst($instanceName)}} Article 5  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 6');">{{ucfirst($instanceName)}} Article 6  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#articleEditor').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle').text('Now Editing {{ucfirst($instanceName)}} Article 7');">{{ucfirst($instanceName)}} Article 7  -  Created on 5/12/2015  by  Anon</a></li>
+                            @foreach($articles as $article)
+                                <li>
+
+                                <a href="#" onclick="$('#articleEditor{{$article->id}}').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle{{$article->id}}').text('{{$article->title}}');">
+                                {{$article->title}}  -  Created on {{date('m/d/Y', strtotime($article->created_at))}}  by  {{User::find($article->author_id)->first}} {{User::find($article->author_id)->last}}
+                                </a>
+
+                                </li>
+                                <br/>
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="row" id="articleEditor" style="display:none;">
-                        <div class="col-xs-10 col-xs-offset-1">
-                            <h3 id="articleTitle"></h3>
-                            <p>
-                                Here is some text that you will be able to edit, just pretend for now.
-                            </p>
+                    @foreach($articles as $article)
+                    <div class="row" id="articleEditor{{$article->id}}" style="display:none;">
+                        <div class="col-xs-10 col-xs-offset-1 article">
+                            <div class="contentDiv">
+                                <h3 id="articleTitle{{$article->id}}" class="editable"></h3>
+                                <p id="articleContent{{ $article->id }}" class="editable">
+                                {{$article->content}}
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
                 <div class="panel-footer" id="articlePanelFoot">
                 </div>
             </div>
         @elseif($action == 'publications')
-            <div class="panel panel-default">
-                <div class="panel-heading" id="publicationPanelHead">Choose an publication</div>
+            <div class="panel panel-default colorPanel">
+                <div class="panel-heading" id="publicationPanelHead">Publication Editor</div>
                 <div class="panel-body" id="publicationPanelBody">
                     <div class="col-xs-10 col-xs-offset-1" id="publicationChooser">
                         <ul class="list-unstyled">
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 1');">{{ucfirst($instanceName)}} Publication 1  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 2');">{{ucfirst($instanceName)}} Publication 2  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 3');">{{ucfirst($instanceName)}} Publication 3  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 4');">{{ucfirst($instanceName)}} Publication 4  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 5');">{{ucfirst($instanceName)}} Publication 5  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 6');">{{ucfirst($instanceName)}} Publication 6  -  Created on 5/12/2015  by  Anon</a></li>
-                            <li><a href="#" onclick="$('#publicationEditor').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle').text('Now Viewing {{ucfirst($instanceName)}} Publication 7');">{{ucfirst($instanceName)}} Publication 7  -  Created on 5/12/2015  by  Anon</a></li>
+                            @foreach($publications as $publication)
+                                <li>
+
+                                <a href="#" onclick="$('#publicationEditor{{$publication->id}}').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle{{$publication->id}}').text('Now Viewing {{$instanceName}} - {{date('m/d/Y', strtotime($publication->created_at))}}');">
+                                    {{ ucfirst($instanceName) }} - Created on {{date('m/d/Y', strtotime($publication->created_at))}}
+                                </a>
+
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
-                    <div class="row" id="publicationEditor" style="display:none;">
+                    @foreach($publications as $publication)
+                    <div class="row" id="publicationEditor{{$publication->id}}" style="display:none;">
                         <div class="col-xs-10 col-xs-offset-1">
-                            <h3 id="publicationTitle"></h3>
-                            <p>
-                                Here's a nice preview of the editor.</br>
-
-                                You'll be able to drag and drop this stuff to rearrange an article soon!
-                            </p>
+                            <h1 id="publicationTitle{{$publication->id}}"></h1>
+                            <!-- Now to iterate through the articles -->
+                            <div class="contentDiv">
+                                <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
+                                @foreach($publications->articles as $article)
+                                    <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
+                                    <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                                    <hr/>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
                 <div class="panel-footer" id="publicationPanelFoot">
                 </div>
             </div>
 
-        @endif
+        @elseif($action == 'images')
+        @else
+        <!-- Render the currently-live publication -->
+        <br/>
+        <div class="col-xs-10 col-xs-offset-1">
+            <div class="panel panel-default colorPanel">
+                <div class="panel-heading" id="articlePanelHead">Current Live Publication <span class="pull-right">Published on {{date('m/d/Y',strtotime($publication->publish_date))}}&nbsp&nbsp<a href="{{URL::to("/$instanceName/")}}"><span class="pull-right badge" style="background-color:red;">LIVE</span></a></span></div>
+                <div class="panel-body" id="livePublicationBody">
+                    <div class="contentDiv">
+                        <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
+                        @foreach($publication->articles as $article)
+                            <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
+                            <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                            <hr/>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="panel-footer" id="articlePanelFoot">
+                </div>
+            </div>
         </div>
+        @endif
     </div>
 </body>
 </html>
