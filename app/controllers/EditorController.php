@@ -23,13 +23,15 @@ class EditorController extends \BaseController {
 			'instanceId'	=> $instance->id,
 			'instanceName'	=> $instance->name,
 			'action'		=> $action,
-			'tweakables'	=> ArrayTools::reindexArray($instance->tweakables()->get(), 'parameter'),
+			'tweakables'	=> reindexArray($instance->tweakables()->get(), 'parameter','value'),
+            'default_tweakables' => reindexArray(DefaultTweakable::all(),'parameter','value'),
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(),'parameter','display_name'),
 		);
 
 		if($action == 'articles'){
-			$data['articles'] = Article::where('instance_id',$instance->id)->get();
+			$data['articles'] = Article::where('instance_id',$instance->id)->orderBy('created_at','desc')->paginate(15);
 		}elseif($action == 'publications'){
-			$data['publications'] = Publication::where('instance_id', $instance->id)->get();
+			$data['publications'] = Publication::where('instance_id', $instance->id)->paginate(15);
 			foreach($data['publications'] as $publication){
 				$data['publications']->articles = array();
 				$articleArray = json_decode($publication->article_order);
@@ -40,7 +42,8 @@ class EditorController extends \BaseController {
 			}
 		}elseif($action == 'images'){
 			
-		}else{
+		}elseif($action == 'settings'){
+        }else{
 			//Get most recent live publication
 			$publication = Publication::where('instance_id',$instance->id)->
                 where('published','Y')->
@@ -60,7 +63,6 @@ class EditorController extends \BaseController {
 			$data['publication']->articles = $articles;
 
 		}
-
 
 		return View::make('editor', $data);
 	}
@@ -129,4 +131,16 @@ class EditorController extends \BaseController {
 		//
 	}
 
+}
+
+function reindexArray($array, $index, $value)
+{
+
+    $tempArr = array();
+
+    foreach($array as $item){
+        $tempArr[$item[$index]] = $item[$value];
+    }
+
+    return $tempArr;
 }

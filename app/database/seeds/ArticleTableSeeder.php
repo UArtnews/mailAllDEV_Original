@@ -8,7 +8,7 @@ class ArticleTableSeeder extends Seeder {
 
 		$faker = Faker\Factory::create();
 
-		foreach(range(1,20) as $index)
+		foreach(range(1,400) as $index)
 		{
 			Article::create(array(
 				'instance_id'	=> Instance::orderBy(DB::raw('RAND()'))->first()->id,

@@ -8,7 +8,7 @@ class InstanceTableSeeder extends Seeder {
 
 		$faker = Faker\Factory::create();
 
-		foreach(range(1,6) as $index)
+		foreach(range(1,3) as $index)
 		{
 			Instance::create(array(
 				'name'	=> $faker->catchPhrase,

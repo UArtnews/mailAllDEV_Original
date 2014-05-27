@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('ArticleTableSeeder');
 		$this->call('TweakableTableSeeder');
 		$this->call('PublicationTableSeeder');
-		$this->call('PublicationsTableSeeder');
-		$this->call('ArticlesTableSeeder');
+		$this->call('DefaultTweakableTableSeeder');
 	}
 
 }

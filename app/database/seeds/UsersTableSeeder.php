@@ -8,7 +8,7 @@ class UsersTableSeeder extends Seeder {
 
 		$faker = Faker\Factory::create();
 
-		foreach(range(1,20) as $index)
+		foreach(range(1,180) as $index)
 		{
 			User::create(array(
 				'email'			=> $faker->email,

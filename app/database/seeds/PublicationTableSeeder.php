@@ -11,12 +11,12 @@ class PublicationTableSeeder extends Seeder {
 		foreach(Instance::all() as $instance)
 		{
 			//Create two live articles
-			foreach(range(1,2) as $index)
+			foreach(range(1,40) as $index)
 			{
 				//Grab some articles from this pub
 				$articles = array();
 
-				foreach(range(1,3) as $articleIndex)
+				foreach(range(1,12) as $articleIndex)
 				{
 					$article = Article::orderBy(DB::raw('RAND()'))->first();
 					array_push($articles, $article->id);
@@ -36,7 +36,7 @@ class PublicationTableSeeder extends Seeder {
 			//Create one article still being edited
 			$articles = array();
 
-			foreach(range(1,3) as $articleIndex)
+			foreach(range(1,10) as $articleIndex)
 			{
 				$article = Article::orderBy(DB::raw('RAND()'))->first();
 				array_push($articles, $article->id);

@@ -30,20 +30,20 @@ class TweakableTableSeeder extends Seeder {
 
 			Tweakable::create(array(
 				'instance_id'	=> $instance->id,
-				'parameter'		=> 'global-h1-color',
+				'parameter'		=> 'publication-h1-color',
 				'value'			=> 'rgb('.rand(150,230).','.rand(150,230).','.rand(150,230).')',
 			));
 
 			Tweakable::create(array(
 				'instance_id'	=> $instance->id,
-				'parameter'		=> 'global-font-size',
+				'parameter'		=> 'publication-font-size',
 				'value'			=> (rand(50,200)/100).'em',
 			));
 
 			Tweakable::create(array(
 				'instance_id'	=> $instance->id,
 				'parameter'		=> 'banner-image',
-				'value'			=> $faker->imageUrl(150,100),
+				'value'			=> 'http://lorempixel.com/150/100',
 			));
 
 		}
