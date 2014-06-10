@@ -32,7 +32,7 @@
                 "homepage": "http://www.php-fig.org/"
             }
         ],
-        "description": "Common interface for logging libraries",
+        "description": "Common interface for logging Libraries",
         "keywords": [
             "log",
             "psr",

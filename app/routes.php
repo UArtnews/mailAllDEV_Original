@@ -19,6 +19,12 @@ Route::get('/edit/{instanceName}', 'EditorController@index');
 //Specific Action Editor
 Route::get('/edit/{instanceName}/{action}', 'EditorController@index');
 
+//Specific Action + Sub-Action Editor
+Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index');
+
+//Specific Saving Controller
+Route::post('/save/{instanceName}/{action}', 'EditorController@save');
+
 
 //Show live publication in stripped down reader  (Eventually this will be the live homepage for each publication)
 Route::get('/{instanceName}/', function($instanceName){

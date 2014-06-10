@@ -689,7 +689,7 @@ class Request
     /**
      * Gets a "parameter" value.
      *
-     * This method is mainly useful for libraries that want to provide some flexibility.
+     * This method is mainly useful for Libraries that want to provide some flexibility.
      *
      * Order of precedence: GET, PATH, POST
      *

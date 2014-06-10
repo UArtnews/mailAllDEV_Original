@@ -43,7 +43,7 @@
             $('.editorSaveRevert').remove();
 
             //Place save/revert controls off to side of article
-            $controls = '<div id="'+this.id+'save" class="editorSaveRevert" ><button type="button" class="btn btn-primary btn-block" onclick="saveEdits(\''+this.id+'\');">Save</button><button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+this.id+'\');">Revert</button></div>';
+            $controls = '<div id="'+this.id+'save" class="editorSaveRevert" style="z-index:50;"><button type="button" class="btn btn-primary btn-block" onclick="saveEdits(\''+this.id+'\');">Save</button><button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+this.id+'\');">Revert</button></div>';
             $(this).after($controls);
 
             //Adjust positioning of save/revert controls

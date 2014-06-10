@@ -134,24 +134,8 @@
     <br/>
     <div class="col-xs-10 col-xs-offset-1">
         <div class="panel panel-default colorPanel">
-            <div class="panel-heading" id="publicationPanelHead" style="text-align:center;">
-                <h1>{{$instance->name}} - {{date('m/d/Y', strtotime($publication->publish_date))}}</h1>
-            </div>
             <div class="panel-body" id="publicationPanelBody">
-                <div class="row" id="publicationEditor{{$publication->id}}">
-                    <div class="col-xs-10 col-xs-offset-1">
-                        <h1 id="publicationTitle{{$publication->id}}"></h1>
-                        <!-- Now to iterate through the articles -->
-                        <div class="contentDiv">
-                            <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
-                            @foreach($publication->articles as $article)
-                            <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
-                            <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
-                            <hr/>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
+                @include('publication.staticWebPublication', array('publication' => $publication))
             </div>
             <div class="panel-footer" id="publicationPanelFoot">
             </div>

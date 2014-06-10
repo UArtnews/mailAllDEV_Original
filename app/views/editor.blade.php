@@ -5,11 +5,13 @@
     <title>The University of Akron Publication Editor</title>
 
     <link async rel="StyleSheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
+    <link async rel="StyleSheet" href="{{ URL::to('css/bootstrap-colorpicker.css') }}" type="text/css" />
     <script type="text/javascript">
         document.write("    \<script src='//code.jquery.com/jquery-latest.min.js' type='text/javascript'>\<\/script>");
     </script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="{{ URL::to('js/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
 
     {{-- Pull in sub-templates for css and javascripts --}}
     @include('editor.editorStyle',array('default_tweakables' => $default_tweakables, 'tweakables' => $tweakables, 'default_tweakables_names' => $default_tweakables_names))

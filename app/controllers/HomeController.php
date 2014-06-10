@@ -23,7 +23,11 @@ class HomeController extends BaseController {
 		);
 
 		foreach($data['instances'] as $instance){
-			$instance->banner_image_url = Tweakable::where('instance_id',$instance->id)->where('parameter','banner-image')->first()->value;
+            if(Tweakable::where('instance_id',$instance->id)->where('parameter', 'publication-banner-image')->count() > 0){
+                $instance->banner_image_url = Tweakable::where('instance_id',$instance->id)->where('parameter','publication-banner-image')->first()->value;
+            }else{
+                $instance->banner_image_url = DefaultTweakable::where('parameter','publication-banner-image')->first()->value;
+            }
 		}
 
 		return View::make('landing', $data);

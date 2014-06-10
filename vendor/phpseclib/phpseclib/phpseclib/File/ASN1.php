@@ -782,7 +782,7 @@ class File_ASN1
     /**
      * ASN.1 Encode
      *
-     * DER-encodes an ASN.1 semantic mapping ($mapping).  Some libraries would probably call this function
+     * DER-encodes an ASN.1 semantic mapping ($mapping).  Some Libraries would probably call this function
      * an ASN.1 compiler.
      *
      * "Special" mappings can be applied via $special.

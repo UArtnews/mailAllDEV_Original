@@ -92,7 +92,7 @@
                 <div class="panel-body">
                     <br/>
                     @foreach($instances as $instance)
-                    <div class="col-xs-4 centerMe">
+                    <div class="col-lg-6 col-sm-10 centerMe">
                         <a href="{{URL::to('/edit/'.$instance->name)}}">
                             <div class="{{$instance->name}}Logo logo">
                                 <img class="logo-image" src="{{$instance->banner_image_url.'/?'.rand(1,1000)}}"/><br/>

@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ArrayTools' => $baseDir . '/app/libraries/ArrayTools.php',
+    'ArrayTools' => $baseDir . '/app/Libraries/ArrayTools.php',
     'Article' => $baseDir . '/app/models/Article.php',
     'ArticleController' => $baseDir . '/app/controllers/ArticleController.php',
     'ArticleTableSeeder' => $baseDir . '/app/database/seeds/ArticleTableSeeder.php',
