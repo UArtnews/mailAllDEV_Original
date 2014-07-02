@@ -35,15 +35,17 @@ class EditorController extends \BaseController {
         } elseif ($action == 'publications')
         {
             $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->paginate(15);
-            foreach ($data['publications'] as $publication)
+            $data['publications'][0]['articles'] = array();
+            foreach ($data['publications'] as $id => $publication)
             {
-                $data['publications']->articles = array();
+                $data['publications'][$id]['articles'] = array();
                 $articleArray = json_decode($publication->article_order);
-
+                $articles = array();
                 foreach ($articleArray as $articleID)
                 {
-                    array_push($data['publications']->articles, Article::find($articleID));
+                    array_push($articles, Article::find($articleID) );
                 }
+                $data['publications'][$id]['articles'] = $articles;
             }
         } elseif ($action == 'images')
         {
@@ -111,7 +113,6 @@ class EditorController extends \BaseController {
             $data['publication']->articles = $articles;
 
         }
-
         return View::make('editor', $data);
     }
 

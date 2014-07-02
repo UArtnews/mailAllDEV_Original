@@ -105,7 +105,7 @@
             padding:5px;
             margin:0em auto;
             position:relative;
-        background-color:{{$tweakables['publication-border-color']['value'] or '#eee'}};
+            background-color:{{$tweakables['publication-border-color']['value'] or '#eee'}};
 
         }
 

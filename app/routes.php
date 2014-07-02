@@ -25,6 +25,7 @@ Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index'
 //Specific Saving Controller
 Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
+Route::resource('/resource/article', 'ArticleController');
 
 //Show live publication in stripped down reader  (Eventually this will be the live homepage for each publication)
 Route::get('/{instanceName}/', function($instanceName){
@@ -60,9 +61,3 @@ Route::get('/{instanceName}/', function($instanceName){
 
 	return View::make('publication')->with($data);
 });
-
-Route::resource('publications', 'PublicationsController');
-
-Route::resource('articles', 'ArticlesController');
-
-Route::resource('articles', 'ArticlesController');

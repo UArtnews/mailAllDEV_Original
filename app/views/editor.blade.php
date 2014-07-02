@@ -11,6 +11,8 @@
     </script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="{{ URL::to('js/ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ URL::to('js/ckeditor/adapters/jquery.js') }}"></script>
+    <script src="adapters/jquery.js"></script>
     <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
 
     {{-- Pull in sub-templates for css and javascripts --}}

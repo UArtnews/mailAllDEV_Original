@@ -41,7 +41,9 @@ class ArticleController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+        $article = Article::findOrFail($id);
+
+        return Response::json($article);
 	}
 
 	/**
@@ -63,7 +65,13 @@ class ArticleController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+        $article = Article::findOrFail($id);
+        $article->instance_id = Input::get('instance_id');
+        $article->title = Input::get('title');
+        $article->content = Input::get('content');
+        $article->save();
+
+        return Response::json(array('success' => 'Article Saved Successfully'));
 	}
 
 	/**

@@ -6,4 +6,5 @@ class Publication extends Eloquent {
 	protected $table = 'publication';
 
 	public $timestamps = true;
+
 }

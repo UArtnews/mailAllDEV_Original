@@ -8,7 +8,8 @@
 		"way/generators": "1.1"
 	},
         "require-dev": {
-	        "fzaninotto/faker": "dev-master"
+	        "fzaninotto/faker": "dev-master",
+            "phpunit/phpunit": "4.1.*"
 	},
 	"autoload": {
 		"classmap": [

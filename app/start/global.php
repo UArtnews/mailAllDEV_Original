@@ -15,11 +15,11 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 ClassLoader::addDirectories(array(
 
-	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database/seeds',
-	app_path().'/Libraries',
+    app_path().'/commands',
+    app_path().'/controllers',
+    app_path().'/models',
+    app_path().'/database/seeds',
+    app_path().'/Libraries',
 
 ));
 
@@ -51,8 +51,20 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+    Log::error($exception);
 });
+
+App::error(function(ModelNotFoundException $exception, $code)
+{
+    if(preg_match("/resource\//",Request::path())){
+        return Response::json(array(
+            'error' => 'Item Not Found in Database'
+        ));
+    }else{
+        Log::error($exception);
+    }
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -67,7 +79,7 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return Response::make("Be right back!", 503);
+    return Response::make("Be right back!", 503);
 });
 
 /*
@@ -80,11 +92,5 @@ App::down(function()
 | definitions instead of putting them all in the main routes file.
 |
 */
-
-//Find or Fail stuff
-App::error(function(ModelNotFoundException $e)
-{
-    return Response::make('Instance Not Found', 404);
-});
 
 require app_path().'/filters.php';
