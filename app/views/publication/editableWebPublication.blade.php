@@ -5,9 +5,16 @@
         <div class="contentDiv">
             <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
             @foreach($publication->articles as $article)
-            <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
-            <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
-            <hr/>
+            <div class="article">
+                <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
+                <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                <div id="articleIndicator{{ $article->id }}" class="side-indicator">
+                    <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
+                    </div>
+                    &nbsp;&nbsp;&nbsp;Unsaved<br/>
+                    &nbsp;&nbsp;&nbsp;Changes
+                </div>
+            </div>
             @endforeach
         </div>
     </div>

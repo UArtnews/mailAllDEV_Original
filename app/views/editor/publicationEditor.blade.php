@@ -36,7 +36,7 @@
             </table>
         </div>
         @foreach($publications as $publication)
-            @include('publication.editableWebPublication', array('publication' => $publication))
+            @include('publication.editableWebPublication', array('publication' => $publication, 'display' => 'none'))
         @endforeach
     </div>
     <div class="panel-footer" id="publicationPanelFoot">

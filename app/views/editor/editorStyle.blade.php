@@ -1,7 +1,8 @@
 <style>
     body {
-    background-color:{{$tweakables['global-background-color'] or $default_tweakables['global-background-color']}};
-    color:#222;
+        background-color:{{$tweakables['global-background-color'] or $default_tweakables['global-background-color']}};
+        color:#222;
+        position:relative;
     }
 
     p {
@@ -65,13 +66,13 @@
         box-shadow: 0 0 30px rgba(255,255,255,.6);
     }
 
-    .contentDiv{
-    width:{{$tweakables['publication-width'] or $default_tweakables['publication-width']}};
-    padding:{{$tweakables['publication-padding'] or $default_tweakables['publication-padding']}};
-    margin:0em auto;
-    position:relative;
-    background-color:{{$tweakables['publication-background-color'] or $default_tweakables['publication-background-color']}};
-
+    .contentDiv {
+        width:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
+        padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
+        margin:0em auto;
+        position:relative;
+        background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
+        z-index:0;
     }
 
     .publicationBanner {
@@ -85,11 +86,70 @@
         width:100px;
     }
 
-    .editorIndicator {
-        background-color:rgba(255,0,0,0.75);
+    .side-indicator-hitbox {
+        height:100%;
+        width:200%;
+        left:-10px;
         position:absolute;
-        width:5px;
-
+        z-index:-2;
     }
+
+    .side-indicator {
+        width:10px;
+        opacity:0;
+        position:absolute;
+        left:-10px;
+        color:white;
+        -webkit-border-top-left-radius: 5px;
+        -webkit-border-bottom-left-radius: 5px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-bottomleft: 5px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        z-index:-1;
+        overflow:hidden;
+    }
+
+
+    @-webkit-keyframes slideout {
+        0% {
+            width:10px;
+            left:-10px;
+        }
+        100% {
+            width:100px;
+            left:-100px
+        }
+    }
+
+    @-webkit-keyframes slidein {
+        0% {
+            width:100px;
+            left:-100px
+        }
+        100% {
+            width:10px;
+            left:-10px;
+        }
+    }
+
+    @-webkit-keyframes fadeout {
+        0% {
+            opacity:0.5;
+        }
+        100% {
+            opacity:0;
+        }
+    }
+    @-webkit-keyframes fadein {
+        0% {
+            opacity:0;
+        }
+        100% {
+            opacity:0.5;
+        }
+    }
+
+
 
 </style>

@@ -5,6 +5,19 @@
     </div>
     <div class="panel-body" id="articlePanelBody">
         <div class="col-sm-10 col-sm-offset-1 col-xs-12" id="articleChooser">
+            <button id="newArticleButton" class="btn btn-primary btn-block" onclick="$('.newArticle').slideToggle();$('#newArticleButton').slideToggle();"><strong>Create New Article</strong></button><br/>
+            <div class="newArticle" style="display:none;">
+                <div class="contentDiv">
+                    <div class="article">
+                        <h1 id="newArticleTitle" class="newEditable">[Click here to begin editing Title]</h1>
+                        <p id="newArticleContent" class="newEditable">[Click here to begin editing Body]<p>
+                        <hr/>
+                    </div>
+                    <button class="btn btn-success" onclick="saveNewArticle();">Save</button>
+                    <button class="btn btn-warning" onclick="$('.newArticle').slideToggle();$('#newArticleButton').slideToggle();cancelNewArticle();">Cancel</button>
+                </div>
+                <br/><br/>
+            </div>
             <table class="table well">
                 <thead>
                 <tr>
@@ -47,11 +60,16 @@
         <div class="row articleEditor" id="articleEditor{{$article->id}}" style="display:none;">
             <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
                 <div class="contentDiv">
-                    <h3 id="articleTitle{{$article->id}}" class="editable"></h3>
-                    <p id="articleContent{{ $article->id }}" class="editable">
-                        {{$article->content}}
-                    </p>
-                    <br/>
+                    <div class="article">
+                        <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
+                        <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                        <div id="articleIndicator{{ $article->id }}" class="side-indicator">
+                            <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
+                            </div>
+                            &nbsp;&nbsp;&nbsp;Unsaved<br/>
+                            &nbsp;&nbsp;&nbsp;Changes
+                        </div>
+                    </div>
                     <table class="table well">
                         <thead>
                         <tr>
@@ -70,6 +88,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $article->id }})">Delete Article</button>
                 </div>
             </div>
         </div>

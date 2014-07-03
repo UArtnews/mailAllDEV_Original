@@ -12,7 +12,6 @@
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="{{ URL::to('js/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ URL::to('js/ckeditor/adapters/jquery.js') }}"></script>
-    <script src="adapters/jquery.js"></script>
     <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
 
     {{-- Pull in sub-templates for css and javascripts --}}
@@ -96,9 +95,16 @@
                     <div class="contentDiv">
                         <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
                         @foreach($publication->articles as $article)
+                        <div class="article">
                             <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
                             <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
-                            <hr/>
+                            <div id="articleIndicator{{ $article->id }}" class="side-indicator">
+                                <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
+                                </div>
+                                &nbsp;&nbsp;&nbsp;Unsaved<br/>
+                                &nbsp;&nbsp;&nbsp;Changes
+                            </div>
+                        </div>
                         @endforeach
                     </div>
                 </div>

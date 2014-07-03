@@ -21,6 +21,7 @@ class ArticleController extends \BaseController {
 	public function create()
 	{
 		//
+
 	}
 
 	/**
@@ -30,7 +31,17 @@ class ArticleController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        $article = new Article;
+
+        $article->instance_id = Input::get('instance_id');
+        $article->title = Input::get('title');
+        $article->content = Input::get('content');
+        $article->author_id = '1';
+        $article->published = 'N';
+
+        $article->save();
+
+        return Response::json(array('success' => 'New Article Saved Successfully'));
 	}
 
 	/**
@@ -82,7 +93,11 @@ class ArticleController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
-	}
+		$article = Article::findOrFail($id);
+
+        $article->delete();
+
+        return Response::json(array('success' => 'Article Deleted Successfully'));
+    }
 
 }

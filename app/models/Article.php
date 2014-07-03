@@ -5,5 +5,7 @@ class Article extends Eloquent {
 
 	protected $table = 'article';
 
+    protected $softDelete = true;
+
 	public $timestamps = true;
 }
