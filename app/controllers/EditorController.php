@@ -32,6 +32,13 @@ class EditorController extends \BaseController {
         if ($action == 'articles')
         {
             $data['articles'] = Article::where('instance_id', $instance->id)->orderBy('created_at', 'desc')->paginate(15);
+
+            $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : '';
+
+            if($data['subAction'] != ''){
+                $data['directArticle'] = Article::findOrFail($data['subAction']);
+            }
+
         } elseif ($action == 'publications')
         {
             $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->paginate(15);
@@ -49,7 +56,6 @@ class EditorController extends \BaseController {
             }
         } elseif ($action == 'images')
         {
-
         } elseif ($action == 'settings')
         {
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : 'appearanceTweakables';
@@ -90,6 +96,31 @@ class EditorController extends \BaseController {
                 'publication-header',
                 'publication-footer',
             );
+
+        }elseif($action == 'search'){
+            $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : 'everything';
+
+            //Gather up results
+            if($data['subAction'] == 'everything'){
+
+                //Get Articles
+                $data['articleResults'] = Article::where('instance_id', $instance->id)
+                    ->where(function($query)
+                    {
+                        $query->Where('title','LIKE','%'.Input::get('search').'%')
+                        ->orWhere('content','LIKE','%'.Input::get('search').'%');
+                    })->get();
+
+
+            }elseif($data['subAction'] == 'articles'){
+
+            }elseif($data['subAction'] == 'publications'){
+
+            }elseif($data['subAction'] == 'images'){
+
+            }
+
+
 
         } else
         {

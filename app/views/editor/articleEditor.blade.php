@@ -93,6 +93,48 @@
             </div>
         </div>
         @endforeach
+        @if($subAction != '')
+        <div class="row articleEditor" id="articleEditor{{$directArticle->id}}" style="">
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
+                <div class="contentDiv">
+                    <div class="article">
+                        <h1 id="articleTitle{{ $directArticle->id }}" class="editable">{{$directArticle->title}}</h1>
+                        <p id="articleContent{{ $directArticle->id }}" class="editable">{{$directArticle->content}}<p>
+                        <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator">
+                            <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator-hitbox">
+                            </div>
+                            &nbsp;&nbsp;&nbsp;Unsaved<br/>
+                            &nbsp;&nbsp;&nbsp;Changes
+                        </div>
+                    </div>
+                    <table class="table well">
+                        <thead>
+                        <tr>
+                            <th>Date Created</th>
+                            <th>Last Updated</th>
+                            <th>Author</th>
+                            <th>Published Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>{{date('m/d/Y', strtotime($directArticle->created_at))}}</td>
+                            <td>{{date('m/d/Y', strtotime($directArticle->updated_at))}}</td>
+                            <td>{{User::find($directArticle->author_id)->first}} {{User::find($directArticle->author_id)->last}}</td>
+                            <td>{{$directArticle->published == 'Y' ? 'Published' : 'Not Published';}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $directArticle->id }})">Delete Article</button>
+                </div>
+            </div>
+        </div>
+        <script>
+            $(document).ready(function(){
+                $('#articleChooser').slideToggle();
+            })
+        </script>
+        @endif
     </div>
     <div class="panel-footer" id="articlePanelFoot">
     </div>

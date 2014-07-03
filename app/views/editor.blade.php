@@ -43,9 +43,9 @@
         <li @if($action == 'images')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/images')}}"><span class="glyphicon glyphicon-picture"></span>&nbsp&nbspImages</a></li>
         <li @if($action == 'settings')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/settings')}}"><span class="glyphicon glyphicon-wrench"></span>&nbsp&nbspSettings</a></li>
       </ul>
-      <form class="navbar-form navbar-right" role="search">
+      <form id="searchForm" class="navbar-form navbar-right" role="search" action="{{ URL::to("edit/$instanceName/search/everything") }}" method="GET">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Search" size="8">
+          <input type="text" name="search" class="form-control" placeholder="Search" size="8">
         </div>
         <button type="submit" class="btn btn-default">Submit</button>
       </form>
@@ -53,10 +53,10 @@
         <li class="dropdown">
           <a href="#" id="SearchType" class="dropdown-toggle" data-toggle="dropdown">Search everything <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="#" onclick="$('#SearchType').text('Search Articles')">Search Articles</a></li>
-            <li><a href="#" onclick="$('#SearchType').text('Search Images')">Search Images</a></li>
-            <li><a href="#" onclick="$('#SearchType').text('Search Publications')">Search Publications</a></li>
-            <li><a href="#" onclick="$('#SearchType').text('Search Everything')">Search Everything</a></li>
+            <li><a href="#" onclick="$('#SearchType').text('Search Articles');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/articles") }}');">Search Articles</a></li>
+            <li><a href="#" onclick="$('#SearchType').text('Search Images');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/images") }}');">Search Images</a></li>
+            <li><a href="#" onclick="$('#SearchType').text('Search Publications');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/publications") }}');">Search Publications</a></li>
+            <li><a href="#" onclick="$('#SearchType').text('Search Everything');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/everything") }}');">Search Everything</a></li>
           </ul>
         </li>
       </ul>
@@ -83,6 +83,10 @@
         @elseif($action == 'settings')
 
             @include('editor.settingEditor',array('default_tweakables' => $default_tweakables,'tweakables' => $tweakables))
+
+        @elseif($action == 'search')
+
+            @include('editor.searchResults')
 
         @else
 

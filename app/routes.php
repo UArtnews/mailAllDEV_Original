@@ -22,6 +22,9 @@ Route::get('/edit/{instanceName}/{action}', 'EditorController@index');
 //Specific Action + Sub-Action Editor
 Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index');
 
+//Specific Action + Sub-Action Editor
+Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index');
+
 //Specific Saving Controller
 Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
