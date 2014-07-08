@@ -8,4 +8,5 @@ class Article extends Eloquent {
     protected $softDelete = true;
 
 	public $timestamps = true;
+
 }

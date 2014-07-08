@@ -77,4 +77,34 @@ class PublicationController extends \BaseController
         //
     }
 
+    public function updateOrder()
+    {
+        $publication_id = urldecode(Request::segment(4));
+
+        //Update Publication Model
+        $publication = Publication::findOrFail($publication_id);
+
+        //Update publication article_order column
+        $publication->article_order = stripslashes(Input::get('article_order'));
+        $publication->save();
+
+        //Update PublicationOrder Model
+        PublicationOrder::where('publication_id',$publication_id)->delete();
+        $i = 0;
+
+        foreach(json_decode(stripslashes(Input::get('article_order'))) as $article){
+            $publicationOrder = new PublicationOrder;
+
+            $publicationOrder->publication_id = $publication_id;
+            $publicationOrder->article_id = $article;
+            $publicationOrder->order = $i;
+
+            $publicationOrder->save();
+
+            $i += 1;
+        }
+
+        return Response::json(array('success' => 'Publication Order Successfully Saved!'));
+    }
+
 }

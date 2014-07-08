@@ -15,7 +15,7 @@
     <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
 
     {{-- Pull in sub-templates for css and javascripts --}}
-    @include('editor.editorStyle',array('default_tweakables' => $default_tweakables, 'tweakables' => $tweakables, 'default_tweakables_names' => $default_tweakables_names))
+    @include('editor.editorStyle',array('default_tweakables' => $default_tweakables, 'tweakables' => $tweakables, 'default_tweakables_names' => $default_tweakables_names, 'action' => $action))
 
     @include('editor.editorJavascript')
 
@@ -96,12 +96,12 @@
             <div class="panel panel-default colorPanel">
                 <div class="panel-heading" id="articlePanelHead">Current Live Publication <span class="pull-right">Published on {{date('m/d/Y',strtotime($publication->publish_date))}}&nbsp&nbsp<a href="{{URL::to("/$instanceName/")}}"><span class="pull-right badge" style="background-color:red;">LIVE</span></a></span></div>
                 <div class="panel-body" id="livePublicationBody">
-                    <div class="contentDiv">
+                    <div class="contentDiv" id="publication{{ $publication->id }}">
                         <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
                         @foreach($publication->articles as $article)
-                        <div class="article">
-                            <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
-                            <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                        <div class="article" id="article{{ $article->id }}">
+                            <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{ stripslashes($article->title) }}</h1>
+                            <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
                             <div id="articleIndicator{{ $article->id }}" class="side-indicator">
                                 <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
                                 </div>

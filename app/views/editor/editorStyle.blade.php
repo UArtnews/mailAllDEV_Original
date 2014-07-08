@@ -43,6 +43,10 @@
         font-weight:700;
     }
 
+    #publicationPanelFoot {
+        text-align:center;
+    }
+
     .colorPanel {
         color:#222;
     background-color:{{$tweakables['publication-border-color'] or $default_tweakables['publication-border-color']}};

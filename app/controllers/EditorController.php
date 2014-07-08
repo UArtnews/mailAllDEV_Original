@@ -41,19 +41,41 @@ class EditorController extends \BaseController {
 
         } elseif ($action == 'publications')
         {
+            $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : '';
+
             $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->paginate(15);
-            $data['publications'][0]['articles'] = array();
+
             foreach ($data['publications'] as $id => $publication)
             {
                 $data['publications'][$id]['articles'] = array();
                 $articleArray = json_decode($publication->article_order);
                 $articles = array();
+
                 foreach ($articleArray as $articleID)
                 {
                     array_push($articles, Article::find($articleID) );
                 }
+
                 $data['publications'][$id]['articles'] = $articles;
             }
+
+            if($data['subAction'] != ''){
+                $data['directPublication'] = Publication::findOrFail($data['subAction']);
+                $data['directIsLoaded'] = false;
+                $articleArray = json_decode($data['directPublication']->article_order);
+                $articles = array();
+
+                foreach ($articleArray as $articleID)
+                {
+                    array_push($articles, Article::find($articleID) );
+                    if(end($articles)->id == $data['subAction']){
+                        $data['directIsLoaded'] = true;
+                    }
+                }
+
+                $data['directPublication']['articles'] = $articles;
+            }
+
         } elseif ($action == 'images')
         {
         } elseif ($action == 'settings')
@@ -98,6 +120,9 @@ class EditorController extends \BaseController {
             );
 
         }elseif($action == 'search'){
+            //////////////////////////
+            //  Editor Search Tool  //
+            //////////////////////////
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : 'everything';
 
             //Gather up results
@@ -108,14 +133,65 @@ class EditorController extends \BaseController {
                     ->where(function($query)
                     {
                         $query->Where('title','LIKE','%'.Input::get('search').'%')
-                        ->orWhere('content','LIKE','%'.Input::get('search').'%');
+                            ->orWhere('content','LIKE','%'.Input::get('search').'%');
                     })->get();
 
+                //If we returned articles, go find their publications
+                if(count($data['articleResults']) > 0){
+                    //Create array of article ID's for looking up publications
+                    $articleArray = array();
+                    foreach($data['articleResults'] as $articleResult){
+                        //make an array of all article id's
+                        array_push($articleArray, $articleResult->id);
+                    }
+
+                    //Get Publications where Articles Appear
+                    $data['publicationResults'] = DB::table('publication')
+                        ->join('publication_order','publication.id','=','publication_order.publication_id')
+                        ->whereIn('publication_order.article_id',$articleArray)
+                        ->get();
+                }else{
+                    //Didn't find any, return empty array
+                    $data['publicationResults'] = array();
+                }
 
             }elseif($data['subAction'] == 'articles'){
+                //Get Articles
+                $data['articleResults'] = Article::where('instance_id', $instance->id)
+                    ->where(function($query)
+                    {
+                        $query->Where('title','LIKE','%'.Input::get('search').'%')
+                            ->orWhere('content','LIKE','%'.Input::get('search').'%');
+                    })->get();
 
             }elseif($data['subAction'] == 'publications'){
+                //Get Articles which we'll find the pubs with
+                $data['articleResults'] = Article::where('instance_id', $instance->id)
+                    ->where(function($query)
+                    {
+                        $query->Where('title','LIKE','%'.Input::get('search').'%')
+                            ->orWhere('content','LIKE','%'.Input::get('search').'%');
+                    })->get();
 
+                //If we returned articles, go find their publications
+                if(count($data['articleResults']) > 0){
+                    //Create array of article ID's for looking up publications
+                    $articleArray = array();
+                    foreach($data['articleResults'] as $articleResult){
+                        //make an array of all article id's
+                        array_push($articleArray, $articleResult->id);
+                    }
+
+                    //Get Publications where Articles Appear
+                    $data['publicationResults'] = DB::table('publication')
+                        ->join('publication_order','publication.id','=','publication_order.publication_id')
+                        ->whereIn('publication_order.article_id',$articleArray)
+                        ->groupBy('publication.id')
+                        ->get();
+                }else{
+                    //Didn't find any, return empty array
+                    $data['publicationResults'] = array();
+                }
             }elseif($data['subAction'] == 'images'){
 
             }
@@ -255,17 +331,4 @@ class EditorController extends \BaseController {
         //
     }
 
-}
-
-function reindexArray($array, $index, $value)
-{
-
-    $tempArr = array();
-
-    foreach ($array as $item)
-    {
-        $tempArr[$item[$index]] = $item[$value];
-    }
-
-    return $tempArr;
 }

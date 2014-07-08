@@ -10,134 +10,19 @@
     </script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="{{ URL::to('js/ckeditor/ckeditor.js') }}"></script>
+    @include('editor.editorStyle',array('default_tweakables' => $default_tweakables, 'tweakables' => $tweakables, 'default_tweakables_names' => $default_tweakables_names))
 
-    <style>
-        body {
-            background-color:#222;
-            color:#222;
-        }
-
-        p {
-        font-size:{{$tweakables['global-font-size']['value'] or '1em'}};
-        }
-
-        h1 {
-        color:{{$tweakables['global-h2-color']['value'] or '#222'}};
-        }
-
-        input {
-            color:#222;
-            box-shadow:0 0 30px rgba(0,0,0,0.3);
-            border:0px;
-            padding:1px;
-            font-weight:700;
-        }
-
-        .colorPanel {
-            color:#222;
-        background-color:{{$tweakables['publication-background-color']['value'] or '#222'}};
-        }
-
-        .error {
-            color:red;
-            font-weight:bold;
-        }
-
-        #logo {
-            margin-bottom:1.5em;
-        }
-
-        .centerMe {
-            margin:0em auto;
-            text-align:center;
-        }
-
-
-        .digestLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #B2E6FF;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .zipmailLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #00285E;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .waynemailLogo {
-            margin-bottom:1.5em;
-            -webkit-border-radius: 10px;
-            -moz-border-radius: 10px;
-            border-radius: 10px;
-            padding:5px;
-
-            border-color: #910F0F;
-            border-width: 5px;
-            border-style: solid;
-            width:210px;
-            overflow:hidden;
-        }
-
-        .logo:hover {
-            box-shadow: 0 0 30px rgba(255,255,255,.6);
-        }
-
-        .contentDiv{
-            width:510px;
-            padding:5px;
-            margin:0em auto;
-            position:relative;
-            background-color:{{$tweakables['publication-border-color']['value'] or '#eee'}};
-
-        }
-
-        .publicationBanner {
-            margin-bottom:1em;
-        }
-
-        .editorSaveRevert {
-            background-color:rgba(255,255,255,0.5);
-            padding:5px;
-            position:absolute;
-            width:100px;
-        }
-
-        .editorIndicator {
-            background-color:rgba(255,0,0,0.75);
-            position:absolute;
-            width:5px;
-
-        }
-
-    </style>
 </head>
 <body>
+@include('publication.publicNav', array('instanceName' => $instanceName))
 <div class="row">
-    <br/>
-    <div class="col-xs-10 col-xs-offset-1">
+    <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
         <div class="panel panel-default colorPanel">
             <div class="panel-body" id="publicationPanelBody">
                 @include('publication.staticWebPublication', array('publication' => $publication))
             </div>
             <div class="panel-footer" id="publicationPanelFoot">
+                Published on {{ $publication->publish_date }} |  <a href="#">Archive</a>
             </div>
         </div>
     </div>

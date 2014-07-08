@@ -22,16 +22,63 @@ Route::get('/edit/{instanceName}/{action}', 'EditorController@index');
 //Specific Action + Sub-Action Editor
 Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index');
 
-//Specific Action + Sub-Action Editor
-Route::get('/edit/{instanceName}/{action}/{subAction}', 'EditorController@index');
-
 //Specific Saving Controller
 Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
 Route::resource('/resource/article', 'ArticleController');
 
+Route::resource('/resource/publication', 'PublicationController');
+
+Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
+
+//Show search results for public users
+Route::get('/{instanceName}/search', function($instanceName)
+{
+    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $data = array(
+        'instance'		=> $instance,
+        'instanceId'	=> $instance->id,
+        'instanceName'	=> $instance->name,
+        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+    );
+
+    //Get Articles which we'll find the pubs with
+    $data['articleResults'] = Article::where('instance_id', $instance->id)
+        ->where(function($query)
+        {
+            $query->Where('title','LIKE','%'.Input::get('search').'%')
+                ->orWhere('content','LIKE','%'.Input::get('search').'%');
+        })->get();
+
+    //If we returned articles, go find their publications
+    if(count($data['articleResults']) > 0){
+        //Create array of article ID's for looking up publications
+        $articleArray = array();
+        foreach($data['articleResults'] as $articleResult){
+            //make an array of all article id's
+            array_push($articleArray, $articleResult->id);
+        }
+
+        //Get Publications where Articles Appear
+        $data['publicationResults'] = DB::table('publication')
+            ->join('publication_order','publication.id','=','publication_order.publication_id')
+            ->whereIn('publication_order.article_id',$articleArray)
+            ->groupBy('publication.id')
+            ->get();
+    }else{
+        //Didn't find any, return empty array
+        $data['publicationResults'] = array();
+    }
+
+    return View::make('publication.publicSearch')->with($data);
+});
+
 //Show live publication in stripped down reader  (Eventually this will be the live homepage for each publication)
-Route::get('/{instanceName}/', function($instanceName){
+Route::get('/{instanceName}/', function($instanceName)
+{
 
 	//Fetch Instance out of DB
 	$instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
@@ -42,7 +89,10 @@ Route::get('/{instanceName}/', function($instanceName){
 			'instance'		=> $instance,
 			'instanceId'	=> $instance->id,
 			'instanceName'	=> $instance->name,
-			'tweakables'	=> ArrayTools::reindexArray($instance->tweakables()->get(), 'parameter'),
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
 		);
 
 		//Get most recent live publication
@@ -64,3 +114,16 @@ Route::get('/{instanceName}/', function($instanceName){
 
 	return View::make('publication')->with($data);
 });
+
+function reindexArray($array, $index, $value)
+{
+
+    $tempArr = array();
+
+    foreach ($array as $item)
+    {
+        $tempArr[$item[$index]] = $item[$value];
+    }
+
+    return $tempArr;
+}

@@ -36,7 +36,7 @@ class DefaultTweakableTableSeeder extends Seeder {
 
             //Content/Structure Stuff
             'publication-banner-image'              => array('Banner Image URL', 'http://lorempixel.com/500/200', 'text'),
-            'publication-width'                     => array('Publication Width', '500px', 'text'),
+            'publication-width'                     => array('Publication Width', '510px', 'text'),
             'publication-padding'                   => array('Publication Padding', '5px', 'text'),
             'publication-hr-articles'               => array('Horizontal Rule After Articles', true, 'bool'),
             'publication-hr-titles'                 => array('Horizontal Rule After Titles', false, 'bool'),

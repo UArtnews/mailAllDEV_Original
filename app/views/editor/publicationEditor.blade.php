@@ -17,7 +17,7 @@
                 @foreach($publications as $publication)
                 <tr>
                     <td>
-                        <a href="#" onclick="$('#publicationEditor{{$publication->id}}').slideToggle();$('#publicationChooser').slideToggle();$('#publicationTitle{{$publication->id}}').text('Now Viewing {{$instanceName}} - {{date('m/d/Y', strtotime($publication->created_at))}}');">
+                        <a href="#" onclick="$('#publicationEditor{{$publication->id}}').slideToggle();$('#publicationChooser').slideToggle();">
                             {{date('m/d/Y', strtotime($publication->publish_date))}}
                         </a>
                     </td>
@@ -38,6 +38,25 @@
         @foreach($publications as $publication)
             @include('publication.editableWebPublication', array('publication' => $publication, 'display' => 'none'))
         @endforeach
+        @if($subAction != '')
+            @if($directIsLoaded)
+                <script>
+                    //Unhide the chooser and direct publication
+                    $(document).ready(function(){
+                        $('#publicationEditor'+{{ $subAction }}).slideToggle();
+                        $('#publicationChooser').slideToggle();
+                    })
+                </script>
+            @else
+                @include('publication.editableWebPublication', array('publication' => $directPublication, 'display' => ''))
+                <script>
+                    //Unhide the chooser
+                    $(document).ready(function(){
+                        $('#publicationChooser').slideToggle();
+                    })
+                </script>
+            @endif
+        @endif
     </div>
     <div class="panel-footer" id="publicationPanelFoot">
     </div>

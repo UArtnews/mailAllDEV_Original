@@ -35,6 +35,7 @@ return array(
     'CreateArticleTable' => $baseDir . '/app/database/migrations/2014_05_22_133510_create_article_table.php',
     'CreateDefaultTweakableTable' => $baseDir . '/app/database/migrations/2014_05_27_152838_create_default_tweakable_table.php',
     'CreateInstanceTable' => $baseDir . '/app/database/migrations/2014_05_22_130216_create_instance_table.php',
+    'CreatePublicationOrderTable' => $baseDir . '/app/database/migrations/2014_07_07_125330_create_publication_order_table.php',
     'CreatePublicationTable' => $baseDir . '/app/database/migrations/2014_05_22_152413_create_publication_table.php',
     'CreateTweakableTable' => $baseDir . '/app/database/migrations/2014_05_22_131205_create_tweakable_table.php',
     'CreateUsersTable' => $baseDir . '/app/database/migrations/2014_05_22_131022_create_users_table.php',
