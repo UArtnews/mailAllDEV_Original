@@ -9,4 +9,9 @@ class Article extends Eloquent {
 
 	public $timestamps = true;
 
+    public function publications()
+    {
+        return $this->belongsToMany('Publication','publication_order');
+    }
+
 }

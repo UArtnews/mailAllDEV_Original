@@ -25,6 +25,7 @@ class CreateArticleTable extends Migration {
 	}
 
 
+
 	/**
 	 * Reverse the migrations.
 	 *

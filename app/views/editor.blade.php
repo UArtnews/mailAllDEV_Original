@@ -15,7 +15,7 @@
     <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
 
     {{-- Pull in sub-templates for css and javascripts --}}
-    @include('editor.editorStyle',array('default_tweakables' => $default_tweakables, 'tweakables' => $tweakables, 'default_tweakables_names' => $default_tweakables_names, 'action' => $action))
+    @include('editor.editorStyle')
 
     @include('editor.editorJavascript')
 
@@ -70,11 +70,11 @@
         {{-- Logic to pull in sub-templates --}}
         @if($action == 'articles')
 
-            @include('editor.articleEditor',array('articles' => $articles))
+            @include('editor.articleEditor')
 
         @elseif($action == 'publications')
 
-            @include('editor.publicationEditor',array('publications' => $publications))
+            @include('editor.publicationEditor')
 
         @elseif($action == 'images')
 
@@ -82,7 +82,7 @@
 
         @elseif($action == 'settings')
 
-            @include('editor.settingEditor',array('default_tweakables' => $default_tweakables,'tweakables' => $tweakables))
+            @include('editor.settingEditor')
 
         @elseif($action == 'search')
 
@@ -97,9 +97,9 @@
                 <div class="panel-heading" id="articlePanelHead">Current Live Publication <span class="pull-right">Published on {{date('m/d/Y',strtotime($publication->publish_date))}}&nbsp&nbsp<a href="{{URL::to("/$instanceName/")}}"><span class="pull-right badge" style="background-color:red;">LIVE</span></a></span></div>
                 <div class="panel-body" id="livePublicationBody">
                     <div class="contentDiv" id="publication{{ $publication->id }}">
-                        <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
+                        <img class="publicationBanner  img-responsive" src="{{$publication->banner_image}}"/>
                         @foreach($publication->articles as $article)
-                        <div class="article" id="article{{ $article->id }}">
+                        <div class="article clearfix" id="article{{ $article->id }}">
                             <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{ stripslashes($article->title) }}</h1>
                             <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
                             <div id="articleIndicator{{ $article->id }}" class="side-indicator">

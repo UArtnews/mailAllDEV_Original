@@ -94,3 +94,19 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+//Make sure we have this function.  I'll stop doing this soon.
+if(!function_exists('reindexArray')){
+    function reindexArray($array, $index, $value)
+    {
+
+        $tempArr = array();
+
+        foreach ($array as $item)
+        {
+            $tempArr[$item[$index]] = $item[$value];
+        }
+
+        return $tempArr;
+    }
+}

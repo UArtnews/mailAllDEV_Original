@@ -1,5 +1,5 @@
 <div class="contentDiv" id="publication{{ $publication->id }}">
-    <img class="publicationBanner" src="{{$publication->banner_image}}/?{{rand(1,1000)}}"/>
+    <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
     @foreach($publication->articles as $article)
     <div class="article" id="article{{ $article->id }}">
         <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{ stripslashes($article->title) }}</h1>

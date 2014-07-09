@@ -9,7 +9,12 @@ class Tweakable extends Eloquent {
 	public $timestamps = true;
 
 	public function instance(){
-		return $this->bleongsTo('Instance', 'instance_id', 'id');
+		return $this->belongsTo('Instance', 'instance_id', 'id');
 	}
+
+    public function defaultTweakable()
+    {
+        return $this->hasOne('DefaultTweakable','parameter','parameter');
+    }
 
 }

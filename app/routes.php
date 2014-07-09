@@ -29,7 +29,23 @@ Route::resource('/resource/article', 'ArticleController');
 
 Route::resource('/resource/publication', 'PublicationController');
 
+Route::resource('/resource/image', 'ImageController');
+
 Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
+
+//Return image lists for ckeditors
+Route::get('/json/{instanceName}/images', function($instanceName){
+    $instance = Instance::where('name',urldecode($instanceName))->first();
+
+    //Grab all the images for that instance and send them to the user
+    $images = array();
+    foreach(Image::where('instance_id',$instance->id)->get() as $image){
+        array_push($images,array(
+           'image'  => URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename),
+        ));
+    }
+    return Response::json($images);
+});
 
 //Show search results for public users
 Route::get('/{instanceName}/search', function($instanceName)
@@ -114,16 +130,3 @@ Route::get('/{instanceName}/', function($instanceName)
 
 	return View::make('publication')->with($data);
 });
-
-function reindexArray($array, $index, $value)
-{
-
-    $tempArr = array();
-
-    foreach ($array as $item)
-    {
-        $tempArr[$item[$index]] = $item[$value];
-    }
-
-    return $tempArr;
-}

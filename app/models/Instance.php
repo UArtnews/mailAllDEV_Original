@@ -12,4 +12,9 @@ class Instance extends Eloquent {
 		return $this->hasMany('Tweakable', 'instance_id', 'id');
 	}
 
+    public function publications()
+    {
+        return $this->hasMany('Publication','instance_id','id');
+    }
+
 }

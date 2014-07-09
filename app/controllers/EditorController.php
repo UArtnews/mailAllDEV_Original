@@ -43,32 +43,18 @@ class EditorController extends \BaseController {
         {
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : '';
 
-            $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->paginate(15);
-
-            foreach ($data['publications'] as $id => $publication)
-            {
-                $data['publications'][$id]['articles'] = array();
-                $articleArray = json_decode($publication->article_order);
-                $articles = array();
-
-                foreach ($articleArray as $articleID)
-                {
-                    array_push($articles, Article::find($articleID) );
-                }
-
-                $data['publications'][$id]['articles'] = $articles;
-            }
+            $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->has('articles')->paginate(15);
 
             if($data['subAction'] != ''){
-                $data['directPublication'] = Publication::findOrFail($data['subAction']);
+                $data['directPublication'] = Publication::has('articles')->findOrFail($data['subAction']);
                 $data['directIsLoaded'] = false;
                 $articleArray = json_decode($data['directPublication']->article_order);
                 $articles = array();
 
-                foreach ($articleArray as $articleID)
+                //Check if this publication will be loaded and can be shortcut
+                foreach ($data['publications'] as $publication)
                 {
-                    array_push($articles, Article::find($articleID) );
-                    if(end($articles)->id == $data['subAction']){
+                    if($publication->id == $data['subAction']){
                         $data['directIsLoaded'] = true;
                     }
                 }
@@ -78,6 +64,10 @@ class EditorController extends \BaseController {
 
         } elseif ($action == 'images')
         {
+            //Do image listing and upload
+            $data['images'] = Image::where('instance_id',$instance->id)->orderBy('created_at','DESC')->get();
+
+
         } elseif ($action == 'settings')
         {
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : 'appearanceTweakables';
@@ -125,7 +115,7 @@ class EditorController extends \BaseController {
             //////////////////////////
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : 'everything';
 
-            //Gather up results
+            //Search everything
             if($data['subAction'] == 'everything'){
 
                 //Get Articles
@@ -154,7 +144,7 @@ class EditorController extends \BaseController {
                     //Didn't find any, return empty array
                     $data['publicationResults'] = array();
                 }
-
+            //Search Aritcles
             }elseif($data['subAction'] == 'articles'){
                 //Get Articles
                 $data['articleResults'] = Article::where('instance_id', $instance->id)
@@ -163,7 +153,7 @@ class EditorController extends \BaseController {
                         $query->Where('title','LIKE','%'.Input::get('search').'%')
                             ->orWhere('content','LIKE','%'.Input::get('search').'%');
                     })->get();
-
+            //Search Publications
             }elseif($data['subAction'] == 'publications'){
                 //Get Articles which we'll find the pubs with
                 $data['articleResults'] = Article::where('instance_id', $instance->id)
@@ -192,32 +182,21 @@ class EditorController extends \BaseController {
                     //Didn't find any, return empty array
                     $data['publicationResults'] = array();
                 }
+            //Search Images
             }elseif($data['subAction'] == 'images'){
-
+                //Grab all images for this instance
+                $data['images'] = Image::where('instance_id',$instance->id);
             }
-
-
 
         } else
         {
             //Get most recent live publication
-            $publication = Publication::where('instance_id', $instance->id)->
+            $publication = Publication::has('articles')->where('instance_id', $instance->id)->
                 where('published', 'Y')->
                 orderBy('publish_date', 'desc')->first();
 
-            $articles = array();
-
-            //Get the article order array and grab the articles
-            $articleArray = json_decode($publication->article_order);
-
-            foreach ($articleArray as $articleID)
-            {
-                array_push($articles, Article::find($articleID));
-            }
-
             //Populate $data
             $data['publication'] = $publication;
-            $data['publication']->articles = $articles;
 
         }
         return View::make('editor', $data);

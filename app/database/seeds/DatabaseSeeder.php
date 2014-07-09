@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PublicationTableSeeder');
 		$this->call('DefaultTweakableTableSeeder');
 		$this->call('PublicationOrderTableSeeder');
+		$this->call('ImagesTableSeeder');
 	}
 
 }

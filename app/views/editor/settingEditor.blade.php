@@ -76,7 +76,7 @@
         <div class="col-md-6 col-sm-12 " id="settingsPreviewer">
                 <!-- Now to iterate through the articles -->
                 <div class="contentDiv">
-                    <img class="publicationBanner" src="{{ $tweakables['publication-banner-image'] or $default_tweakables['publication-banner-image'] }}/?{{rand(1,400)}}"/>
+                    <img class="publicationBanner img-responsive" src="{{ $tweakables['publication-banner-image'] or $default_tweakables['publication-banner-image'] }}"/>
 
                     {{ isset($tweakables['publication-repeated-items']) ? '<h3 class="repeated-items-heading">Today\'s News</h3>' : $default_tweakables['publication-repeated-items'] == 1 ? '<h3 class="repeated-items-heading">Today\'s News</h3>' : ''  }}
 
