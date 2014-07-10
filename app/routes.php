@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/submit/{instanceName}', 'SubmissionController@index');
+
 //Default Editor
 Route::get('/edit/{instanceName}', 'EditorController@index');
 
@@ -60,6 +62,20 @@ Route::get('/{instanceName}/search', function($instanceName)
         'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
         'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
     );
+
+    if(isset($data['tweakables']['global-accepts-submissions'])){
+        if($data['tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
+        }else{
+            $data['submission'] = false;
+        }
+    }else{
+        if($data['default_tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
+        }else{
+            $data['submission'] = false;
+        }
+    }
 
     //Get Articles which we'll find the pubs with
     $data['articleResults'] = Article::where('instance_id', $instance->id)
@@ -111,7 +127,21 @@ Route::get('/{instanceName}/', function($instanceName)
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
 		);
 
-		//Get most recent live publication
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
+        //Get most recent live publication
 		$publication = Publication::where('instance_id',$instance->id)->where('published','Y')->orderBy('publish_date','desc')->first();
 		
 		$articles = array();

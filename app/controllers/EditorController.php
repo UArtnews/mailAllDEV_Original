@@ -29,6 +29,20 @@ class EditorController extends \BaseController {
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
         );
 
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
         if ($action == 'articles')
         {
             $data['articles'] = Article::where('instance_id', $instance->id)->orderBy('created_at', 'desc')->paginate(15);
@@ -48,8 +62,6 @@ class EditorController extends \BaseController {
             if($data['subAction'] != ''){
                 $data['directPublication'] = Publication::has('articles')->findOrFail($data['subAction']);
                 $data['directIsLoaded'] = false;
-                $articleArray = json_decode($data['directPublication']->article_order);
-                $articles = array();
 
                 //Check if this publication will be loaded and can be shortcut
                 foreach ($data['publications'] as $publication)
@@ -58,9 +70,43 @@ class EditorController extends \BaseController {
                         $data['directIsLoaded'] = true;
                     }
                 }
-
-                $data['directPublication']['articles'] = $articles;
             }
+
+            $calPubs = array();
+            foreach(Publication::where('instance_id', $instance->id)->get() as $publication){
+                if(!array_key_exists($publication->publish_date, $calPubs)){
+                    $calPubs[$publication->publish_date.' 10:00:00'] = array(
+                        '<a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'
+                    );
+                }else{
+                    array_push($calPubs[$publication->publish_date.' 10:00:00'], array(
+                        '<a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'
+                    ));
+                }
+            }
+
+            //Organize Calendar
+            $cal = Calendar::make();
+            $cal->setBasePath(URL::to('edit/'.$instance->name.'/publications'));
+            $cal->setDate(Input::get('cdate'));
+            $cal->setView(Input::get('cv')); //'day' or 'week' or null
+            $cal->setStartEndHours(8,20); // Set the hour range for day and week view
+            $cal->setTimeClass('ctime'); //Class Name for times column on day and week views
+            $cal->setEventsWrap(array('<p>', '</p>')); // Set the event's content wrapper
+            $cal->setDayWrap(array('<div class="btn-group" style="padding-bottom:.25em;"><button class="btn btn-default btn-disabled" disabled="disabled">','</button><button class="btn btn-success">&nbsp;+&nbsp;</button></div>')); //Set the day's number wrapper
+            $cal->setNextIcon('<button class="btn btn-default">&gt;&gt;</button>'); //Can also be html: <i class='fa fa-chevron-right'></i>
+            $cal->setPrevIcon('<button class="btn btn-default">&lt;&lt;</button>'); // Same as above
+            $cal->setDayLabels(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')); //Label names for week days
+            $cal->setMonthLabels(array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December')); //Month names
+            $cal->setDateWrap(array('<div class="calendarDay">','</div>')); //Set cell inner content wrapper
+            $cal->setTableClass('table table-bordered calendarTable'); //Set the table's class name
+            $cal->setHeadClass('table-header'); //Set top header's class name
+            $cal->setNextClass(''); // Set next btn class name
+            $cal->setPrevClass(''); // Set Prev btn class name
+            $cal->setEvents($calPubs);
+            $data['calendar'] = $cal->generate();
+
+
 
         } elseif ($action == 'images')
         {
@@ -109,6 +155,10 @@ class EditorController extends \BaseController {
                 'publication-footer',
             );
 
+            $data['workflowTweakables'] = array(
+                'global-accepts-submissions'
+            );
+
         }elseif($action == 'search'){
             //////////////////////////
             //  Editor Search Tool  //
@@ -138,7 +188,9 @@ class EditorController extends \BaseController {
                     //Get Publications where Articles Appear
                     $data['publicationResults'] = DB::table('publication')
                         ->join('publication_order','publication.id','=','publication_order.publication_id')
+                        ->where('publication.instance_id',$instance->id)
                         ->whereIn('publication_order.article_id',$articleArray)
+                        ->groupBy('publication.id')
                         ->get();
                 }else{
                     //Didn't find any, return empty array
@@ -175,6 +227,7 @@ class EditorController extends \BaseController {
                     //Get Publications where Articles Appear
                     $data['publicationResults'] = DB::table('publication')
                         ->join('publication_order','publication.id','=','publication_order.publication_id')
+                        ->where('publication.instance_id',$instance->id)
                         ->whereIn('publication_order.article_id',$articleArray)
                         ->groupBy('publication.id')
                         ->get();

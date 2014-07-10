@@ -1,6 +1,7 @@
 var gulp = require('gulp'),
     sys = require('sys'),
-    exec = require('child_process').exec;
+    exec = require('child_process').exec,
+    jshint = require('jshint');
 
 gulp.task('phpunit', function() {
     exec('./vendor/bin/phpunit app/tests', function(error, stdout) {
@@ -11,3 +12,4 @@ gulp.task('phpunit', function() {
 gulp.task('default', function() {
     gulp.watch('**/*.php', ['phpunit']);
 });
+

@@ -20,6 +20,7 @@ class CreatePublicationTable extends Migration {
 			$table->enum('published',array('Y','N'));
 			//JSON field for article order
 			$table->text('article_order');
+			$table->text('type');
 			$table->timestamps();
 		});
 	}

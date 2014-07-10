@@ -18,7 +18,7 @@ class CreateArticleTable extends Migration {
 			$table->string('title');
 			$table->text('content');
 			$table->integer('author_id');
-			$table->enum ('published', array('Y','N'))->default('N');
+			$table->enum('published', array('Y','N'))->default('N');
 			$table->softdeletes();
 			$table->timestamps();
 		});

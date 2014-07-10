@@ -1,8 +1,8 @@
-# Faker #
+# Faker
 
 Faker is a PHP library that generates fake data for you. Whether you need to bootstrap your database, create good-looking XML documents, fill-in your persistence to stress test it, or anonymize data taken from a production service, Faker is for you.
 
-Faker is heavily inspired by Perl's [Data::Faker](http://search.cpan.org/~jasonk/Data-Faker-0.07/), and by ruby's [Faker](http://faker.rubyforge.org/).
+Faker is heavily inspired by Perl's [Data::Faker](http://search.cpan.org/~jasonk/Data-Faker-0.07/), and by ruby's [Faker](https://rubygems.org/gems/faker).
 
 Faker requires PHP >= 5.3.3.
 
@@ -839,6 +839,21 @@ echo $faker->cnp($gender = NULL, $century = NULL, $county = NULL);
 echo $faker->tollFreePhoneNumber; // "0800123456"
 // Generates a random premium-rate phone number
 echo $faker->premiumRatePhoneNumber; // "0900123456"
+```
+
+### `Faker\Provider\en_NZ\Phone`
+
+```php
+<?php
+
+// Generates a cell (mobile) phone number
+echo $faker->cellNumber; // "021 123 4567"
+
+// Generates a toll free number
+echo $faker->tollFreeNumber; // "0800 123 456"
+
+// Area Code
+echo $faker->areaCode; // "03"
 ```
 
 ## License

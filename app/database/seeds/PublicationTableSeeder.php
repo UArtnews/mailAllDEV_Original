@@ -28,6 +28,7 @@ class PublicationTableSeeder extends Seeder {
 					'banner_image'	=> $faker->imageUrl(500,200),
 					'published'		=> 'Y',
 					'article_order'	=> json_encode($articles),
+					'type'          => rand(1,10) > 7 ? 'special' : 'regular',
 					'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 					'updated_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 				));

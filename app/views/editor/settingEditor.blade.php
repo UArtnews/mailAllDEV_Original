@@ -4,7 +4,7 @@
             <li {{$subAction == 'appearanceTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/appearanceTweakables") }}">Appearance Settings</a></li>
             <li {{$subAction == 'contentStructureTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/contentStructureTweakables") }}">Content/Structure Options</a></li>
             <li {{$subAction == 'headerFooterTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/headerFooterTweakables") }}">Header/Footer</a></li>
-
+            <li {{$subAction == 'workflowTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/workflowTweakables") }}">Workflow</a></li>
         </ul>
     </div>
     <div class="panel-body" id="settingPanelBody">

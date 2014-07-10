@@ -33,6 +33,7 @@ return array(
     'Net' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Math' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'Makzumi\\Calendar\\' => array($vendorDir . '/makzumi/calendar/src'),
     'Jeremeamia\\SuperClosure' => array($vendorDir . '/jeremeamia/SuperClosure/src'),
     'Illuminate' => array($vendorDir . '/laravel/framework/src'),
     'File' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),

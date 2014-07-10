@@ -5,6 +5,17 @@
     </div>
     <div class="panel-body" id="publicationPanelBody">
         <div class="col-sm-10 col-sm-offset-1 col-xs-12" id="publicationChooser">
+            <div class="well">
+                {{ $calendar }}
+                <script>
+                    //Fixes for calendar
+                    $(function(){
+                        $(".calendarTable th").first().css('text-align','left');
+                        $(".calendarTable th").last().css('text-align','right');
+                        $(".calendarTable th[colspan='5'").css('text-align','center').css('font-size', '1.5em');
+                    });
+                </script>
+            </div>
             <table class="table well">
                 <thead>
                 <tr>
@@ -18,10 +29,11 @@
                 <tr>
                     <td>
                         <a href="#" onclick="$('#publicationEditor{{$publication->id}}').slideToggle();$('#publicationChooser').slideToggle();">
-                            {{date('m/d/Y', strtotime($publication->publish_date))}}
+                            {{ date('m/d/Y', strtotime($publication->publish_date)) }}
                         </a>
                     </td>
                     <td>{{date('m/d/Y', strtotime($publication->created_at))}}</td>
+                    <td>{{ucfirst($publication->type)}} Publication</td>
                     <td>{{$publication->published == 'Y' ? 'Live' : 'Not-Live';}}</td>
                 </tr>
                 @endforeach
@@ -36,7 +48,7 @@
             </table>
         </div>
         @foreach($publications as $publication)
-            @include('publication.editableWebPublication', array('publication' => $publication, 'display' => 'none'))
+            @include('publication.editableWebPublication', array('thisPublication' => $publication, 'display' => 'none'))
         @endforeach
         @if($subAction != '')
             @if($directIsLoaded)
@@ -48,7 +60,7 @@
                     })
                 </script>
             @else
-                @include('publication.editableWebPublication', array('publication' => $directPublication, 'display' => ''))
+                @include('publication.editableWebPublication', array('thisPublication' => $directPublication, 'display' => ''))
                 <script>
                     //Unhide the chooser
                     $(document).ready(function(){
