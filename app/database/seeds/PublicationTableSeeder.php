@@ -10,13 +10,13 @@ class PublicationTableSeeder extends Seeder {
 
 		foreach(Instance::all() as $instance)
 		{
-			//Create two live articles
+			//Create two live Publications
 			foreach(range(1,40) as $index)
 			{
 				//Grab some articles from this pub
 				$articles = array();
 
-				foreach(range(1,12) as $articleIndex)
+				foreach(range(1,rand(5,12)) as $articleIndex)
 				{
 					$article = Article::orderBy(DB::raw('RAND()'))->first();
 					array_push($articles, $article->id);
@@ -24,7 +24,7 @@ class PublicationTableSeeder extends Seeder {
 
 				Publication::create(array(
 					'instance_id'	=> $instance->id,
-					'publish_date'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d'),
+					'publish_date'	=> date_format($faker->dateTimeThisMonth(), 'Y-m-d'),
 					'banner_image'	=> $faker->imageUrl(500,200),
 					'published'		=> 'Y',
 					'article_order'	=> json_encode($articles),
@@ -34,7 +34,7 @@ class PublicationTableSeeder extends Seeder {
 				));
 			}
 
-			//Create one article still being edited
+			//Create one Publication still being edited
 			$articles = array();
 
 			foreach(range(1,10) as $articleIndex)
@@ -45,7 +45,7 @@ class PublicationTableSeeder extends Seeder {
 
 			Publication::create(array(
 				'instance_id'	=> $instance->id,
-				'publish_date'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d'),
+				'publish_date'	=> date_format($faker->dateTimeThisMonth(), 'Y-m-d'),
 				'banner_image'	=> $faker->imageUrl(500,200),
 				'published'		=> 'N',
 				'article_order'	=> json_encode($articles),

@@ -5,7 +5,6 @@
     <title>The University of Akron Emailer</title>
 
     <link async rel="StyleSheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" />
-    <script src="{{URL::to('/js/zeroclipboard/ZeroClipboard.min.js')}}"></script>
     <script type="text/javascript">
         document.write("    \<script src='//code.jquery.com/jquery-latest.min.js' type='text/javascript'>\<\/script>");
     </script>

@@ -61,7 +61,7 @@
         <div class="row articleEditor" id="articleEditor{{$article->id}}" style="display:none;">
             <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
                 <div class="contentDiv">
-                    <div class="article">
+                    <div class="article" id="article{{ $article->id }}">
                         <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
                         <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
                         <div id="articleIndicator{{ $article->id }}" class="side-indicator">
@@ -99,9 +99,9 @@
         <div class="row articleEditor" id="articleEditor{{$directArticle->id}}" style="">
             <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
                 <div class="contentDiv">
-                    <div class="article">
-                        <h1 id="articleTitle{{ $directArticle->id }}" class="editable">{{$directArticle->title}}</h1>
-                        <p id="articleContent{{ $directArticle->id }}" class="editable">{{$directArticle->content}}<p>
+                    <div class="article" id="article{{ $article->id }}">
+                        <h1 id="articleTitle{{ $directArticle->id }}" class="editable articleTitle">{{$directArticle->title}}</h1>
+                        <p id="articleContent{{ $directArticle->id }}" class="editable articleContent">{{$directArticle->content}}<p>
                         <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator">
                             <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator-hitbox">
                             </div>

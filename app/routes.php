@@ -33,6 +33,8 @@ Route::resource('/resource/publication', 'PublicationController');
 
 Route::resource('/resource/image', 'ImageController');
 
+Route::resource('/resource/submission', 'SubmissionController');
+
 Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
 
 Route::get('/cart/{instanceName}/add', function($instanceName){

@@ -11,7 +11,7 @@ class InstanceTableSeeder extends Seeder {
 		foreach(range(1,3) as $index)
 		{
 			Instance::create(array(
-				'name'	=> $faker->company,
+				'name'	=> $faker->lastName,
 				'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 				'updated_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 			));
