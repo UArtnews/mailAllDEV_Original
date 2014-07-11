@@ -35,6 +35,114 @@ Route::resource('/resource/image', 'ImageController');
 
 Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
 
+Route::get('/cart/{instanceName}/add', function($instanceName){
+    return 'TEST';
+});
+//Handle Article Carts
+//Add to cart
+Route::post('/cart/{instanceName}/add', function($instanceName){
+    $instance = Instance::where('name',urldecode($instanceName))->first();
+    $article_id = Input::get('article_id');
+
+    if(Session::has('cart')){
+        $cart = Session::get('cart');
+
+        if(isset($cart[$instance->id])){
+            if(isset($cart[$instance->id][$article_id])){
+                return Response::json(array(
+                   'error'  => 'Article already in cart',
+                   'cart'   => $cart[$instance->id]
+                ));
+            }else{
+                $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
+                Session::put('cart', $cart);
+                return Response::json(array(
+                    'success'   => 'Article added to cart',
+                    'cart'      => $cart[$instance->id]
+                ));
+            }
+        }else{
+            $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
+            Session::put('cart', $cart);
+            return Response::json(array(
+                'success'   => 'Article added to cart',
+                'cart'      => $cart[$instance->id]
+            ));
+        }
+    }else{
+        $cart = array();
+        $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
+        Session::put('cart', $cart);
+        return Response::json(array(
+            'success'   => 'Article added to cart',
+            'cart'      => $cart[$instance->id]
+        ));
+    }
+});
+
+//Remove from cart
+Route::post('/cart/{instanceName}/remove', function($instanceName){
+    $instance = Instance::where('name',urldecode($instanceName))->first();
+    $article_id = Input::get('article_id');
+
+    if(Session::has('cart')){
+        $cart = Session::get('cart');
+
+        if(isset($cart[$instance->id])){
+            if(isset($cart[$instance->id][$article_id])){
+                unset($cart[$instance->id][$article_id]);
+                Session::put('cart', $cart);
+                return Response::json(array(
+                    'success'  => 'Article removed from cart',
+                    'cart'   => $cart[$instance->id]
+                ));
+            }else{
+                return Response::json(array(
+                    'error'   => 'Article not in cart',
+                    'cart'      => $cart[$instance->id]
+                ));
+            }
+        }else{
+            return Response::json(array(
+                'error'   => 'Article not in cart.',
+                'cart'      => array()
+            ));
+        }
+    }else{
+        return Response::json(array(
+            'error'   => 'Article not in cart ',
+            'cart'      => array()
+        ));
+    }
+});
+
+Route::post('/cart/{instanceName}/clear', function($instanceName){
+    $instance = Instance::where('name',urldecode($instanceName))->first();
+
+    if(Session::has('cart')){
+        $cart = Session::get('cart');
+
+        if(isset($cart[$instance->id])){
+            unset($cart[$instance->id]);
+            Session::put('cart',$cart);
+            return Response::json(array(
+                'success'   => 'Cart cleared'
+            ));
+        }else{
+            return Response::json(array(
+                'error' => 'Cart already empty'
+            ));
+        }
+    }
+});
+
+//Post routes so AJAX can grab editable regions
+Route::post('/editable/article/{article_id}', function($article_id){
+    $article = Article::findOrFail($article_id);
+
+    return View::make('publication.editableWebArticle',array('article' => $article));
+});
+
 //Return image lists for ckeditors
 Route::get('/json/{instanceName}/images', function($instanceName){
     $instance = Instance::where('name',urldecode($instanceName))->first();

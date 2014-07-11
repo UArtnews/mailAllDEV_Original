@@ -29,6 +29,14 @@ class EditorController extends \BaseController {
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
         );
 
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
+
+            if(isset($cart[$instance->id])){
+                $data['cart'] = $cart[$instance->id];
+            }
+        }
+
         if(isset($data['tweakables']['global-accepts-submissions'])){
             if($data['tweakables']['global-accepts-submissions']){
                 $data['submission'] = true;
@@ -74,14 +82,12 @@ class EditorController extends \BaseController {
 
             $calPubs = array();
             foreach(Publication::where('instance_id', $instance->id)->get() as $publication){
-                if(!array_key_exists($publication->publish_date, $calPubs)){
+                if(!array_key_exists($publication->publish_date.' 10:00:00', $calPubs)){
                     $calPubs[$publication->publish_date.' 10:00:00'] = array(
                         '<a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'
                     );
                 }else{
-                    array_push($calPubs[$publication->publish_date.' 10:00:00'], array(
-                        '<a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'
-                    ));
+                    $calPubs[$publication->publish_date.' 10:00:00'][0] .= '<br/><a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>';
                 }
             }
 
@@ -93,7 +99,7 @@ class EditorController extends \BaseController {
             $cal->setStartEndHours(8,20); // Set the hour range for day and week view
             $cal->setTimeClass('ctime'); //Class Name for times column on day and week views
             $cal->setEventsWrap(array('<p>', '</p>')); // Set the event's content wrapper
-            $cal->setDayWrap(array('<div class="btn-group" style="padding-bottom:.25em;"><button class="btn btn-default btn-disabled" disabled="disabled">','</button><button class="btn btn-success">&nbsp;+&nbsp;</button></div>')); //Set the day's number wrapper
+            $cal->setDayWrap(array('<div class="btn-group" style="padding-bottom:.25em;"><button class="btn btn-default btn-disabled" disabled="disabled">','</button><button class="btn btn-success" onclick="newPublicationFromCal(this)">&nbsp;+&nbsp;</button></div>')); //Set the day's number wrapper
             $cal->setNextIcon('<button class="btn btn-default">&gt;&gt;</button>'); //Can also be html: <i class='fa fa-chevron-right'></i>
             $cal->setPrevIcon('<button class="btn btn-default">&lt;&lt;</button>'); // Same as above
             $cal->setDayLabels(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')); //Label names for week days
@@ -106,9 +112,11 @@ class EditorController extends \BaseController {
             $cal->setEvents($calPubs);
             $data['calendar'] = $cal->generate();
 
+        }elseif($action == 'newPublication'){
+            if(Input::has('publish_date'))
+                $data['publish_date'] = date('m/d/Y', strtotime(urldecode(Input::get('publish_date'))));
 
-
-        } elseif ($action == 'images')
+        }elseif ($action == 'images')
         {
             //Do image listing and upload
             $data['images'] = Image::where('instance_id',$instance->id)->orderBy('created_at','DESC')->get();

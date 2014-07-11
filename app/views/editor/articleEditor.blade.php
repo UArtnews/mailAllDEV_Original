@@ -34,6 +34,7 @@
                         <a href="#" onclick="$('#articleEditor{{$article->id}}').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle{{$article->id}}').text('{{$article->title}}');">
                             {{$article->title}}
                         </a>
+                        <a href="#" onclick="addArticleToCart({{ $article->id }})"><span class="badge pull-right alert-success">Add Article to Cart</span></a>
                     </td>
                     <td>
                         {{date('m/d/Y', strtotime($article->created_at))}}
@@ -88,6 +89,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <button class="btn btn-block btn-primary" onclick="addArticleToCart({{ $article->id }})">Add To Cart</button>
                     <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $article->id }})">Delete Article</button>
                 </div>
             </div>
@@ -125,6 +127,7 @@
                         </tr>
                         </tbody>
                     </table>
+                    <button class="btn btn-block btn-primary" onclick="addArticleToCart({{ $directArticle->id }})">Add To Cart</button>
                     <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $directArticle->id }})">Delete Article</button>
                 </div>
             </div>

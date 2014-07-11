@@ -30,7 +30,33 @@ class PublicationController extends \BaseController
      */
     public function store()
     {
-        //
+        $publication = new Publication;
+
+        $publication->instance_id = Input::get('instance_id');
+        $publication->publish_date = date('Y-m-d',strtotime(Input::get('publish_date')));
+        $publication->banner_image = Input::get('banner_image');
+        $publication->type = Input::get('type');
+        $publication->article_order = stripslashes(Input::get('article_order'));
+
+        $publication->save();
+
+        $i = 0;
+        foreach(json_decode(stripslashes(Input::get('article_order'))) as $article){
+            $publicationOrder = new PublicationOrder;
+
+            $publicationOrder->publication_id = $publication->id;
+            $publicationOrder->article_id = $article;
+            $publicationOrder->order = $i;
+
+            $publicationOrder->save();
+
+            $i += 1;
+        }
+
+        return Response::json(array(
+            'success' => 'Publication Saved Successfully',
+            'publication_id' => $publication->id
+        ));
     }
 
     /**
