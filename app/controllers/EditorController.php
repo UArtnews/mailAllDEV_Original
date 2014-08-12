@@ -61,14 +61,44 @@ class EditorController extends \BaseController {
                 $data['directArticle'] = Article::findOrFail($data['subAction']);
             }
 
+            //Check if this article will be loaded and can be shortcut (simplifies save process)
+            $data['directIsLoaded'] = false;
+            foreach($data['articles'] as $article){
+                if($article->id == $data['subAction']){
+                    $data['directIsLoaded'] = true;
+                }
+            }
+
+        } elseif ($action == 'submissions')
+        {
+            $data['submissions'] = Submission::where('instance_id', $instance->id)->orderBy('created_at', 'desc')->paginate(15);
+
         } elseif ($action == 'publications')
         {
+            //return var_dump(Article::where('instance_id', 1)->where('issue_dates','LIKE','%2014-07-16%')->count()).'<br/>'.var_dump(DB::getQueryLog());
+
             $data['subAction'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : '';
 
-            $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->has('articles')->paginate(15);
+            $data['publications'] = Publication::where('instance_id', $instance->id)->orderBy('publish_date', 'desc')->with('articles')->paginate(15);
+
+            foreach($data['publications'] as $publication){
+                $publication->submissions = Article::where('instance_id', $instance->id)->where('issue_dates','LIKE','%'.$publication->publish_date.'%')->get();
+            }
+
+            //Get most recent live publication
+            $data['currentLivePublication'] = Publication::has('articles')->where('instance_id', $instance->id)->
+                where('published', 'Y')->
+                orderBy('publish_date', 'desc')->first();
+
 
             if($data['subAction'] != ''){
-                $data['directPublication'] = Publication::has('articles')->findOrFail($data['subAction']);
+                $data['directPublication'] = Publication::has('articles')->find($data['subAction']);
+
+                if(count($data['directPublication']) == 0){
+                    $data['directPublication'] = Publication::find($data['subAction']);
+                }
+                $data['directPublication']->id = $data['subAction'];
+
                 $data['directIsLoaded'] = false;
 
                 //Check if this publication will be loaded and can be shortcut
@@ -82,12 +112,21 @@ class EditorController extends \BaseController {
 
             $calPubs = array();
             foreach(Publication::where('instance_id', $instance->id)->get() as $publication){
+                $button = '';
+
+                if(isset($data['currentLivePublication']) && $publication->id == $data['currentLivePublication']->id){
+                    $button = '<a href="'.URL::to($instance->name).'" class="btn btn-xs btn-danger" >Live</a>';
+                }elseif($publication->published == 'Y'){
+                    $button = '<button class="btn btn-xs btn-success" disabled="disabled">Published</button>';
+                }else{
+                    $button = '<button class="btn btn-xs btn-default" disabled="disabled">Unpublished</button>';
+                }
                 if(!array_key_exists($publication->publish_date.' 10:00:00', $calPubs)){
                     $calPubs[$publication->publish_date.' 10:00:00'] = array(
-                        '<a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'
+                        '<div class="btn-group"><a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'.$button.'</div>'
                     );
                 }else{
-                    $calPubs[$publication->publish_date.' 10:00:00'][0] .= '<br/><a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>';
+                    $calPubs[$publication->publish_date.' 10:00:00'][0] .= '<br/><div class="btn-group"><a class="btn btn-default btn-xs" href="'.URL::to('edit/'.$instance->name.'/publications/'.$publication->id).'">'.ucfirst($publication->type).'</a>'.$button.'</div>';
                 }
             }
 
@@ -249,7 +288,10 @@ class EditorController extends \BaseController {
                 $data['images'] = Image::where('instance_id',$instance->id);
             }
 
-        } else
+        } elseif($action == 'help')
+        {
+            //Display Help Stuff
+        }else
         {
             //Get most recent live publication
             $publication = Publication::has('articles')->where('instance_id', $instance->id)->
@@ -294,7 +336,7 @@ class EditorController extends \BaseController {
                     $tweakable->instance_id = $instanceID;
                     $tweakable->parameter = $parameter;
                     if ($parameter)
-                        $tweakable->value = $value;
+                        $tweakable->value = stripslashes($value);
                     $tweakable->save();
                 }
             }

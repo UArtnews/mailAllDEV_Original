@@ -15,10 +15,12 @@ class CreateArticleTable extends Migration {
 		Schema::create('article', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('instance_id');
-			$table->string('title');
+            $table->string('title');
 			$table->text('content');
 			$table->integer('author_id');
 			$table->enum('published', array('Y','N'))->default('N');
+			$table->enum('submission', array('Y','N'))->default('N');
+            $table->string('issue_dates');
 			$table->softdeletes();
 			$table->timestamps();
 		});

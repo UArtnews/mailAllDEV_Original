@@ -8,10 +8,16 @@ class InstanceTableSeeder extends Seeder {
 
 		$faker = Faker\Factory::create();
 
-		foreach(range(1,3) as $index)
+        $instances = array(
+            'Digest',
+            'Zipmail',
+            'Waynemail',
+        );
+
+		foreach($instances as $instance)
 		{
 			Instance::create(array(
-				'name'	=> $faker->lastName,
+				'name'	=> $instance,
 				'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 				'updated_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 			));

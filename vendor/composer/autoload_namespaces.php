@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Whoops' => array($vendorDir . '/filp/whoops/src'),
     'Way\\Generators' => array($vendorDir . '/way/generators/src'),
+    'TijsVerkoyen\\CssToInlineStyles' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles'),
     'System' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
     'Symfony\\Component\\Yaml\\' => array($vendorDir . '/symfony/yaml'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),

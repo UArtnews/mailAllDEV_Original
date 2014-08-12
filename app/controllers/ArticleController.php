@@ -80,6 +80,7 @@ class ArticleController extends \BaseController {
         $article->instance_id = Input::get('instance_id');
         $article->title = Input::get('title');
         $article->content = Input::get('content');
+        $article->submission =
         $article->save();
 
         return Response::json(array('success' => 'Article Saved Successfully'));

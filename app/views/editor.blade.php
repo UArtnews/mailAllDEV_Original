@@ -44,9 +44,13 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
         <li @if($action == 'articles')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/articles')}}"><span class="glyphicon glyphicon-file"></span>&nbsp&nbspArticles</a></li>
+        @if(isset($tweakables['global-accepts-submissions']) && $tweakables['global-accepts-submissions'] = 1)
+        <li @if($action == 'submissions')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/submissions')}}"><span class="glyphicon glyphicon-inbox"></span>&nbsp&nbspSubmissions</a></li>
+        @endif
         <li @if($action == 'publications')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/publications')}}"><span class="glyphicon glyphicon-book"></span>&nbsp&nbspPublications</a></li>
         <li @if($action == 'images')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/images')}}"><span class="glyphicon glyphicon-picture"></span>&nbsp&nbspImages</a></li>
         <li @if($action == 'settings')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/settings')}}"><span class="glyphicon glyphicon-wrench"></span>&nbsp&nbspSettings</a></li>
+        <li @if($action == 'help')class="active"@endif><a href="{{URL::to('edit/'.$instanceName.'/help')}}"><span class="glyphicon glyphicon-question-sign"></span>&nbsp&nbspHelp</a></li>
       </ul>
       <form id="searchForm" class="navbar-form navbar-right" role="search" action="{{ URL::to("edit/$instanceName/search/everything") }}" method="GET">
         <div class="form-group">
@@ -56,9 +60,9 @@
       </form>
       <ul class="nav navbar-nav navbar-right">
         @if(isset($cart))
-        <li><a href="#" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Article Cart&nbsp;<span id="cartCountBadge" class="badge" style="background-color:orange;">{{ count($cart) }}</span></a></li>
+        <li><a href="#" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Article Cart&nbsp;<span id="cartCountBadge" class="badge" style="background-color:#428bca;">{{ count($cart) }}</span></a></li>
         @else
-        <li><a href="#" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Article Cart&nbsp;<span id="cartCountBadge" class="badge" style="background-color:orange;">0</span></a></li>
+        <li><a href="#" data-toggle="modal" data-target="#cartModal"><span class="glyphicon glyphicon-shopping-cart"></span>&nbsp;Article Cart&nbsp;<span id="cartCountBadge" class="badge" style="background-color:#428bca;">0</span></a></li>
         @endif
         <li class="dropdown">
           <a href="#" id="SearchType" class="dropdown-toggle" data-toggle="dropdown">Search everything <b class="caret"></b></a>
@@ -109,6 +113,10 @@
 
             @include('editor.articleEditor')
 
+        @elseif($action == 'submissions')
+
+            @include('editor.submissionEditor')
+
         @elseif($action == 'publications')
 
             @include('editor.publicationEditor')
@@ -129,39 +137,56 @@
 
             @include('editor.searchResults')
 
+        @elseif($action == 'help')
+
+            @include('editor.help')
+
         @else
 
-        {{-- Render currently live publications --}}
-        <br/>
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12">
-            <div class="panel panel-default colorPanel">
-                <div class="panel-heading" id="articlePanelHead">Current Live Publication <span class="pull-right">Published on {{date('m/d/Y',strtotime($publication->publish_date))}}&nbsp&nbsp<a href="{{URL::to("/$instanceName/")}}"><span class="pull-right badge" style="background-color:red;">LIVE</span></a></span></div>
-                <div class="panel-body" id="livePublicationBody">
-                    <div class="contentDiv" id="publication{{ $publication->id }}">
-                        <img class="publicationBanner  img-responsive" src="{{$publication->banner_image}}"/>
-                        @foreach($publication->articles as $article)
-                        <div class="article clearfix" id="article{{ $article->id }}">
-                            <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{ stripslashes($article->title) }}</h1>
-                            <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
-                            <div id="articleIndicator{{ $article->id }}" class="side-indicator">
-                                <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
-                                </div>
-                                &nbsp;&nbsp;&nbsp;Unsaved<br/>
-                                &nbsp;&nbsp;&nbsp;Changes
-                            </div>
+            @if(isset($publication))
+
+            {{-- Render currently live publications --}}
+            <br/>
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="panel panel-default colorPanel">
+                    <div class="panel-heading" id="articlePanelHead">Current Live Publication <span class="pull-right">Published on {{date('m/d/Y',strtotime($publication->publish_date))}}&nbsp&nbsp<a href="{{URL::to("/$instanceName/")}}"><span class="pull-right badge" style="background-color:red;">LIVE</span></a></span></div>
+                    <div class="panel-body" id="livePublicationBody">
+                        <div class="contentDiv" id="publication{{ $publication->id }}">
+                            <img class="publicationBanner  img-responsive" src="{{$publication->banner_image}}"/>
+                            {{ isset($tweakables['publication-header']) ? $tweakables['publication-header'] : '' }}
+                            {{-- Insert Article Summary Conditionally --}}
+                            @if( isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
+                                <h3>Today's Headlines:</h3>
+                                @foreach($publication->articles as $article)
+                                    <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
+                                @endforeach
+                            @endif
+                            @foreach($publication->articles as $article)
+                                @include('snippet.article', array('contentEditable' => true))
+                            @endforeach
+                            {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}
                         </div>
-                        @endforeach
+                    </div>
+                    <div class="panel-footer" id="articlePanelFoot">
                     </div>
                 </div>
-                <div class="panel-footer" id="articlePanelFoot">
+            </div>
+            @else
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="panel panel-default colorPanel">
+                    <div class="panel-body">
+                        <div class="well">
+                            <h2>No Publication to Display!</h2>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            @endif
         @endif
     </div>
 </div>
-<div class="row" style="text-align:center">
-    <a href="{{URL::to('/')}}  ">Publication List</a>
+<div class="row" style="text-align:center;color:white;">
+    <a href="{{URL::to('/')}}  ">Publication List</a> | <a href="{{ URL::to($instance->name) }}">Live Publication View</a>
 </div>
 </body>
 </html>

@@ -16,6 +16,8 @@ class ArticleTableSeeder extends Seeder {
 				'content'		=> $faker->text(900),
 				'author_id'		=> User::orderBy(DB::raw('RAND()'))->first()->id,
 				'published'		=> 'N',
+				'submission'    => rand(1,10) > 9 ? 'Y' : 'N',
+				'issue_dates'	=> '',
 				'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 				'updated_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),
 			));

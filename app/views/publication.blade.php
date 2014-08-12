@@ -22,7 +22,7 @@
                 @include('publication.staticWebPublication', array('publication' => $publication))
             </div>
             <div class="panel-footer" id="publicationPanelFoot">
-                Published on {{ $publication->publish_date }} |  <a href="#">Archive</a>
+                Published on {{ $publication->publish_date }} |  <a href="{{ URL::to($instance->name.'/archive') }}">Archive</a>
             </div>
         </div>
     </div>

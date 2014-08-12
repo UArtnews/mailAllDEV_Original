@@ -35,20 +35,19 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-p-line-height'             => array('Paragraph Line Height', '100%', 'text'),
 
             //Content/Structure Stuff
-            'publication-banner-image'              => array('Banner Image URL', 'http://lorempixel.com/500/200', 'text'),
+            'publication-banner-image'              => array('Banner Image URL (ensure banner is not too large!)', 'http://lorempixel.com/500/200', 'text'),
             'publication-width'                     => array('Publication Width', '510px', 'text'),
             'publication-padding'                   => array('Publication Padding', '5px', 'text'),
             'publication-hr-articles'               => array('Horizontal Rule After Articles', true, 'bool'),
             'publication-hr-titles'                 => array('Horizontal Rule After Titles', false, 'bool'),
-            'publication-repeated-items'            => array('Automatically Place Repeated Articles at Bottom of Publicaiton', true, 'bool'),
-            'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', true, 'bool'),
+            'publication-repeated-items'            => array('Automatically Place Repeated Articles at Bottom of Publicaiton', false, 'bool'),
+            'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', false, 'bool'),
             'publication-headline-summary-position' => array('Positioning of Headline Summary', 'center', 'select'),
             'publication-header'                    => array('Header Content', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),
-
         );
 
         foreach ($tweakables as $parameter => $value)

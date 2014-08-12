@@ -22,6 +22,7 @@
                 <tr>
                     <th>Publish Date</th>
                     <th>Creation Date</th>
+                    <th>Publication Type</th>
                     <th>Live Status</th>
                 </tr>
                 </thead>
@@ -35,7 +36,15 @@
                     </td>
                     <td>{{date('m/d/Y', strtotime($publication->created_at))}}</td>
                     <td>{{ucfirst($publication->type)}} Publication</td>
-                    <td>{{$publication->published == 'Y' ? 'Live' : 'Not-Live';}}</td>
+                    <td>
+                        @if(isset($currentLivePublication) && $publication->id == $currentLivePublication->id)
+                            <a href="{{ URL::to($instance->name) }}"><span class="label" style="background-color:red;">Live</span></a>
+                        @elseif($publication->published == 'Y')
+                            <span class="label label-success">Published</span>
+                        @else
+                            <span class="label label-warning">Unpublished</span>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
                 </tbody>

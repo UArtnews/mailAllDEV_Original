@@ -24,7 +24,7 @@
                     <th>Title</th>
                     <th>Date Created</th>
                     <th>Last Updated</th>
-                    <th>Author</th>
+                    <th>External Submission</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -32,7 +32,7 @@
                 <tr>
                     <td>
                         <a href="#" onclick="$('#articleEditor{{$article->id}}').slideToggle();$('#articleChooser').slideToggle();$('#articleTitle{{$article->id}}').text('{{$article->title}}');">
-                            {{$article->title}}
+                            {{stripslashes($article->title)}}
                         </a>
                         <a href="#" onclick="addArticleToCart({{ $article->id }})"><span class="badge pull-right alert-success">Add Article to Cart</span></a>
                     </td>
@@ -43,7 +43,11 @@
                         {{date('m/d/Y', strtotime($article->updated_at))}}
                     </td>
                     <td>
-                        {{User::find($article->author_id)->first}} {{User::find($article->author_id)->last}}
+                        @if($article->submission == 'Y')
+                            <span class="label label-warning">Submission</span>
+                        @else
+                            <span class="label label-success">In-House</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -62,8 +66,8 @@
             <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
                 <div class="contentDiv">
                     <div class="article" id="article{{ $article->id }}">
-                        <h1 id="articleTitle{{ $article->id }}" class="editable">{{$article->title}}</h1>
-                        <p id="articleContent{{ $article->id }}" class="editable">{{$article->content}}<p>
+                        <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{stripslashes($article->title)}}</h1>
+                        <p id="articleContent{{ $article->id }}" class="editable articleContent">{{stripslashes($article->content)}}<p>
                         <div id="articleIndicator{{ $article->id }}" class="side-indicator">
                             <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
                             </div>
@@ -84,10 +88,27 @@
                         <tr>
                             <td>{{date('m/d/Y', strtotime($article->created_at))}}</td>
                             <td>{{date('m/d/Y', strtotime($article->updated_at))}}</td>
-                            <td>{{User::find($article->author_id)->first}} {{User::find($article->author_id)->last}}</td>
-                            <td>{{$article->published == 'Y' ? 'Published' : 'Not Published';}}</td>
+                            @if($article->submission == 'Y')
+                            <td><span class="badge alert-warning">Submitted</span></td>
+                            @else
+                            <td></td>
+                            @endif
                         </tr>
                         </tbody>
+                        @if($article->submission == 'Y')
+                        <thead>
+                        <tr>
+                            <th colspan="4">Issue Dates</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td colspan="4">
+                                {{ str_replace(',',', ',str_replace(']','',str_replace('[','',str_replace('"','', stripslashes($article->issue_dates))))) }}
+                            </td>
+                        </tr>
+                        </tbody>
+                        @endif
                     </table>
                     <button class="btn btn-block btn-primary" onclick="addArticleToCart({{ $article->id }})">Add To Cart</button>
                     <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $article->id }})">Delete Article</button>
@@ -96,47 +117,61 @@
         </div>
         @endforeach
         @if($subAction != '')
-        <div class="row articleEditor" id="articleEditor{{$directArticle->id}}" style="">
-            <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
-                <div class="contentDiv">
-                    <div class="article" id="article{{ $article->id }}">
-                        <h1 id="articleTitle{{ $directArticle->id }}" class="editable articleTitle">{{$directArticle->title}}</h1>
-                        <p id="articleContent{{ $directArticle->id }}" class="editable articleContent">{{$directArticle->content}}<p>
-                        <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator">
-                            <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator-hitbox">
+            @if($directIsLoaded)
+            <script>
+                //Unhide the chooser and direct publication
+                $(document).ready(function(){
+                    $('#articleEditor'+{{ $subAction }}).slideToggle();
+                $('#articleChooser').slideToggle();
+                });
+            </script>
+            @else
+            <div class="row articleEditor" id="articleEditor{{$directArticle->id}}" style="">
+                <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
+                    <div class="contentDiv">
+                        <div class="article" id="article{{ $article->id }}">
+                            <h1 id="articleTitle{{ $directArticle->id }}" class="editable articleTitle">{{stripslashes($directArticle->title)}}</h1>
+                            <p id="articleContent{{ $directArticle->id }}" class="editable articleContent">{{stripslashes($directArticle->content)}}<p>
+                            <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator">
+                                <div id="articleIndicator{{ $directArticle->id }}" class="side-indicator-hitbox">
+                                </div>
+                                &nbsp;&nbsp;&nbsp;Unsaved<br/>
+                                &nbsp;&nbsp;&nbsp;Changes
                             </div>
-                            &nbsp;&nbsp;&nbsp;Unsaved<br/>
-                            &nbsp;&nbsp;&nbsp;Changes
                         </div>
+                        <table class="table well">
+                            <thead>
+                            <tr>
+                                <th>Date Created</th>
+                                <th>Last Updated</th>
+                                <th>Author</th>
+                                <th>Published Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>{{date('m/d/Y', strtotime($directArticle->created_at))}}</td>
+                                <td>{{date('m/d/Y', strtotime($directArticle->updated_at))}}</td>
+                                @if($article->submission == 'Y')
+                                <td><span class="badge alert-warning">Submitted</span></td>
+                                @else
+                                <td></td>
+                                @endif
+                                <td>{{$directArticle->published == 'Y' ? 'Published' : 'Not Published';}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-block btn-primary" onclick="addArticleToCart({{ $directArticle->id }})">Add To Cart</button>
+                        <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $directArticle->id }})">Delete Article</button>
                     </div>
-                    <table class="table well">
-                        <thead>
-                        <tr>
-                            <th>Date Created</th>
-                            <th>Last Updated</th>
-                            <th>Author</th>
-                            <th>Published Status</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>{{date('m/d/Y', strtotime($directArticle->created_at))}}</td>
-                            <td>{{date('m/d/Y', strtotime($directArticle->updated_at))}}</td>
-                            <td>{{User::find($directArticle->author_id)->first}} {{User::find($directArticle->author_id)->last}}</td>
-                            <td>{{$directArticle->published == 'Y' ? 'Published' : 'Not Published';}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <button class="btn btn-block btn-primary" onclick="addArticleToCart({{ $directArticle->id }})">Add To Cart</button>
-                    <button class="btn btn-block btn-warning" onclick="deleteArticle({{ $directArticle->id }})">Delete Article</button>
                 </div>
             </div>
-        </div>
-        <script>
-            $(document).ready(function(){
-                $('#articleChooser').slideToggle();
-            })
-        </script>
+            <script>
+                $(document).ready(function(){
+                    $('#articleChooser').slideToggle();
+                })
+            </script>
+            @endif
         @endif
     </div>
     <div class="panel-footer" id="articlePanelFoot">

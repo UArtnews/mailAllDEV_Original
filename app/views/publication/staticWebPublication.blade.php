@@ -1,15 +1,15 @@
-<div class="contentDiv" id="publication{{ $publication->id }}">
+<div class="contentDiv" id="publication{{ $publication->id }}" @if(isset($hide)) style="display:none;" @endif>
     <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
+    {{ isset($tweakables['publication-header']) ? $tweakables['publication-header'] : '' }}
+    {{-- Insert Article Summary Conditionally --}}
+    @if( isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
+        <h3>Today's Headlines:</h3>
+        @foreach($publication->articles as $article)
+            <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
+        @endforeach
+    @endif
     @foreach($publication->articles as $article)
-    <div class="article" id="article{{ $article->id }}">
-        <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{ stripslashes($article->title) }}</h1>
-        <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
-        <div id="articleIndicator{{ $article->id }}" class="side-indicator">
-            <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
-            </div>
-            &nbsp;&nbsp;&nbsp;Unsaved<br/>
-            &nbsp;&nbsp;&nbsp;Changes
-        </div>
-    </div>
+        @include('snippet.article', array('contentEditable' => false))
     @endforeach
+    {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}
 </div>

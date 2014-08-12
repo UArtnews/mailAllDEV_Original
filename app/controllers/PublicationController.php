@@ -37,6 +37,7 @@ class PublicationController extends \BaseController
         $publication->banner_image = Input::get('banner_image');
         $publication->type = Input::get('type');
         $publication->article_order = stripslashes(Input::get('article_order'));
+        $publication->published = 'N';
 
         $publication->save();
 
@@ -90,6 +91,15 @@ class PublicationController extends \BaseController
     public function update($id)
     {
         //
+
+        $publication = Publication::find($id);
+
+        $publication->fill(Input::all())->save();
+
+        return Response::json(array(
+            'success'   => 'Succesfully updated publication!'
+        ));
+
     }
 
     /**

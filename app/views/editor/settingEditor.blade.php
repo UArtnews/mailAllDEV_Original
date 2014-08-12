@@ -32,11 +32,29 @@
                     {{-- CKEditor Regions --}}
                     {{-- These are self-contained editors --}}
                     @elseif( $tweakables_types[$defName] == 'textarea' )
-                    <div class="col-xs-7" style="background-color:white;">
-                        <div class="editable" id="{{ $defName }}">
-                            {{ isset($tweakables[$defName]) ? $tweakables[$defName] : strlen($defVal) > 0 ? $defVal : '&nbsp'; }}
+                    <div class="col-xs-7" >
+                        <div class="editableSetting" id="{{ $defName }}" contenteditable="true" style="background-color:white;">
+                            {{ isset($tweakables[$defName]) ? $tweakables[$defName] : ( strlen($defVal) > 0 ? $defVal : '&nbsp' ) }}
                         </div>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="saveSetting('{{ $defName }}')">Save {{ $default_tweakables_names[$defName] }}</button>
+
                     </div>
+                    <script>
+                        $(document).ready(function(){
+                            $('.editableSetting').ckeditor();
+                        });
+                        function saveSetting(defName){
+                            data = {};
+                            data[defName] = $('#'+defName).html()
+                            $.ajax({
+                                url: '{{ URL::to('save/'.$instance->id.'/settings') }}',
+                                type: 'post',
+                                data: data
+                            }).done(function(data){
+                                location.reload()
+                            });
+                        }
+                    </script>
 
 
                     {{-- Boolean Radio Boxes --}}
