@@ -4,7 +4,7 @@
         <button id="backToListPublication" type="button" class="btn btn-primary pull-right btn-xs" onclick="$('.publicationEditor').slideUp();$('#publicationChooser').slideDown();"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp&nbspBack To List</button>
     </div>
     <div class="panel-body" id="publicationPanelBody">
-        <div class="col-sm-10 col-sm-offset-1 col-xs-12" id="publicationChooser">
+        <div class="col-xs-12" id="publicationChooser">
             <div class="well">
                 <h3 class="alert-warning" style="text-align:center;">To create a Publication choose a date you wish to publish on.</h3>
                 {{ $calendar }}

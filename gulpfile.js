@@ -1,7 +1,9 @@
 var gulp = require('gulp'),
     sys = require('sys'),
     exec = require('child_process').exec,
-    jshint = require('jshint');
+    jshint = require('jshint'),
+    less = require('gulp-less'),
+    path = require('path');
 
 gulp.task('phpunit', function() {
     exec('./vendor/bin/phpunit app/tests', function(error, stdout) {
@@ -9,7 +11,13 @@ gulp.task('phpunit', function() {
     });
 });
 
-gulp.task('default', function() {
-    gulp.watch('**/*.php', ['phpunit']);
+gulp.task('less', function() {
+    return gulp.src(['./less/bootstrap/bootstrap.less'])
+        .pipe(less())
+        .pipe(gulp.dest('./public/css'));
 });
 
+gulp.task('default', function() {
+    gulp.watch('**/*.php', ['phpunit']);
+    gulp.watch('**/*.less', ['less']);
+});

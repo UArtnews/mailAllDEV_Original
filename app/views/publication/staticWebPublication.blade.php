@@ -3,7 +3,7 @@
     {{ isset($tweakables['publication-header']) ? $tweakables['publication-header'] : '' }}
     {{-- Insert Article Summary Conditionally --}}
     @if( isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
-        <h3>Today's Headlines:</h3>
+        <h3 class="headline-summary-header">Today's Headlines:</h3>
         @foreach($publication->articles as $article)
             <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
         @endforeach

@@ -10,6 +10,10 @@
         font-weight:700;
     }
 
+    .headline-summary-header{
+        margin-bottom:.25em;
+    }
+
     #publicationPanelFoot {
         text-align:center;
     }

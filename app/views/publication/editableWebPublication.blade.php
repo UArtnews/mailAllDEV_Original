@@ -43,14 +43,16 @@
             {{ isset($tweakables['publication-header']) ? $tweakables['publication-header'] : '' }}
             {{-- Insert Article Summary Conditionally --}}
             @if( isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
-                <h3>Today's Headlines:</h3>
+                <h3 class="headline-summary-header">Today's Headlines:</h3>
                 @foreach($thisPublication->articles as $article)
                     <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
                 @endforeach
             @endif
-            @foreach($thisPublication->articles as $article)
-                @include('snippet.article', array('contentEditable' => true))
-            @endforeach
+            <div class="article-container">
+                @foreach($thisPublication->articles as $article)
+                    @include('snippet.article', array('contentEditable' => true))
+                @endforeach
+            </div>
             {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}
         </div>
     </div>
@@ -68,7 +70,7 @@
                     @foreach($cart as $article_id => $title)
                     <li id="addCartArticle{{ $article_id }}"class="list-group-item addCartItem">
                         {{ $title }}&nbsp;&nbsp;
-                        <button class="btn btn-xs btn-success" onclick="addArticleToExistingPublication({{ $article_id }}, {{ $thisPublication->id }})">
+                        <button class="btn btn-xs btn-success" onclick="addArticleToExistingPublication({{ $article_id }}, {{ $thisPublication->id }}, true)">
                             <strong>+</strong>&nbsp;Add Article to Publication
                         </button>
                     </li>
@@ -158,7 +160,7 @@
                             <strong>+</strong>&nbsp;Add Article to Publication
                         </button>
                         @if(preg_match('/'.$submission->id.'/', $thisPublication->article_order))
-                            <span class="alert-warning badge">Article Already Included!</span>
+                            <span class="label label-warning">Included In Publication</span>
                         @endif
                     </li>
                     @endforeach

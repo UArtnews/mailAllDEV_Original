@@ -86,17 +86,20 @@ class EditorController extends \BaseController {
             }
 
             //Get most recent live publication
-            $data['currentLivePublication'] = Publication::has('articles')->where('instance_id', $instance->id)->
+            $data['currentLivePublication'] = Publication::with('articles')->where('instance_id', $instance->id)->
                 where('published', 'Y')->
                 orderBy('publish_date', 'desc')->first();
 
 
             if($data['subAction'] != ''){
-                $data['directPublication'] = Publication::has('articles')->find($data['subAction']);
+                $data['directPublication'] = Publication::with('articles')->find($data['subAction']);
 
                 if(count($data['directPublication']) == 0){
                     $data['directPublication'] = Publication::find($data['subAction']);
                 }
+
+                $data['directPublication']->submissions = Article::where('instance_id', $instance->id)->where('issue_dates','LIKE','%'.$data['directPublication']->publish_date.'%')->get();
+
                 $data['directPublication']->id = $data['subAction'];
 
                 $data['directIsLoaded'] = false;
@@ -138,7 +141,7 @@ class EditorController extends \BaseController {
             $cal->setStartEndHours(8,20); // Set the hour range for day and week view
             $cal->setTimeClass('ctime'); //Class Name for times column on day and week views
             $cal->setEventsWrap(array('<p>', '</p>')); // Set the event's content wrapper
-            $cal->setDayWrap(array('<div class="btn-group" style="padding-bottom:.25em;"><button class="btn btn-default btn-disabled" disabled="disabled">','</button><button class="btn btn-success" onclick="newPublicationFromCal(this)">&nbsp;+&nbsp;</button></div>')); //Set the day's number wrapper
+            $cal->setDayWrap(array('<div class="btn-group" style="padding-bottom:.25em;"><button class="btn btn-default btn-disabled" disabled="disabled">','</button><button class="btn btn btn-success" style="padding-left:2px!important;padding-right:2px!important;" onclick="newPublicationFromCal(this)">&nbsp;+&nbsp;</button></div>')); //Set the day's number wrapper
             $cal->setNextIcon('<button class="btn btn-default">&gt;&gt;</button>'); //Can also be html: <i class='fa fa-chevron-right'></i>
             $cal->setPrevIcon('<button class="btn btn-default">&lt;&lt;</button>'); // Same as above
             $cal->setDayLabels(array('Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat')); //Label names for week days
@@ -294,7 +297,7 @@ class EditorController extends \BaseController {
         }else
         {
             //Get most recent live publication
-            $publication = Publication::has('articles')->where('instance_id', $instance->id)->
+            $publication = Publication::with('articles')->where('instance_id', $instance->id)->
                 where('published', 'Y')->
                 orderBy('publish_date', 'desc')->first();
 

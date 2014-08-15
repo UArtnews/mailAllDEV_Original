@@ -353,12 +353,19 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
     );
 
     //Get This Publication
-    $publication = Publication::find($publication_id);
+    $publication = Publication::with('articles')->find($publication_id);
     $data['publication'] = $publication;
     $data['isEmail'] = true;
 
-    //Publish if this is a real deal publish dealy
-    if(Input::has('isTest') && Input::get('isTest') == 'true'){
+
+    //Publish if this is a real deal publish things
+    if(!Input::has('isTest')){
+        foreach($publication->articles as $article){
+            $thisArticle = Article::find($article->id);
+            $thisArticle->published = 'Y';
+            $thisArticle->save();
+        }
+
         $publication->published = 'Y';
         $publication->save();
     }
