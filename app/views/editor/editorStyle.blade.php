@@ -1,14 +1,6 @@
 <style>
 
     @include('tweakableStyle')
-    
-    input {
-        color:#222;
-        box-shadow:0 0 30px rgba(0,0,0,0.3);
-        border:0px;
-        padding:1px;
-        font-weight:700;
-    }
 
     .headline-summary-header{
         margin-bottom:.25em;
@@ -110,7 +102,4 @@
             opacity:0.5;
         }
     }
-
-
-
 </style>

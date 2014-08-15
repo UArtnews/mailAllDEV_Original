@@ -155,7 +155,7 @@
                                 @if($article->submission == 'Y')
                                 <td><span class="badge alert-warning">Submitted</span></td>
                                 @else
-                                <td></td>
+                                <td>&nbsp;</td>
                                 @endif
                                 <td>{{$directArticle->published == 'Y' ? 'Published' : 'Not Published';}}</td>
                             </tr>

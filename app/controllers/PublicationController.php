@@ -91,14 +91,29 @@ class PublicationController extends \BaseController
     public function update($id)
     {
         //
-
         $publication = Publication::find($id);
 
-        $publication->fill(Input::all())->save();
+        $inputArr = array();
 
-        return Response::json(array(
-            'success'   => 'Succesfully updated publication!'
-        ));
+        foreach(Input::all() as $index => $value){
+            if(strlen($value) > 0){
+                $inputArr[$index] = $value;
+            }
+        }
+
+        if(isset($inputArr['publish_date'])){
+            $inputArr['publish_date'] = date('Y-m-d', strtotime($inputArr['publish_date']));
+        }
+
+        $publication->fill($inputArr)->save();
+
+        if(Request::ajax()){
+            return Response::json(array(
+                    'success'   => 'Succesfully updated publication!'
+                ));
+        }else{
+            return Redirect::back();
+        }
 
     }
 

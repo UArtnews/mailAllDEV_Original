@@ -35,6 +35,27 @@
                 @else
                 <span class="badge alert-warning">Unpublished</span> to be published on {{ date('m-d-Y',strtotime($thisPublication->publish_date)) }}
                 @endif
+            </div><br/>
+            <div class="row">
+                {{ Form::open(array('url' => URL::to('/resource/publication/'.$thisPublication->id), 'method' => 'put', 'class' => 'form-inline')) }}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></div>
+                            {{ Form::text('publish_date', null, array('class' => 'datePicker form-control', 'placeholder' => 'Change Publish Date')) }}
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon"><span class="glyphicon glyphicon-picture"></span></div>
+                            {{ Form::text('banner_image', null , array(
+                                'id' => 'bannerInput' . $thisPublication->id,
+                                'class' => 'form-control',
+                                'placeholder' => 'Change Banner Image'
+                            )) }}
+                            <div class="input-group-addon btn btn-warning" onclick="defaultBanner('{{ $thisPublication->id }}')">Use Default</div>
+                        </div>
+                        &nbsp;&nbsp;
+                        {{ Form::submit('Apply Publish Date/Banner Changes', array('class' => 'btn btn-success')) }}
+                    </div>
+                {{ Form::close() }}
             </div>
         </div>
         <!-- Now to iterate through the articles -->
@@ -173,3 +194,19 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 @endif
+<script>
+    $(function (){
+        $('.datePicker').datetimepicker({
+            pickTime: false
+        });
+        $('.timePicker').datetimepicker({
+            pickDate: false
+        });
+
+    });
+
+    function defaultBanner(pubId){
+        defaultUrl = '{{ isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : '' }}';
+        $('#bannerInput'+pubId).val(defaultUrl);
+    }
+</script>
