@@ -80,7 +80,7 @@
         EditorData.contents[id].content = $('#articleContent'+id).html().replace('<div>','').replace('</div>','');
         EditorData.contents[id].state = 'No Unsaved Changes';
         EditorData.contents[id].color = 'Green';
-        getArticleState(id);
+        getArticleState(id);co
 
 
 

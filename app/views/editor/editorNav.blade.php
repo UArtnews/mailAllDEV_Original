@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{URL::to('edit/'.$instanceName)}}">{{ucfirst($instanceName)}}</a>
+            <a id="navbar-brand-link" class="navbar-brand" href="{{URL::to('edit/'.$instanceName)}}">{{ucfirst($instanceName)}}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -16,38 +16,38 @@
             <!-- Main Tab Links -->
             <ul class="nav navbar-nav">
                 <li @if($action == 'articles')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/articles')}}">
+                <a id="articles-nav-link" href="{{URL::to('edit/'.$instanceName.'/articles')}}">
                     <span class="glyphicon glyphicon-file"></span>&nbsp&nbspArticles
                 </a>
                 </li>
                 @if(isset($tweakables['global-accepts-submissions']) && $tweakables['global-accepts-submissions'] = 1)
                 <li @if($action == 'submissions')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/submissions')}}">
+                <a id="submissions-nav-link" href="{{URL::to('edit/'.$instanceName.'/submissions')}}">
                     <span class="glyphicon glyphicon-inbox"></span>
                     &nbsp;&nbsp;Submissions
                 </a>
                 </li>
                 @endif
                 <li @if($action == 'publications')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/publications')}}">
+                <a id="publications-nav-link" href="{{URL::to('edit/'.$instanceName.'/publications')}}">
                     <span class="glyphicon glyphicon-book"></span>
                     &nbsp;&nbsp;Publications
                 </a>
                 </li>
                 <li @if($action == 'images')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/images')}}">
+                <a id="images-nav-link" href="{{URL::to('edit/'.$instanceName.'/images')}}">
                     <span class="glyphicon glyphicon-picture"></span>
                     &nbsp;&nbsp;Images
                 </a>
                 </li>
                 <li @if($action == 'settings')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/settings')}}">
+                <a id="settings-nav-link" href="{{URL::to('edit/'.$instanceName.'/settings')}}">
                     <span class="glyphicon glyphicon-wrench"></span>
                     &nbsp;&nbsp;Settings
                 </a>
                 </li>
                 <li @if($action == 'help')class="active"@endif >
-                <a href="{{URL::to('edit/'.$instanceName.'/help')}}">
+                <a id="help-nav-link" href="{{URL::to('edit/'.$instanceName.'/help')}}">
                     <span class="glyphicon glyphicon-question-sign"></span>
                     &nbsp;&nbsp;Help
                 </a>

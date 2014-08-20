@@ -2,7 +2,7 @@
     <div class="panel-heading" id="imagesHead">
     </div>
     <div class="panel-body" id="imagesPanelBody">
-        <button class="btn btn-primary btn-block" onclick="$('.newImageUpload').slideToggle()">Upload New Image</button><br/>
+        <button id="upload-new-image-btn" class="btn btn-primary btn-block" onclick="$('.newImageUpload').slideToggle()">Upload New Image</button><br/>
         <div class="row well newImageUpload" style="display:none;">
             {{ Form::open(array('method' => 'post','url' => URL::to('resource/image'), 'files' => true)) }}
             {{ Form::label('title', 'Title', array('for' =>'title')) }}

@@ -4,7 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width"/>
     @if(isset($insertCss) && $insertCss)
-        @include('emailStyle')
+        @include('editor.editorStyle')
     @endif
 </head>
 <body class="colorPanel">

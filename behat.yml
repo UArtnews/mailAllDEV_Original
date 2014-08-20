@@ -1,0 +1,8 @@
+default:
+    paths:
+        features: app/tests/acceptance
+    extensions:
+        Behat\MinkExtension\Extension:
+            goutte: ~
+            selenium2: ~
+            base_url: http://sinister.uakron.edu/mailAll

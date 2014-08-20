@@ -9,10 +9,16 @@
         "makzumi/calendar": "dev-master",
         "tijsverkoyen/css-to-inline-styles": "1.3.0"
 	},
-        "require-dev": {
-	        "fzaninotto/faker": "dev-master",
-            "phpunit/phpunit": "4.1.*"
-	},
+    "require-dev": {
+        "fzaninotto/faker": "dev-master",
+        "zizaco/testcases-laravel": "dev-master",
+        "behat/behat": "2.5.*",
+        "behat/mink": "1.5.*",
+        "behat/mink-extension": "*",
+        "behat/mink-selenium-driver": "*",
+        "behat/mink-selenium2-driver": "*"
+
+    },
 	"autoload": {
 		"classmap": [
 			"app/commands",
@@ -20,8 +26,7 @@
 			"app/models",
 			"app/database/migrations",
 			"app/database/seeds",
-			"app/Libraries",
-			"app/tests/TestCase.php"
+			"app/Libraries"
 		]
 	},
 	"scripts": {

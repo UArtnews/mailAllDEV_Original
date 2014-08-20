@@ -61,3 +61,7 @@ h4 {
 .publicationBanner {
     margin: 0em auto;
 }
+
+.headline-summary-header{
+margin-bottom:.25em;
+}

@@ -41,11 +41,14 @@
                     </div>
                     <script>
                         $(document).ready(function(){
-                            $('.editableSetting').ckeditor();
+                            $('.editableSetting').ckeditor({
+                                "extraPlugins": "imagebrowser,sourcedialog",
+                                "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}"
+                            });
                         });
                         function saveSetting(defName){
                             data = {};
-                            data[defName] = $('#'+defName).html()
+                            data[defName] = CKEDITOR.instances[defName].getData();
                             $.ajax({
                                 url: '{{ URL::to('save/'.$instance->id.'/settings') }}',
                                 type: 'post',

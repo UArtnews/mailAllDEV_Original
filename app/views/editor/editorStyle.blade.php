@@ -1,5 +1,7 @@
 <style>
 
+    @import url("{{ URL::to('css/bootstrap.css') }}");
+
     @include('tweakableStyle')
 
     .headline-summary-header{
