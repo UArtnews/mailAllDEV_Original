@@ -7,7 +7,7 @@
             <div id="newPublication" class="well">
                 <h3>Publication Details</h3>
                 {{ Form::label('publish_date','Expected Publish Date: ') }}
-                {{ Form::text('publish_date', isset($publish_date) ? $publish_date : null, array('id' => 'publish_date', 'class' => 'form-control')) }}
+                {{ Form::text('publish_date', isset($publish_date) ? date('m/d/Y', strtotime($publish_date)) : null, array('id' => 'publish_date', 'class' => 'form-control')) }}
                 <br/>
                 <script>
                     $(function(){

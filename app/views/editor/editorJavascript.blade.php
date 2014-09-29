@@ -80,9 +80,7 @@
         EditorData.contents[id].content = $('#articleContent'+id).html().replace('<div>','').replace('</div>','');
         EditorData.contents[id].state = 'No Unsaved Changes';
         EditorData.contents[id].color = 'Green';
-        getArticleState(id);co
-
-
+        getArticleState(id);
 
         //////////////////
         //  AJAX Stuff  //
@@ -182,7 +180,7 @@
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'up\',this);"><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'down\',this);"><span class="glyphicon glyphicon-hand-down"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-danger btn-block" onclick="removeArticle('+idNum+',this);"><span class="glyphicon glyphicon-trash"></span>&nbsp;Remove</button>' +
-                '<button type="button" class="btn btn-success btn-block" onclick="addArticleToCart(\''+idNum+'\');">Add to Cart</button>' +
+                '<button type="button" class="addToCartBtn btn btn-success btn-block" onclick="addArticleToCart(\''+idNum+'\');">Add to Cart</button>' +
                 '<div class="row" id="articleIndicator" style="text-align:center;color:'+EditorData.contents[idNum].color+';">'+
                 '</div>' +
                 '</div>';
@@ -230,12 +228,12 @@
 
         //Setup Indicator stuff
         thisSelector.parent().find('.articleTitle').unbind('keyup').bind('keyup', function(){
-            thisSelector.parent().find('.articleTitle').html(thisSelector.parent().find('.articleTitle').html().replace('<div>','').replace('</div>',''));
+            //thisSelector.parent().find('.articleTitle').html(thisSelector.parent().find('.articleTitle').html().replace('<div>','').replace('</div>',''));
             getArticleState(idNum);
         });
 
         thisSelector.parent().find('.articleContent').unbind('keyup').bind('keyup', function(){
-            thisSelector.parent().find('.articleContent').html(thisSelector.parent().find('.articleContent').html().replace('<div>','').replace('</div>',''));
+            //thisSelector.parent().find('.articleContent').html(thisSelector.parent().find('.articleContent').html().replace('<div>','').replace('</div>',''));
             getArticleState(idNum);
         });
 
@@ -400,7 +398,7 @@
 
         day = thisSelector.prev('.btn-disabled').text();
 
-        monthYearStr = $('th[colspan="5"]').text().split(' ');
+        monthYearStr = $('th[colspan="5"]', '#publicationChooser').text().split(' ');
 
         monthStr = monthYearStr[0];
         year = monthYearStr[1];
@@ -409,6 +407,7 @@
         dateStr = day+' '+monthStr+' '+year;
 
         console.log(dateStr);
+
         window.location = '{{ URL::to('edit/'.$instance->name.'/newPublication?publish_date=') }}'+dateStr;
 
 

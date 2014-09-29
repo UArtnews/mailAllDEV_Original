@@ -6,8 +6,6 @@
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://wintermute.uakron.edu:3306</jdbc-url>
-      <user-name>als128</user-name>
-      <user-password>dfe1dfc4dfcfdfc9dfc1dffddfcfdfd9df92</user-password>
       <driver-properties>
         <property name="zeroDateTimeBehavior" value="convertToNull" />
         <property name="tinyInt1isBit" value="false" />

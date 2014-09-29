@@ -6,7 +6,9 @@ use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
+
 use Behat\MinkExtension\Context\MinkContext;
+
 
 //
 // Require 3rd-party libraries here:
@@ -26,7 +28,7 @@ class FeatureContext extends MinkContext
      *
      * @param array $parameters context parameters (set them up through behat.yml)
      */
-    public function __construct(array $parameters)
+    public function __construct(array $parameters = array())
     {
         // Initialize your context here
     }
@@ -42,7 +44,6 @@ class FeatureContext extends MinkContext
 //        doSomethingWith($argument);
 //    }
 //
-
     /**
      * @Given /^I click the "([^"]*)" button$/
      */
@@ -103,7 +104,11 @@ class FeatureContext extends MinkContext
         $session = $this->getSession();
         $page = $session->getPage();
 
-        $button = $page->findButton($arg1);
+        $button = $page->findById($arg1);
+
+        if(null === $button){
+            $button = $page->find('css','.'+$arg1);
+        }
 
         if(null === $button){
             throw new Exception(
@@ -111,7 +116,67 @@ class FeatureContext extends MinkContext
             );
         }
 
-        $button->press();
+        $button->click();
+
+    }
+
+    /**
+     * @Then /^"([^"]*)" should be visible$/
+     */
+    public function shouldBeVisible($arg1)
+    {
+        $session = $this->getSession();
+        $page = $session->getPage();
+
+        $el = $page->findById($arg1);
+
+        if(null === $el){
+            $el = $page->find('css','.'+$arg1);
+        }
+        if(null === $el){
+            throw new Exception("$arg1 element not found!");
+        }
+
+        sleep(1);
+        if(!$el->isVisible()){
+            throw new Exception("$arg1 element is not visible!");
+        }
+    }
+
+    /**
+     * @Given /^I sleep for "([^"]*)" seconds$/
+     */
+    public function iSleepForSeconds($arg1)
+    {
+        sleep($arg1);
+    }
+
+    /**
+     * @Given /^I jsClick "([^"]*)"$/
+     */
+    public function iJsclickTheButton($arg1)
+    {
+        $session = $this->getSession();
+        $page = $session->getPage();
+
+        $byId = true;
+        $el = $page->findById($arg1);
+
+        if(null === $el){
+            $byId = false;
+            $el = $page->find('css','.'+$arg1);
+        }
+        if(null === $el){
+            throw new Exception("$arg1 element not found!");
+        }
+
+        if($byId){
+            $selector = '#'.$arg1;
+        }else{
+            $selector = '.'.$arg1;
+        }
+
+        $session->getDriver()->evaluateScript("$('$selector').click();");
 
     }
 }

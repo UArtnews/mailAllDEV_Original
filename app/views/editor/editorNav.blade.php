@@ -64,7 +64,7 @@
                 </form>
                 @if(isset($cart))
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#cartModal">
+                    <a id="article-cart-btn" href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
                         <span id="cartCountBadge" class="badge" style="background-color:#428bca;">{{ count($cart) }}</span>
@@ -72,7 +72,7 @@
                 </li>
                 @else
                 <li>
-                    <a href="#" data-toggle="modal" data-target="#cartModal">
+                    <a id="article-cart-btn" href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
                         <span id="cartCountBadge" class="badge" style="background-color:#428bca;">0</span>

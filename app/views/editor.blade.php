@@ -36,7 +36,7 @@
                     <spanclass="sr-only">Close</span>
                 </button>
                 <h4 class="modal-title">
-                    Article Cart <small>&nbsp;&nbsp;Articles ready for inclusion in a publication.</small>
+                    Article Cart <small>&nbsp;&lunbsp;Articles ready for inclusion in a publication.</small>
                 </h4>
             </div>
             <div class="modal-body">
@@ -45,7 +45,7 @@
                     @foreach($cart as $article_id => $title)
                     <li class="list-group-item cartItem">
                         <a href="{{ URL::to('edit/'.$instance->name.'/articles/'.$article_id) }}">{{ $title }}</a>
-                        <button class="btn btn-xs btn-danger pull-right" onclick="removeArticleFromCart({{ $article_id }})">
+                        <button class="btn btn-xs btn-danger pull-right" onclick="removeArticleFromCart({{ $article_wid }})">
                             Remove from cart
                         </button>
                     </li>
@@ -131,7 +131,7 @@
                     @endif
                     <div class="article-container">
                         @foreach($publication->articles as $article)
-                        @include('snippet.article', array('contentEditable' => true))
+                        @include('snippet.article', array('contentEditable' => true, 'shareIcons' => false))
                         @endforeach
                     </div>
                     {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}

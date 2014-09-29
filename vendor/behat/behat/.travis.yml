@@ -9,17 +9,11 @@ branches:
     - /^optimization\/.*$/
 
 matrix:
-  allow_failures:
-    - php: hhvm
   include:
     - php: 5.5
-      env: SYMFONY_VERSION='2.0.*'
-    - php: 5.5
-      env: SYMFONY_VERSION='2.1.*'
-    - php: 5.5
-      env: SYMFONY_VERSION='2.2.*'
-    - php: 5.5
       env: SYMFONY_VERSION='2.3.*'
+    - php: 5.5
+      env: SYMFONY_VERSION='2.4.*'
 
 before_script:
   - sh -c 'if [ "$SYMFONY_VERSION" != "" ]; then composer require --no-update symfony/symfony=$SYMFONY_VERSION; fi;'
@@ -27,4 +21,6 @@ before_script:
   - export PATH=./bin:$PATH
   - echo "<?php echo '@php5' . implode(',@php5.', range(3, PHP_MINOR_VERSION));" > php_version_tags.php
 
-script: behat -fprogress --strict --tags '~@php-version,'`php php_version_tags.php`
+script:
+  - phpunit
+  - behat -fprogress --strict --tags '~@php-version,'`php php_version_tags.php`

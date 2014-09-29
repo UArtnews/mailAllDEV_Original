@@ -16,7 +16,7 @@ class CreateTweakableTable extends Migration {
 			$table->increments('id');
 			$table->integer('instance_id');
 			$table->string('parameter');
-			$table->string('value');
+			$table->text('value');
 			$table->timestamps();
 		});
 	}

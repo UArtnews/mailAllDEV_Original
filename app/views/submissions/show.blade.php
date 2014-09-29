@@ -76,8 +76,8 @@
                 <tr>
                     <td>{{ date('m/d/Y', strtotime($article->event_start_date)) }}</td>
                     <td>{{ date('m/d/Y', strtotime($article->event_end_date)) }}</td>
-                    <td>{{ $article->start_time }}</td>
-                    <td>{{ $article->end_time }}</td>
+                    <td>{{ date('g:i a',strtotime($article->start_time)) }}</td>
+                    <td>{{ date('g:i a',strtotime($article->end_time)) }}</td>
                 </tr>
                 <tr>
                     @if($article->promoted == 'N')

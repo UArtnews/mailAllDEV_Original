@@ -27,9 +27,19 @@ class MiscellaneousTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/^[a-z0-9]{64}$/', Miscellaneous::sha256());
     }
 
+    public function testLocale()
+    {
+        $this->assertRegExp('/^[a-z]{2,3}_[A-Z]{2}$/', Miscellaneous::locale());
+    }
+
     public function testCountryCode()
     {
         $this->assertRegExp('/^[A-Z]{2}$/', Miscellaneous::countryCode());
+    }
+
+    public function testCountryISOAlpha3()
+    {
+        $this->assertRegExp('/^[A-Z]{3}$/', Miscellaneous::countryISOAlpha3());
     }
 
     public function testLanguage()

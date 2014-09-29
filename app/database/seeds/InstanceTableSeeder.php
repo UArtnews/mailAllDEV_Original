@@ -12,6 +12,7 @@ class InstanceTableSeeder extends Seeder {
             'Digest',
             'Zipmail',
             'Waynemail',
+            'Test',
         );
 
 		foreach($instances as $instance)

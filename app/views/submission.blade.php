@@ -95,7 +95,6 @@
         {{ Form::label('publish_contact_info', 'I want to publish this contact information: ') }}
         <br/>
         <br/>
-        {{ Form::submit('submit',array('style' => 'display:none;')) }}
         {{ Form::close() }}
         <button id="submitAnnouncement" class="btn btn-success btn-block" onclick="saveSubmission()">Submit Announcement</button>
         <script>
@@ -137,7 +136,7 @@
                         'event_start_date': $('#event_start_date').val(),
                         'event_end_date': $('#event_end_date').val(),
                         'start_time': $('#start_time').val(),
-                        'end_time': $('#start_time').val(),
+                        'end_time': $('#end_time').val(),
                         'location': $('#location').val(),
                         'issue_dates': JSON.stringify(issue_dates),
                         'name': $('#name').val(),

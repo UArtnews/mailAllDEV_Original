@@ -35,6 +35,9 @@
         <p id="articleContent{{ $article->id }}" class=" articleContent">{{ stripslashes($article->content) }}<p>
     </div>
     <div class="clearfix"></div>
+    @if($shareIcons)
+        @include('snippet.share', array('shareURL' => URL::to($instanceName.'/archive/'.$publication->id),'shareTitle' => stripslashes(strip_tags($article->title)) ) )
+    @endif
     @if(isset($tweakables['publication-hr-articles']))
         @if($tweakables['publication-hr-articles'] == 1)
             <hr/>

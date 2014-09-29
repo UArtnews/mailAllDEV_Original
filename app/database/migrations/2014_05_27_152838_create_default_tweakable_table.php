@@ -16,7 +16,7 @@ class CreateDefaultTweakableTable extends Migration {
 			$table->increments('id');
             $table->string('parameter');
             $table->string('display_name');
-            $table->string('value');
+            $table->text('value');
             $table->string('type');
 			$table->timestamps();
 		});

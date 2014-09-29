@@ -77,8 +77,8 @@ class SubmissionController extends BaseController {
             $submission->content = Input::get('content');
             $submission->event_start_date = date('Y-m-d',strtotime(Input::get('event_start_date')));
             $submission->event_end_date = date('Y-m-d',strtotime(Input::get('event_end_date')));
-            $submission->start_time = Input::get('start_time');
-            $submission->end_time = Input::get('end_time');
+            $submission->start_time = date('H:i:s',strtotime(Input::get('start_time')));
+            $submission->end_time = date('H:i:s',strtotime(Input::get('end_time')));
             $submission->location = Input::get('location');
             $submission->issue_dates = Input::get('issue_dates');
             $submission->name = Input::get('name');

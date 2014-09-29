@@ -12,7 +12,6 @@
 */
 
 Route::get('/', 'HomeController@index');
-
 Route::get('/submit/{instanceName}', 'SubmissionController@index');
 
 //Default Editor
@@ -395,3 +394,4 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
     $data['isEmail'] = false;
     return View::make('emailPublication', $data);
 });
+

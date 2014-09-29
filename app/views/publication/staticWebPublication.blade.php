@@ -9,7 +9,7 @@
         @endforeach
     @endif
     @foreach($publication->articles as $article)
-        @include('snippet.article', array('contentEditable' => false))
+        @include('snippet.article', array('contentEditable' => false, 'shareIcons' => false ))
     @endforeach
     {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}
 </div>

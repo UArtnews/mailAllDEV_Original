@@ -3,27 +3,27 @@ Feature: Navigation Tabs
   As an editor
   I need to be able to follow these nav-bar links
 
-Scenario: User clicks on Digest
-  Given I am on "edit/Digest"
+Scenario: User clicks on Test
+  Given I am on "edit/Test"
   When I follow "navbar-brand-link"
-  Then I should be on "edit/Digest"
+  Then I should be on "edit/Test"
 
 Scenario: User clicks on articles
-  Given I am on "edit/Digest"
+  Given I am on "edit/Test"
   When I follow "articles-nav-link"
-  Then I should be on "edit/Digest/articles"
+  Then I should be on "edit/Test/articles"
 
 Scenario: User clicks on publications
-  Given I am on "edit/Digest"
+  Given I am on "edit/Test"
   When I follow "publications-nav-link"
-  Then I should be on "edit/Digest/publications"
+  Then I should be on "edit/Test/publications"
 
 Scenario: User clicks on images
-  Given I am on "edit/Digest"
+  Given I am on "edit/Test"
   When I follow "images-nav-link"
-  Then I should be on "edit/Digest/images"
+  Then I should be on "edit/Test/images"
 
 Scenario: User clicks on help
-  Given I am on "edit/Digest"
+  Given I am on "edit/Test"
   When I follow "help-nav-link"
-  Then I should be on "edit/Digest/help"
+  Then I should be on "edit/Test/help"
