@@ -14,14 +14,14 @@
 Route::get('/', 'HomeController@index');
 Route::get('/submit/{instanceName}', 'SubmissionController@index');
 
-//Default Editor
-Route::get('/edit/{instanceName}', 'EditorController@index');
-
-//Specific Action Editor
-Route::get('/edit/{instanceName}/{action}', 'EditorController@index');
+////Default Editor
+//Route::get('/edit/{instanceName}', 'EditorController@index');
+//
+////Specific Action Editor
+//Route::get('/edit/{instanceName}/{action}', 'EditorController@index');
 
 //Revamped routing
-Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $action = null, $subAction = null) {
+Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
         $app = app();
         $editorController = $app->make('EditorController');
 
@@ -35,6 +35,8 @@ Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName
         );
 
         $parameters['data'] = array(
+            'action'                   => $action,
+            'subAction'                => $subAction,
             'instance'                 => $instance,
             'instanceId'               => $instance->id,
             'instanceName'             => $instance->name,

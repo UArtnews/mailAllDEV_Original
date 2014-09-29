@@ -11,7 +11,7 @@
         <div class="col-md-5 col-sm-12" id="settingChooser">
             {{ Form::open(array('url' => URL::to('/save/'.$instance->id.'/settings'), 'method' => 'post')) }}
             @foreach($default_tweakables as $defName => $defVal)
-                @if(in_array($defName,$$subAction))
+                @if(in_array($defName, $$subAction))
                 <!-- {{$defName}} Form Input -->
                 <div class="row form-group" style="line-height:250%">
                     <div class="col-xs-5" style="text-align:right;">
