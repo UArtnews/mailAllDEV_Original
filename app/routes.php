@@ -34,6 +34,7 @@ Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName
             'data'      => array()
         );
 
+        //Gather Data Common to all editor views
         $parameters['data'] = array(
             'action'                   => $action,
             'subAction'                => $subAction,
