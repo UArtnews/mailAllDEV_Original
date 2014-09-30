@@ -71,7 +71,7 @@
             @endif
             <div class="article-container">
                 @foreach($thisPublication->articles as $article)
-                    @include('snippet.article', array('contentEditable' => true, 'shareIcons' => false))
+                    @include('publication.editableWebArticle')
                 @endforeach
             </div>
             {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}

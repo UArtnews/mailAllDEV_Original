@@ -44,8 +44,12 @@ class EditorController extends \BaseController
         return View::make('editor', $data);
     }
 
+    ////////////////////////////////////////////////
+    //  edit/{instanceName}/article/{subAction}
+    ////////////////////////////////////////////////
     public function article($subAction, $data){
         $data['article'] = Article::find($subAction);
+
         return View::make('editor', $data);
     }
 
@@ -175,6 +179,15 @@ class EditorController extends \BaseController
         $cal->setPrevClass(''); // Set Prev btn class name
         $cal->setEvents($calPubs);
         $data['calendar'] = $cal->generate();
+
+        return View::make('editor', $data);
+    }
+
+    ////////////////////////////////////////////////
+    //  edit/{instanceName}/publication/{subAction}
+    ////////////////////////////////////////////////
+    public function publication($subAction, $data){
+        $data['publication'] = Publication::find($subAction);
 
         return View::make('editor', $data);
     }

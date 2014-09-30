@@ -47,6 +47,11 @@
         {{-- Listing of Publications --}}
         @elseif($action == 'publications')
 
+        @include('editor.publicationList')
+
+        {{-- Listing of Publications --}}
+        @elseif($action == 'publication')
+
         @include('editor.publicationEditor')
 
         {{-- New Publication Form --}}

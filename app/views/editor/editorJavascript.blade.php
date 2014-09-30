@@ -172,7 +172,7 @@
         //Remove all other editorSaveRevert divs
         $('.editorSaveRevert').remove();
 
-        if('{{ $action }}' == 'publications' || '{{ $action }}' == ''){
+        if('{{ $action }}' == 'publications' || '{{ $action }}' == 'publication' || '{{ $action }}' == ''){
             //Place save/revert controls off to side of article, NOT TITLE
             $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" style="z-index:50;min-height:8.5em;">' +
                 '<button type="button" class="btn btn-success btn-block" onclick="saveEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>' +
