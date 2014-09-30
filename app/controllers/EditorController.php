@@ -44,6 +44,11 @@ class EditorController extends \BaseController
         return View::make('editor', $data);
     }
 
+    public function article($subAction, $data){
+        $data['article'] = Article::find($subAction);
+        return View::make('editor', $data);
+    }
+
     ////////////////////////////////////////////////
     //  edit/{instanceName}/submissions/{subAction}
     ////////////////////////////////////////////////
@@ -353,7 +358,8 @@ class EditorController extends \BaseController
     public function help($subAction, $data){
         return View::make('editor', $data);
     }
-    
+
+
     public function save()
     {
         //Grab Instance Name from URI
