@@ -24,10 +24,10 @@ class ImagesTableSeeder extends Seeder {
 
 
                 $fileName = $faker->word.'.png';
-                $didCopy = copy('http://lorempixel.com/'.rand(100,500).'/'.rand(100,300), app_path().'/../images/'.$pathName.'/'.$fileName);
+                $didCopy = copy('http://lorempixel.com/'.rand(100,500).'/'.rand(100,300).'/business', app_path().'/../images/'.$pathName.'/'.$fileName);
 
                 while(!$didCopy){
-                    $didCopy = copy('http://lorempixel.com/'.rand(100,500).'/'.rand(100,300), app_path().'/../images/'.$pathName.'/'.$fileName);
+                    $didCopy = copy('http://lorempixel.com/'.rand(100,500).'/'.rand(100,300).'/business', app_path().'/../images/'.$pathName.'/'.$fileName);
                 }
 
                 chown(app_path().'/../images/'.$pathName.'/'.$fileName, 'www-data');

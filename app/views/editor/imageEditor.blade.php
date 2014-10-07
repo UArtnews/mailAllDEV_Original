@@ -1,19 +1,23 @@
-<div class="panel panel-default colorPanel">
+{{--  This Doubles as the Image Search Results  Just pass $isSearch as true to nerf new image stuff  --}}
+<div class="panel panel{{ isset($isSearch) && $isSearch ? '-info' : '-default' }} colorPanel">
     <div class="panel-heading" id="imagesHead">
+        Images
     </div>
     <div class="panel-body" id="imagesPanelBody">
-        <button id="upload-new-image-btn" class="btn btn-primary btn-block" onclick="$('.newImageUpload').slideToggle()">Upload New Image</button><br/>
-        <div class="row well newImageUpload" style="display:none;">
-            {{ Form::open(array('method' => 'post','url' => URL::to('resource/image'), 'files' => true)) }}
-            {{ Form::label('title', 'Title', array('for' =>'title')) }}
-            {{ Form::text('title',null, array('class' => 'form-control')) }}<br/>
+        <div class="showImageUpload" {{ isset($isSearch) && $isSearch ? 'style="display:none;"' : '' }}>
+            <button id="upload-new-image-btn" class="btn btn-primary btn-block" onclick="$('.newImageUpload').slideToggle()">Upload New Image</button><br/>
+            <div class="row well newImageUpload" style="display:none;">
+                {{ Form::open(array('method' => 'post','url' => URL::to('resource/image'), 'files' => true)) }}
+                {{ Form::label('title', 'Title', array('for' =>'title')) }}
+                {{ Form::text('title',null, array('class' => 'form-control')) }}<br/>
 
-            {{ Form::file('imageFile', array('class' => 'form-control')) }}<br/>
+                {{ Form::file('imageFile', array('class' => 'form-control')) }}<br/>
 
-            {{ Form::hidden('instance_id',$instance->id) }}
+                {{ Form::hidden('instance_id',$instance->id) }}
 
-            {{ Form::submit('Upload New Image',array('class' => 'btn btn-primary')) }}
-            {{ Form::close() }}
+                {{ Form::submit('Upload New Image',array('class' => 'btn btn-primary')) }}
+                {{ Form::close() }}
+            </div>
         </div>
         <div id="imageDetails">
     @foreach($images as $image)
@@ -83,6 +87,9 @@
         </div>
     </div>
     <div class="panel-footer" id="imagesPanelFoot">
+        @if(count($images) == 0)
+            No Images Found
+        @endif
     </div>
 </div>
 <div class="modal fade" id="uploadModal">

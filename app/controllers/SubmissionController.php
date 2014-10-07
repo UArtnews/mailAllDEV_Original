@@ -38,7 +38,7 @@ class SubmissionController extends BaseController {
         }
 
         //Get upcoming publications to submit to
-        $data['publications'] = Publication::where('publish_date','>',date('Y-m-d'))->where('type','regular')->orderBy('publish_date','ASC')->limit(4)->get();
+        $data['publications'] = Publication::where('instance_id', $instance->id)->where('publish_date','>',date('Y-m-d'))->where('type','regular')->orderBy('publish_date','ASC')->limit(4)->get();
         //return $data;
         return View::make('submission', $data);
 	}

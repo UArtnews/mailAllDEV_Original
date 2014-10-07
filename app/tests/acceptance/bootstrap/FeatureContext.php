@@ -130,6 +130,8 @@ class FeatureContext extends MinkContext
 
         $el = $page->findById($arg1);
 
+        $page->find;
+
         if(null === $el){
             $el = $page->find('css','.'+$arg1);
         }

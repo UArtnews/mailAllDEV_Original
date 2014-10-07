@@ -4,7 +4,7 @@
         var editorContents = {};
 
         return {
-            contents: editorContents,
+            contents: editorContents
         };
     })();
 
@@ -431,8 +431,14 @@
                     count++;
                 });
 
-                $('#cartList').html(content);
-                $('#cartCountBadge').text(count);
+                $('.cartList').html(content);
+                $('.cartCountBadge').text(count);
+
+                //Toggle indicator in articles
+                if( '{{ $action }}' == 'articles'){
+                    $('.addToCartButton'+idNum).attr('onclick', 'removeArticleFromCart('+idNum+');');
+                    $('.badge', '.addToCartButton'+idNum).removeClass('alert-success').addClass('alert-danger').text('Remove from Cart');
+                }
             }else if(data['error']){
                 alert(data['error']);
             }
@@ -461,8 +467,14 @@
                     content = '<li id="emptyCartItem" class="list-group-item list-group-item-warning">There are no articles in your cart!</li>';
                 }
 
-                $('#cartList').html(content);
-                $('#cartCountBadge').text(count);
+                $('.cartList').html(content);
+                $('.cartCountBadge').text(count);
+
+                //Toggle indicator in articles
+                if( '{{ $action }}' == 'articles'){
+                    $('.addToCartButton'+idNum).attr('onclick', 'addArticleFromCart('+idNum+');');
+                    $('.badge', '.addToCartButton'+idNum).removeClass('alert-danger').addClass('alert-success').text('Add Article to Cart');
+                }
             }else if(data['error']){
                 alert(data['error']);
             }
@@ -489,7 +501,7 @@
 
     function articleListItem(article_id, title){
         return '<li class="list-group-item cartItem">'+
-            '<a href="{{ URL::to('edit/'.$instance->name.'/articles/') }}/'+article_id+'">'+title+'</a>&nbsp;&nbsp;' +
+            '<a href="{{ URL::to('edit/'.$instance->name.'/article/') }}/'+article_id+'">'+title+'</a>&nbsp;&nbsp;' +
             '<button class="btn btn-xs btn-danger" onclick="removeArticleFromCart('+article_id+')">Remove from cart</button>' +
             '</li>';
     }
@@ -591,7 +603,7 @@
             }
         }).done(function(data){
             if(data['success']){
-                window.location = '{{ URL::to('/edit/'.$instance->name.'/publications') }}/'+data['publication_id'];
+                window.location = '{{ URL::to('/edit/'.$instance->name.'/publication') }}/'+data['publication_id'];
             }else{
                 alert('Something went wrong!');
             }
@@ -611,7 +623,7 @@
         }).done(function(data){
             console.log(data);
             if(data['success']){
-                location = '{{ URL::to('edit/'.$instance->name.'/articles') }}/'+data['article_id'];
+                location = '{{ URL::to('edit/'.$instance->name.'/article') }}/'+data['article_id'];
             }else{
                 alert('Something went wrong! Try again in a moment please.');
                 $('#promote'+submission_id).attr('onclick',onclick);
@@ -681,7 +693,7 @@
             }
         }).done(function(data){
             if(data['success']){
-                location = '{{ URL::to('edit/'.$instance->name.'/publications') }}/'+publication_id;
+                location = '{{ URL::to('edit/'.$instance->name.'/publication') }}/'+publication_id;
             }
         });
     }
@@ -696,7 +708,7 @@
             }
         }).done(function(data){
             if(data['success']){
-                location = '{{ URL::to('edit/'.$instance->name.'/publications') }}/'+publication_id;
+                location = '{{ URL::to('edit/'.$instance->name.'/publication') }}/'+publication_id;
             }
         });
     }

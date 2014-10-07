@@ -67,7 +67,7 @@
                     <a id="article-cart-btn" href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
-                        <span id="cartCountBadge" class="badge" style="background-color:#428bca;">{{ count($cart) }}</span>
+                        <span class="badge cartCountBadge" style="background-color:#428bca;">{{ count($cart) }}</span>
                     </a>
                 </li>
                 @else
@@ -75,7 +75,7 @@
                     <a id="article-cart-btn" href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
-                        <span id="cartCountBadge" class="badge" style="background-color:#428bca;">0</span>
+                        <span class="badge cartCountBadge" style="background-color:#428bca;">0</span>
                     </a>
                 </li>
                 @endif
@@ -90,13 +90,13 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" onclick="$('#SearchType').text('Search Images');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/images") }}');" >
-                            Search Images
+                            <a href="#" onclick="$('#SearchType').text('Search Publications');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/publications") }}');" >
+                            Search Publications
                             </a>
                         </li>
                         <li>
-                            <a href="#" onclick="$('#SearchType').text('Search Publications');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/publications") }}');" >
-                            Search Publications
+                            <a href="#" onclick="$('#SearchType').text('Search Images');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/images") }}');">
+                            Search Images
                             </a>
                         </li>
                         <li>
@@ -121,7 +121,7 @@
                     <a href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
-                        <span id="cartCountBadge" class="badge" style="background-color:#428bca;">{{ count($cart) }}</span>
+                        <span class="badge cartCountBadge" style="background-color:#428bca;">{{ count($cart) }}</span>
                     </a>
                 </li>
                 @else
@@ -129,7 +129,7 @@
                     <a href="#" data-toggle="modal" data-target="#cartModal">
                         <span class="glyphicon glyphicon-shopping-cart"></span>
                         &nbsp;Article Cart&nbsp;
-                        <span id="cartCountBadge" class="badge" style="background-color:#428bca;">0</span>
+                        <span class="badge cartCountBadge" style="background-color:#428bca;">0</span>
                     </a>
                 </li>
                 @endif
@@ -143,12 +143,13 @@
                             Search Articles
                             </a>
                         </li>
-                        <li><a href="#" onclick="$('#SearchType').text('Search Images');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/images") }}');">
-                            Search Images
-                            </a>
-                        </li>
                         <li><a href="#" onclick="$('#SearchType').text('Search Publications');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/publications") }}');">
                             Search Publications
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" onclick="$('#SearchType').text('Search Images');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/images") }}');">
+                            Search Images
                             </a>
                         </li>
                         <li><a href="#" onclick="$('#SearchType').text('Search Everything');$('#searchForm').attr('action','{{ URL::to("edit/$instanceName/search/everything") }}');">

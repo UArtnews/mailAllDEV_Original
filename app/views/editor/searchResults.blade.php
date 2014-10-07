@@ -5,12 +5,15 @@
     </div>
     <div class="panel-body" id="searchResultsPanelBody">
         @if($subAction == 'everything')
+            @include('searchResults.articleResults',array('articleResults' => $articleResults))
             @include('searchResults.publicationResults',array('publicationResults' => $publicationResults))
+            @include('editor.imageEditor',array('images' => $imageResults, 'isSearch' => true))
+        @elseif($subAction == 'articles')
             @include('searchResults.articleResults',array('articleResults' => $articleResults))
         @elseif($subAction == 'publications')
             @include('searchResults.publicationResults',array('publicationResults' => $publicationResults))
-        @elseif($subAction == 'articles')
-            @include('searchResults.articleResults',array('articleResults' => $articleResults))
+        @elseif($subAction == 'images')
+            @include('editor.imageEditor',array('images' => $imageResults, 'isSearch' => true))
         @endif
     </div>
     <div class="panel-footer" id="searchResultsPanelFoot">

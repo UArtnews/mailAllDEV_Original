@@ -127,12 +127,12 @@ class EditorController extends \BaseController
             if (!array_key_exists($publication->publish_date . ' 10:00:00', $calPubs)) {
                 $calPubs[$publication->publish_date . ' 10:00:00'] = array(
                     '<div class="btn-group"><a class="btn btn-default btn-xs" href="' . URL::to(
-                        'edit/' . $data['instance']->name . '/publications/' . $publication->id
+                        'edit/' . $data['instance']->name . '/publication/' . $publication->id
                     ) . '">' . ucfirst($publication->type) . '</a>' . $button . '</div>'
                 );
             } else {
                 $calPubs[$publication->publish_date . ' 10:00:00'][0] .= '<br/><div class="btn-group"><a class="btn btn-default btn-xs" href="' . URL::to(
-                        'edit/' . $data['instance']->name . '/publications/' . $publication->id
+                        'edit/' . $data['instance']->name . '/publication/' . $publication->id
                     ) . '">' . ucfirst($publication->type) . '</a>' . $button . '</div>';
             }
         }
@@ -188,6 +188,13 @@ class EditorController extends \BaseController
     ////////////////////////////////////////////////
     public function publication($subAction, $data){
         $data['publication'] = Publication::find($subAction);
+
+        //Package submissions
+        $data['publication']->submissions = Article::where('instance_id', $data['instance']->id)->where(
+            'issue_dates',
+            'LIKE',
+            '%' . $data['publication']->publish_date . '%'
+        )->get();
 
         return View::make('editor', $data);
     }
@@ -295,6 +302,13 @@ class EditorController extends \BaseController
                     }
                 )->get();
 
+            //Get Images
+            $data['imageResults'] = Image::where('instance_id', $data['instance']->id)
+                ->where(function($query){
+                        $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
+                            ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
+                    })->get();
+
             //If we returned articles, go find their publications
             if (count($data['articleResults']) > 0) {
                 //Create array of article ID's for looking up publications
@@ -306,7 +320,15 @@ class EditorController extends \BaseController
 
                 //Get Publications where Articles Appear
                 $data['publicationResults'] = DB::table('publication')
+                    ->select('publication.id',
+                        'publication.published',
+                        'publication.publish_date',
+                        'publication.created_at',
+                        'publication.updated_at',
+                        'article.id as article_id',
+                        'article.title')
                     ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                    ->join('article', 'publication_order.article_id', '=', 'article.id')
                     ->where('publication.instance_id', $data['instance']->id)
                     ->whereIn('publication_order.article_id', $articleArray)
                     ->groupBy('publication.id')
@@ -315,7 +337,7 @@ class EditorController extends \BaseController
                 //Didn't find any, return empty array
                 $data['publicationResults'] = array();
             }
-            //Search Aritcles
+            //Search Articles
         } elseif ($subAction == 'articles') {
             //Get Articles
             $data['articleResults'] = Article::where('instance_id', $data['instance']->id)
@@ -347,7 +369,15 @@ class EditorController extends \BaseController
 
                 //Get Publications where Articles Appear
                 $data['publicationResults'] = DB::table('publication')
+                    ->select('publication.id',
+                        'publication.published',
+                        'publication.publish_date',
+                        'publication.created_at',
+                        'publication.updated_at',
+                        'article.id as article_id',
+                        'article.title')
                     ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                    ->join('article', 'publication_order.article_id', '=', 'article.id')
                     ->where('publication.instance_id', $data['instance']->id)
                     ->whereIn('publication_order.article_id', $articleArray)
                     ->groupBy('publication.id')
@@ -356,10 +386,12 @@ class EditorController extends \BaseController
                 //Didn't find any, return empty array
                 $data['publicationResults'] = array();
             }
-            //Search Images
-        } elseif ($subAction == 'images') {
-            //Grab all images for this instance
-            $data['images'] = Image::where('instance_id', $data['instance']->id);
+        }elseif ($subAction == 'images'){
+            $data['imageResults'] = Image::where('instance_id', $data['instance']->id)
+                ->where(function($query){
+                        $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
+                            ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
+                    })->get();
         }
 
         return View::make('editor', $data);
