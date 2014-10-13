@@ -16,6 +16,7 @@ class CreatePublicationOrderTable extends Migration {
             $table->increments('cd');
             $table->integer('publication_id');
             $table->integer('article_id');
+            $table->enum('likeNew',array('Y','N'))->default('N');
             $table->integer('order');
         });
 	}

@@ -3,22 +3,35 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width"/>
-    @if(isset($insertCss) && $insertCss)
-        @include('editor.editorStyle')
-    @endif
+    @include('editor.editorStyle')
 </head>
 <body class="colorPanel">
 <div class="row">
     <div class="colorPanel">
         <div class="contentDiv" id="publication{{ $publication->id }}" >
-            <img class="publicationBanner img-responsive" src="{{ $publication->banner_image }}" style="margin:0em auto; max-width:100%;"/>
+            <img class="publicationBanner img-responsive" src="{{ $publication->banner_image }}" style="margin:0em auto;margin-bottom:1em;max-width:100%;"/>
             {{ isset($tweakables['publication-header']) ? $tweakables['publication-header'] : '' }}
             {{-- Insert Article Summary Conditionally --}}
-            @if( isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
-                <h3 class="headline-summary-header">Today's Headlines:</h3>
-                @foreach($publication->articles as $article)
-                    <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
-                @endforeach
+            @if( (isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary']) == 1)
+                {{-- Center Headline Summary --}}
+                <div class="headline-summary">
+                @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
+                    <div class="headline-summary headline-summary-center">
+                        <h3 class="headline-summary-header">Today's News:</h3>
+                        @foreach($publication->articles as $article)
+                            <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
+                        @endforeach
+                    </div>
+                {{-- Left Hand Headline Summary --}}
+                @else
+                    <div class="headline-summary headline-summary-{{ isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position'] }}">
+                        <h3 class="headline-summary-header">Today's News:</h3>
+                        @foreach($publication->articles as $article)
+                            <a href="#articleTitle{{ $article->id }}">{{ strip_tags($article->title) }}</a><br/>
+                        @endforeach
+                    </div>
+                @endif
+                </div>
             @endif
             @foreach($publication->articles as $article)
             <div class="article" id="article{{ $article->id }}">

@@ -63,5 +63,27 @@ h4 {
 }
 
 .headline-summary-header{
-margin-bottom:.25em;
+    margin-bottom:.25em;
+}
+
+.headline-summary {
+    position:relative;
+}
+
+.headline-summary-left {
+    background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
+    padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
+    width:225px;
+    position:absolute;
+    top:0px;
+    left:{{ isset($tweakables['publication-padding']) ? (-225 - (2*str_replace('px','',$tweakables['publication-padding']))) : (-225 - (2*str_replace('px','',$default_tweakables['publication-padding']))) }}px;
+}
+
+.headline-summary-right {
+    background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
+    padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
+    width:225px;
+    position:absolute;
+    top:0px;
+    left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
 }

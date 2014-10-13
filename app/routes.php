@@ -414,6 +414,8 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
 
     $inlineHTML = $inliner->convert();
 
+        echo $inlineHTML;die;
+
     if(Input::has('addressTo') && Input::has('addressFrom')){
         Mail::send('html', array('html' => $inlineHTML), function($message){
             $message->to(Input::get('addressTo'))

@@ -18,8 +18,6 @@ class CreatePublicationTable extends Migration {
 			$table->date('publish_date');
 			$table->string('banner_image');
 			$table->enum('published',array('Y','N'));
-			//JSON field for article order
-			$table->text('article_order');
 			$table->text('type');
 			$table->timestamps();
 		});
