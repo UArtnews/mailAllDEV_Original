@@ -37,7 +37,7 @@
                     @foreach($publications as $publication)
                     <tr>
                         <td>
-                            <a href="#" onclick="$('#publication{{ $publication->id }}').slideToggle();$('.chooser').slideToggle();">
+                            <a href="{{ URL::to($instanceName.'/archive/'.$publication->id) }}">
                                 {{ date('m/d/Y', strtotime($publication->publish_date)) }}
                             </a>
                         </td>
@@ -53,30 +53,6 @@
                     </tr>
                     </tfoot>
                 </table>
-
-                @foreach($publications as $publication)
-                    @include('publication.staticWebPublication', array('hide' => true))
-                @endforeach
-
-                @if(isset($publication_id))
-                    @if(!$directIsLoaded)
-                        @include('publication.staticWebPublication', array('publication' => $directPublication))
-                        <script>
-                            $(document).ready(function(){
-                                $('.chooser').slideToggle();
-                            });
-                        </script>
-                    @else
-                        <script>
-                            $(document).ready(function(){
-                                $('.chooser').slideToggle();
-                                $('#publication{{ $publication_id }}').slideToggle();
-                            });
-                        </script>
-                    @endif
-                @else
-                @endif
-
             </div>
             <div class="panel-footer" id="publicationPanelFoot">
                 Published on {{ $publication->publish_date }} |  <a href="{{ URL::to($instance->name.'/archive') }}">Archive</a>

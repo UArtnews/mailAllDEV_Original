@@ -181,7 +181,7 @@
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'down\',this);"><span class="glyphicon glyphicon-hand-down"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-danger btn-block" onclick="removeArticle('+idNum+',this);"><span class="glyphicon glyphicon-trash"></span>&nbsp;Remove</button>' +
                 '<button type="button" class="addToCartBtn btn btn-success btn-block" onclick="addArticleToCart(\''+idNum+'\');">Add to Cart</button>' +
-                '<button type="button" class="hideRepeatedBtn btn btn-warning btn-block" onclick="hideRepeated('+idNum+',{{ $publication->id or ''}});">Repeat</button>' +
+                '<button type="button" class="hideRepeatedBtn btn btn-warning btn-block" onclick="hideRepeated('+idNum+',\'{{ $publication->id or ''}}\');">Repeat</button>' +
                 '<div class="row" id="articleIndicator" style="text-align:center;color:'+EditorData.contents[idNum].color+';">'+
                 '</div>' +
                 '</div>';
@@ -194,6 +194,7 @@
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'up\',this);"><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'down\',this);"><span class="glyphicon glyphicon-hand-down"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-danger btn-block" onclick="removeNewArticle('+idNum+');"><span class="glyphicon glyphicon-trash"></span>&nbsp;Remove</button>' +
+                '<button type="button" class="hideRepeatedBtn btn btn-warning btn-block" onclick="hideRepeated('+idNum+',\'{{ $publication->id or ''}}\');">Repeat</button>' +
                 '<div class="row" id="articleIndicator" style="text-align:center;color:'+EditorData.contents[idNum].color+';">'+
                 '</div>' +
                 '</div>';
@@ -308,11 +309,10 @@
 
         //Save new order
         //Get Publication_id
-
-        publication_id = thisObject.closest('.contentDiv').attr('id').replace('publication','');
-
-        savePublicationOrder(publication_id);
-
+        if(typeof thisObject.closest('.contentDiv').attr('id') != 'undefined'){
+            publication_id = thisObject.closest('.contentDiv').attr('id').replace('publication','');
+            savePublicationOrder(publication_id);
+        }
     }
 
     function saveImage(elem){
@@ -571,7 +571,12 @@
         var articles = new Array();
 
         $('.article').each(function(index, elem){
-            articles.push($(elem).attr('id').replace('article',''));
+            var likeNew = 'N';
+
+            if($('.repeatedArticleContent', elem).is(':hidden')){
+                likeNew = 'Y';
+            }
+            articles.push([$(elem).attr('id').replace('article',''), likeNew]);
         });
 
         $.ajax({
@@ -651,7 +656,6 @@
             if($('.repeatedArticleContent', this).is(':hidden')){
                 likeNew = 'Y';
             }
-
             articleArray[index] = [$(this).attr('id').replace('article',''), likeNew];
         });
 
@@ -710,7 +714,8 @@
         $('.articleContent', '#article'+article_id).show();
 
         //Update the model
-        savePublicationOrder(publication_id);
+        if(publication_id != '')
+            savePublicationOrder(publication_id);
     }
 
     function hideRepeated(article_id, publication_id){
@@ -724,7 +729,8 @@
                 $('.articleContent', '#article'+article_id).hide();
 
                 //Update the model
-                savePublicationOrder(publication_id);
+                if(publication_id != '')
+                    savePublicationOrder(publication_id);
             }else{
                 alert('This article is not a repeat!');
             }

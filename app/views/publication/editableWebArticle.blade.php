@@ -10,7 +10,7 @@
     @endif
     @if(isset($isRepeat) && $isRepeat)
         <p class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on <a href="{{ URL::to('edit/'.$instanceName.'/publication/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('m-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
-            <button type="button" class="btn btn-xs btn-warning" onclick="unhideRepeated({{ $article->id }}, {{ $publication->id }});">Show Full Article</button>
+            <button type="button" class="btn btn-xs btn-default" onclick="unhideRepeated({{ $article->id }}, '{{ $publication->id or ''}}');">Show Full Article</button>
         </p>
         <p id="articleContent{{ $article->id }}" class="editable articleContent" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}<p>
     @else

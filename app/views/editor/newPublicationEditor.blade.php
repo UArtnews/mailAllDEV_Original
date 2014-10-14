@@ -30,6 +30,10 @@
                     <button class="btn btn-success btn-lg pull-right" onclick="addArticleCartToNewPublication()">Add All Articles From Cart</button>
                     <div class="contentDiv">
                         <img class="publicationBanner  img-responsive" src="{{isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : $default_tweakables['publication-banner-image']}}"/>
+                        <div class="article-container">
+                        </div>
+                        <div class="repeat-container">
+                        </div>
                     </div>
                 </div>
             </div>

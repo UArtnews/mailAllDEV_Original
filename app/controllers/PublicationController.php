@@ -36,7 +36,6 @@ class PublicationController extends \BaseController
         $publication->publish_date = date('Y-m-d',strtotime(Input::get('publish_date')));
         $publication->banner_image = Input::get('banner_image');
         $publication->type = Input::get('type');
-        $publication->article_order = stripslashes(Input::get('article_order'));
         $publication->published = 'N';
 
         $publication->save();
@@ -46,8 +45,9 @@ class PublicationController extends \BaseController
             $publicationOrder = new PublicationOrder;
 
             $publicationOrder->publication_id = $publication->id;
-            $publicationOrder->article_id = $article;
+            $publicationOrder->article_id = $article[0];
             $publicationOrder->order = $i;
+            $publicationOrder->likeNew = $article[1];
 
             $publicationOrder->save();
 

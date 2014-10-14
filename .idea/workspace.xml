@@ -241,102 +241,20 @@
         <entry file="file://$PROJECT_DIR$/app/models/Article.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1625">
-              <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
+              <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="articleList.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/editor/articleList.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.444445" vertical-offset="585" max-vertical-offset="2000">
-              <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
-              <folding>
-                <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editorJavascript.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/editor/editorJavascript.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-12.851851" vertical-offset="12828" max-vertical-offset="18500">
-              <caret line="527" column="52" selection-start-line="527" selection-start-column="52" selection-end-line="527" selection-end-column="52" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editableWebPublication.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/publication/editableWebPublication.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-23.037037" vertical-offset="1928" max-vertical-offset="6075">
-              <caret line="102" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-              <folding>
-                <marker date="1413292044752" expanded="true" signature="3962:4229" placeholder="..." />
-                <marker date="1413292044752" expanded="true" signature="3991:4228" placeholder="..." />
-                <marker date="1413292044752" expanded="true" signature="14171:14354" placeholder="..." />
-                <marker date="1413292044752" expanded="true" signature="14183:14262" placeholder="..." />
-                <marker date="1413292044752" expanded="true" signature="14392:14570" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="staticWebPublication.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/publication/staticWebPublication.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="227" max-vertical-offset="1200">
-              <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="article.blade.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/views/snippet/article.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.13977389" vertical-offset="364" max-vertical-offset="1700">
-              <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
-              <folding>
-                <element signature="e#1851#1895#0#HTML" expanded="true" />
-                <element signature="e#2265#2309#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="editableWebArticle.blade.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/views/publication/editableWebArticle.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.111111" vertical-offset="0" max-vertical-offset="975">
-              <caret line="12" column="73" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
-              <folding>
-                <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#p#1;n#div#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.037037" vertical-offset="7756" max-vertical-offset="11125">
-              <caret line="320" column="14" selection-start-line="320" selection-start-column="7" selection-end-line="320" selection-end-column="14" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PublicationController.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/controllers/PublicationController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-17.814816" vertical-offset="3019" max-vertical-offset="4175">
-              <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-              <folding />
+            <state vertical-scroll-proportion="0.30555555" vertical-offset="11667" max-vertical-offset="12675">
+              <caret line="479" column="0" selection-start-line="479" selection-start-column="0" selection-end-line="501" selection-end-column="3" />
+              <folding>
+                <element signature="e#6#173#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -363,12 +281,10 @@
         <option value="$PROJECT_DIR$/app/database/migrations/2014_05_27_152838_create_default_tweakable_table.php" />
         <option value="$PROJECT_DIR$/app/tests/acceptance/features/articleCart.feature" />
         <option value="$PROJECT_DIR$/app/tests/acceptance/features/navigationTabs.feature" />
-        <option value="$PROJECT_DIR$/app/views/editor/newPublicationEditor.blade.php" />
         <option value="$PROJECT_DIR$/app/tests/acceptance/features/publicSubmission.feature" />
         <option value="$PROJECT_DIR$/public/css/rrssb.css" />
         <option value="$PROJECT_DIR$/js/rrssb.min.js" />
         <option value="$PROJECT_DIR$/app/views/snippet/share.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/archive.blade.php" />
         <option value="$PROJECT_DIR$/app/views/publication.blade.php" />
         <option value="$PROJECT_DIR$/app/tests/acceptance/contexts/FeatureContext.php" />
         <option value="$PROJECT_DIR$/composer.json" />
@@ -388,7 +304,6 @@
         <option value="$PROJECT_DIR$/app/views/searchResults/articleResults.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
         <option value="$PROJECT_DIR$/app/views/tweakableStyle.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/emailPublication.blade.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2014_05_22_131022_create_users_table.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2014_07_07_125330_create_publication_order_table.php" />
         <option value="$PROJECT_DIR$/app/database/migrations/2014_05_22_152413_create_publication_table.php" />
@@ -401,13 +316,16 @@
         <option value="$PROJECT_DIR$/app/database/seeds/PublicationOrderTableSeeder.php" />
         <option value="$PROJECT_DIR$/app/models/Article.php" />
         <option value="$PROJECT_DIR$/app/views/editor/articleList.blade.php" />
-        <option value="$PROJECT_DIR$/app/controllers/PublicationController.php" />
         <option value="$PROJECT_DIR$/app/views/publication/editableWebPublication.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/publication/editableWebArticle.blade.php" />
-        <option value="$PROJECT_DIR$/app/views/editor/editorJavascript.blade.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/app/views/publication/staticWebPublication.blade.php" />
         <option value="$PROJECT_DIR$/app/views/snippet/article.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/emailPublication.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/editor/newPublicationEditor.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/editor/editorJavascript.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/PublicationController.php" />
+        <option value="$PROJECT_DIR$/app/views/publication/editableWebArticle.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/archive.blade.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
       </list>
     </option>
   </component>
@@ -847,20 +765,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/tests/acceptance/contexts/FeatureContext.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.10714286" vertical-offset="217" max-vertical-offset="1225">
-          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/composer.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1375">
-          <caret line="20" column="0" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.29761904" vertical-offset="450" max-vertical-offset="2000">
@@ -1010,14 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/emailPublication.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.3333333" vertical-offset="185" max-vertical-offset="1275">
-          <caret line="11" column="94" selection-start-line="11" selection-start-column="94" selection-end-line="11" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/tweakableStyle.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="802" max-vertical-offset="2375">
@@ -1097,14 +993,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Publication.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.44642857" vertical-offset="0" max-vertical-offset="1008">
-          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/config/database.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1125" max-vertical-offset="3250">
@@ -1157,50 +1045,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/PublicationController.php">
+    <entry file="file://$PROJECT_DIR$/app/views/snippet/article.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-17.814816" vertical-offset="3019" max-vertical-offset="4175">
-          <caret line="140" column="0" selection-start-line="140" selection-start-column="0" selection-end-line="140" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/models/Article.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1625">
-          <caret line="28" column="14" selection-start-line="28" selection-start-column="14" selection-end-line="28" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/editor/articleList.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.444445" vertical-offset="585" max-vertical-offset="2000">
-          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1700">
+          <caret line="23" column="10" selection-start-line="23" selection-start-column="10" selection-end-line="23" selection-end-column="10" />
           <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/editor/editorJavascript.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-12.851851" vertical-offset="12828" max-vertical-offset="18500">
-          <caret line="527" column="52" selection-start-line="527" selection-start-column="52" selection-end-line="527" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/publication/editableWebPublication.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-23.037037" vertical-offset="1928" max-vertical-offset="6075">
-          <caret line="102" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
-          <folding>
-            <marker date="1413292044752" expanded="true" signature="3962:4229" placeholder="..." />
-            <marker date="1413292044752" expanded="true" signature="3991:4228" placeholder="..." />
-            <marker date="1413292044752" expanded="true" signature="14171:14354" placeholder="..." />
-            <marker date="1413292044752" expanded="true" signature="14183:14262" placeholder="..." />
-            <marker date="1413292044752" expanded="true" signature="14392:14570" placeholder="..." />
+            <element signature="e#1851#1895#0#HTML" expanded="true" />
+            <element signature="e#2265#2309#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1208,37 +1059,104 @@
     <entry file="file://$PROJECT_DIR$/app/views/publication/staticWebPublication.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="227" max-vertical-offset="1200">
-          <caret line="31" column="0" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+          <caret line="41" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
+    <entry file="file://$PROJECT_DIR$/app/views/emailPublication.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.037037" vertical-offset="7756" max-vertical-offset="11125">
-          <caret line="320" column="14" selection-start-line="320" selection-start-column="7" selection-end-line="320" selection-end-column="14" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="577" max-vertical-offset="1550">
+          <caret line="33" column="22" selection-start-line="33" selection-start-column="22" selection-end-line="33" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Article.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1625">
+          <caret line="42" column="5" selection-start-line="42" selection-start-column="5" selection-end-line="42" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/publication/editableWebPublication.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.62512565" vertical-offset="1928" max-vertical-offset="6075">
+          <caret line="102" column="0" selection-start-line="86" selection-start-column="0" selection-end-line="102" selection-end-column="0" />
+          <folding>
+            <marker date="1413292044752" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1413292044752" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/editor/newPublicationEditor.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.555555" vertical-offset="428" max-vertical-offset="1925">
+          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <marker date="1413296507520" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/editor/editorJavascript.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.3703704" vertical-offset="14053" max-vertical-offset="18650">
+          <caret line="569" column="20" selection-start-line="569" selection-start-column="13" selection-end-line="569" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/models/Publication.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44642857" vertical-offset="0" max-vertical-offset="1008">
+          <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/PublicationController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-7.4074073" vertical-offset="675" max-vertical-offset="4175">
+          <caret line="35" column="89" selection-start-line="35" selection-start-column="89" selection-end-line="35" selection-end-column="89" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/publication/editableWebArticle.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.111111" vertical-offset="0" max-vertical-offset="975">
-          <caret line="12" column="73" selection-start-line="12" selection-start-column="73" selection-end-line="12" selection-end-column="73" />
+        <state vertical-scroll-proportion="0.3517588" vertical-offset="0" max-vertical-offset="995">
+          <caret line="14" column="166" selection-start-line="14" selection-start-column="166" selection-end-line="14" selection-end-column="166" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/editor/articleList.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.40289256" vertical-offset="585" max-vertical-offset="2000">
+          <caret line="39" column="30" selection-start-line="39" selection-start-column="30" selection-end-line="39" selection-end-column="30" />
           <folding>
-            <element signature="n#style#0;n#p#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/snippet/article.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/views/archive.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.13977389" vertical-offset="364" max-vertical-offset="1700">
-          <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
+        <state vertical-scroll-proportion="0.5477387" vertical-offset="480" max-vertical-offset="1700">
+          <caret line="41" column="32" selection-start-line="41" selection-start-column="32" selection-end-line="41" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.30555555" vertical-offset="11667" max-vertical-offset="12675">
+          <caret line="479" column="0" selection-start-line="479" selection-start-column="0" selection-end-line="501" selection-end-column="3" />
           <folding>
-            <element signature="e#1851#1895#0#HTML" expanded="true" />
-            <element signature="e#2265#2309#0#HTML" expanded="true" />
+            <element signature="e#6#173#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
