@@ -24,7 +24,13 @@
     @endif
 @else
     <div class="article" id="article{{ $article->id }}">
-        <h1 id="articleTitle{{ $article->id }}" class="articleTitle">{{ stripslashes($article->title) }}</h1>
+        @if(isset($isRepeat) && $isRepeat)
+            <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">
+                <h1 id="articleTitle{{ $article->id }}" class="articleTitle">{{ stripslashes($article->title) }}</h1>
+            </a>
+        @else
+            <h1 id="articleTitle{{ $article->id }}" class="articleTitle">{{ stripslashes($article->title) }}</h1>
+        @endif
         @if(isset($tweakables['publication-hr-titles']))
         @if($tweakables['publication-hr-titles'] == 1)
         <hr/>
@@ -32,7 +38,15 @@
         @elseif($default_tweakables['publication-hr-titles'] == 1)
         <hr/>
         @endif
-        <p id="articleContent{{ $article->id }}" class=" articleContent">{{ stripslashes($article->content) }}<p>
+
+        @if(isset($isRepeat) && $isRepeat)
+            <p class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on
+                <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('m-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
+            </p>
+            <p id="articleContent{{ $article->id }}" class="editable articleContent" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}<p>
+        @else
+            <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
+        @endif
     </div>
     <div class="clearfix"></div>
     @if($shareIcons)

@@ -30,6 +30,7 @@
                         <tr>
                             <td>{{date('m/d/Y', strtotime($article->created_at))}}</td>
                             <td>{{date('m/d/Y', strtotime($article->updated_at))}}</td>
+                            <td>{{ User::where('uanet', $article->author)->first() or '' }}</td>
                             @if($article->submission == 'Y')
                             <td><span class="badge alert-warning">Submitted</span></td>
                             @else

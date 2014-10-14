@@ -86,7 +86,18 @@
             @endif
             <div class="article-container">
                 @foreach($thisPublication->articles as $article)
-                    @include('publication.editableWebArticle')
+                    @if(!$article->isPublished($publication->id))
+                        @include('publication.editableWebArticle')
+                    @elseif( $article->isPublished($publication->id) && $article->likeNew($publication->id) == 'Y' )
+                        @include('publication.editableWebArticle', array('isRepeat' => true, 'hideRepeat' => false))
+                    @endif
+                @endforeach
+            </div>
+            <div class="repeat-container">
+                @foreach($thisPublication->articles as $article)
+                    @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
+                        @include('publication.editableWebArticle',array('isRepeat' => true, 'hideRepeat' => true))
+                    @endif
                 @endforeach
             </div>
             {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}

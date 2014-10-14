@@ -14,7 +14,7 @@ class ArticleTableSeeder extends Seeder {
 				'instance_id'	=> Instance::orderBy(DB::raw('RAND()'))->first()->id,
 				'title'			=> $faker->catchPhrase,
 				'content'		=> $faker->text(900),
-				'author_id'		=> User::orderBy(DB::raw('RAND()'))->first()->id,
+				'author_id'		=> User::orderBy(DB::raw('RAND()'))->first()->uanet,
 				'published'		=> 'N',
 				'submission'    => rand(1,10) > 9 ? 'Y' : 'N',
 				'issue_dates'	=> '',

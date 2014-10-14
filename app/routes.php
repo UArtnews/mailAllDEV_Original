@@ -176,9 +176,8 @@ Route::post('/cart/{instanceName}/clear', function($instanceName){
 });
 
 //Post routes so AJAX can grab editable regions
-Route::any('/editable/article/{article_id}', function($article_id){
+Route::any('/editable/article/{article_id}/{publication_id?}', function($article_id, $publication_id = ''){
     $article = Article::findOrFail($article_id);
-
     //Grab instance ID from article
 
     $instanceId = $article->instance_id;
@@ -191,9 +190,14 @@ Route::any('/editable/article/{article_id}', function($article_id){
         'instanceName'             => $instance->name,
         'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
         'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-        'article'                  => $article
+        'article'                  => $article,
+        'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
+        'hideRepeat'               => $article->isPublished($publication_id) ? true : false
     );
 
+    if($publication_id != ''){
+        $data['publication'] = Publication::find($publication_id);
+    }
     return View::make('publication.editableWebArticle', $data);
 });
 

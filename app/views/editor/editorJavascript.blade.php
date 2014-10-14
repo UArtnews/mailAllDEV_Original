@@ -174,13 +174,14 @@
 
         if('{{ $action }}' == 'publications' || '{{ $action }}' == 'publication' || '{{ $action }}' == ''){
             //Place save/revert controls off to side of article, NOT TITLE
-            $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" style="z-index:50;min-height:8.5em;">' +
+            $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" style="z-index:50;">' +
                 '<button type="button" class="btn btn-success btn-block" onclick="saveEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>' +
                 '<button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-remove"></span>&nbsp;Revert</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'up\',this);"><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'down\',this);"><span class="glyphicon glyphicon-hand-down"></span>&nbsp;Move</button>' +
                 '<button type="button" class="btn btn-danger btn-block" onclick="removeArticle('+idNum+',this);"><span class="glyphicon glyphicon-trash"></span>&nbsp;Remove</button>' +
                 '<button type="button" class="addToCartBtn btn btn-success btn-block" onclick="addArticleToCart(\''+idNum+'\');">Add to Cart</button>' +
+                '<button type="button" class="hideRepeatedBtn btn btn-warning btn-block" onclick="hideRepeated('+idNum+',{{ $publication->id or ''}});">Repeat</button>' +
                 '<div class="row" id="articleIndicator" style="text-align:center;color:'+EditorData.contents[idNum].color+';">'+
                 '</div>' +
                 '</div>';
@@ -275,42 +276,16 @@
     function removeArticle(idNum, thisSelector){
         thisObject = $(thisSelector);
 
-
         //If this publication isn't saved yet, bail
         if( '{{ $action }}' == 'newPublication'){
             return;
         }
 
-        publication_id = thisObject.closest('.contentDiv').attr('id').replace('publication','');
+        thisObject.closest('.article').remove();
 
-        var articleArray = new Array();
-        //Iterate over contents
-        thisObject.closest('.contentDiv').find('.article').each(function(index){
-                articleArray[index] = $(this).attr('id').replace('article','');
-        });
+        publication_id = $('.contentDiv').attr('id').replace('publication','');
 
-
-        var finalArray = new Array();
-        $.each(articleArray, function(index, article_id){
-            if(article_id != idNum){
-                finalArray.push(article_id);
-            }
-        })
-
-        //////////////////
-        //  AJAX Stuff  //
-        //////////////////
-
-        $.ajax({
-            url:'{{URL::to('resource/publication/updateOrder');}}/'+publication_id,
-            type: 'POST',
-            data: {
-            'article_order': JSON.stringify(finalArray)
-            }
-        }).done(function(data){
-            thisObject.closest('.article').remove();
-        });
-
+        savePublicationOrder(publication_id);
     }
 
     //////////////////////////////////////////////////////
@@ -490,8 +465,8 @@
                 console.log(data);
                 if(data['success']){
                     content = '<li id="emptyCartItem" class="list-group-item list-group-item-warning">There are no articles in your cart!</li>';
-                    $('#cartList').html(content);
-                    $('#cartCountBadge').text(0);
+                    $('.cartList').html(content);
+                    $('.cartCountBadge').text(0);
                 }else if(data['error']){
                     alert(data['error']);
                 }
@@ -514,7 +489,11 @@
             url: '{{ URL::to('/editable/article/') }}/'+article_id,
             type: 'post'
         }).done(function(data){
-            $('.contentDiv').append(data);
+            if(data.indexOf('repeatedArticleContent') == -1){
+                $('.article-container').append(data);
+            }else{
+                $('.repeat-container').append(data);
+            }
 
             initEditor(article_id, $('#articleTitle'+article_id));
             initEditor(article_id, $('#articleContent'+article_id));
@@ -538,12 +517,16 @@
         }
 
         $.ajax({
-            url: '{{ URL::to('/editable/article/') }}/'+article_id,
+            url: '{{ URL::to('/editable/article/') }}/'+article_id+'/'+publication_id+'?',
             type: 'post'
         }).done(function(data){
-            console.log('pre append');
-            $('.article-container','#publication'+publication_id).append(data);
-            console.log('post append');
+            console.log('data.indexOf == '+data.indexOf('repeatedArticleContent'));
+
+            if(data.indexOf('repeatedArticleContent') == -1){
+                $('.article-container').append(data);
+            }else{
+                $('.repeat-container').append(data);
+            }
 
             initEditor(article_id, $('#publication'+publication_id+' #articleTitle'+article_id));
             initEditor(article_id, $('#publication'+publication_id+' #articleContent'+article_id));
@@ -574,10 +557,10 @@
             addArticleToExistingPublication($(elem).attr('id').replace('addCartArticle',''), publication_id, false);
         });
 
-        //TODO: Fix this so it's not a dumb timout
+        //TODO: Fix this so it's not a dumb timeout
         setTimeout(function(){
             savePublicationOrder(publication_id);
-        },1000);
+        },2000);
     }
 
     function removeNewArticle(idNum){
@@ -664,7 +647,12 @@
         var articleArray = new Array();
         //Iterate over contents
         $('#publication'+publication_id).find('.article').each(function(index){
-            articleArray[index] = $(this).attr('id').replace('article','');
+            var likeNew = 'N';
+            if($('.repeatedArticleContent', this).is(':hidden')){
+                likeNew = 'Y';
+            }
+
+            articleArray[index] = [$(this).attr('id').replace('article',''), likeNew];
         });
 
         //////////////////
@@ -711,6 +699,36 @@
                 location = '{{ URL::to('edit/'.$instance->name.'/publication') }}/'+publication_id;
             }
         });
+    }
+
+    function unhideRepeated(article_id, publication_id){
+        //Move article
+        $('#article'+article_id).appendTo('.article-container');
+
+        //Unhide content
+        $('.repeatedArticleContent', '#article'+article_id).hide();
+        $('.articleContent', '#article'+article_id).show();
+
+        //Update the model
+        savePublicationOrder(publication_id);
+    }
+
+    function hideRepeated(article_id, publication_id){
+        if(!$('#article'+article_id).parents('div').hasClass('repeat-container')){
+            if($('#article'+article_id).find('.repeatedArticleContent').size() > 0){
+                //Move article
+                $('#article'+article_id).appendTo('.repeat-container');
+
+                //Hide content
+                $('.repeatedArticleContent', '#article'+article_id).show();
+                $('.articleContent', '#article'+article_id).hide();
+
+                //Update the model
+                savePublicationOrder(publication_id);
+            }else{
+                alert('This article is not a repeat!');
+            }
+        }
     }
 
 </script>

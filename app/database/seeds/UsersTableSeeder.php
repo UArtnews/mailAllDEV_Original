@@ -12,6 +12,7 @@ class UsersTableSeeder extends Seeder {
 		{
 			User::create(array(
 				'email'			=> $faker->email,
+				'uanet'			=> $faker->lexify('???????'),
 				'first'			=> $faker->firstName,
 				'last'			=> $faker->lastName,
 				'created_at'	=> date_format($faker->dateTimeThisYear(), 'Y-m-d H:i:s'),

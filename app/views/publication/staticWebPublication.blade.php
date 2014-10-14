@@ -23,8 +23,21 @@
         @endif
         </div>
     @endif
-    @foreach($publication->articles as $article)
-        @include('snippet.article', array('contentEditable' => false, 'shareIcons' => false ))
-    @endforeach
+    <div class="article-container">
+        @foreach($publication->articles as $article)
+            @if(!$article->isPublished($publication->id))
+                @include('snippet.article', array('contentEditable' => false, 'shareIcons' => false ))
+            @elseif( $article->isPublished($publication->id) && $article->likeNew($publication->id) == 'Y' )
+                @include('snippet.article', array('contentEditable' => false, 'shareIcons' => false, 'isRepeat' => true, 'hideRepeat' => false))
+            @endif
+        @endforeach
+    </div>
+    <div class="repeat-container">
+        @foreach($publication->articles as $article)
+            @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
+                @include('snippet.article', array('contentEditable' => false, 'shareIcons' => false, 'isRepeat' => true, 'hideRepeat' => true))
+            @endif
+        @endforeach
+    </div>
     {{ isset($tweakables['publication-footer']) ? $tweakables['publication-footer'] : $default_tweakables['publication-footer'] }}
 </div>
