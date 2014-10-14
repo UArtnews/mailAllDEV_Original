@@ -55,6 +55,8 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-headline-summary-position' => array('Positioning of Headline Summary', 'center', 'select'),
             'publication-header'                    => array('Header Content', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
+            'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
+            'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),

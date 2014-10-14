@@ -38,14 +38,28 @@
         @elseif($default_tweakables['publication-hr-titles'] == 1)
         <hr/>
         @endif
+        @if(isset($isEmail) && $isEmail)
+            @if(isset($isRepeat) && $isRepeat)
+                @if($hideRepeat)
+                    <p class="repeatedArticleContent">This article originally appeared on
+                        <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('m-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
+                    </p>
+                @else
+                    <p id="articleContent{{ $article->id }}" class="editable articleContent" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}<p>
 
-        @if(isset($isRepeat) && $isRepeat)
-            <p class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on
-                <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('m-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
-            </p>
-            <p id="articleContent{{ $article->id }}" class="editable articleContent" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}<p>
+                @endif
+            @else
+                <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
+            @endif
         @else
-            <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
+            @if(isset($isRepeat) && $isRepeat)
+                <p class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on
+                    <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('m-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
+                </p>
+                <p id="articleContent{{ $article->id }}" class="editable articleContent" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}<p>
+            @else
+                <p id="articleContent{{ $article->id }}" class="editable articleContent">{{ stripslashes($article->content) }}<p>
+            @endif
         @endif
     </div>
     <div class="clearfix"></div>

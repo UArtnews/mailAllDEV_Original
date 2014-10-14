@@ -268,17 +268,18 @@ class EditorController extends \BaseController
             'publication-repeated-items',
             'publication-headline-summary',
             'publication-headline-summary-position',
+            'publication-repeat-separator-toggle',
         );
 
         $data['headerFooterTweakables'] = array(
             'publication-header',
             'publication-footer',
+            'publication-repeat-separator',
         );
 
         $data['workflowTweakables'] = array(
             'global-accepts-submissions'
         );
-        
         return View::make('editor', $data);
     }
 
