@@ -7,16 +7,7 @@
         <div class="row articleEditor" id="articleEditor{{$article->id}}">
             <div class="col-sm-10 col-sm-offset-1 col-xs-12 article">
                 <div class="contentDiv">
-                    <div class="article" id="article{{ $article->id }}">
-                        <h1 id="articleTitle{{ $article->id }}" class="editable articleTitle">{{stripslashes($article->title)}}</h1>
-                        <p id="articleContent{{ $article->id }}" class="editable articleContent">{{stripslashes($article->content)}}<p>
-                        <div id="articleIndicator{{ $article->id }}" class="side-indicator">
-                            <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
-                            </div>
-                            &nbsp;&nbsp;&nbsp;Unsaved<br/>
-                            &nbsp;&nbsp;&nbsp;Changes
-                        </div>
-                    </div>
+                    @include('article.article', array('isEditable' => true, 'isRepeat' => false, 'isEmail' => false, 'shareIcons' => false))
                     <table class="table well">
                         <thead>
                         <tr>

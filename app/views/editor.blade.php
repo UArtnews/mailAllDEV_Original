@@ -91,7 +91,7 @@
                 </span>
             </div>
             <div class="panel-body" id="livePublicationBody">
-                @include('publication.editableWebPublication', array('thisPublication' => $publication, 'display' => 'block'))
+                @include('publication.master', array('isEditable' => true, 'isEmail' => false, 'shareIcons' => false))
             </div>
             <div class="panel-footer" id="articlePanelFoot">
             </div>

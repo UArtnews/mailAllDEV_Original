@@ -24,7 +24,7 @@
             {{-- This is to make the background color fill the entire page --}}
             @include('public.publicNav', array('instanceName' => $instanceName))
             <div class="panel-body" id="publicationPanelBody">
-                @include('publication.staticWebPublication', array('publication' => $publication))
+                @include('publication.master', array('shareIcons' => true, 'isEditable' => false, 'isEmail' => false))
             </div>
             <div class="panel-footer" id="publicationPanelFoot">
                 Published on {{ $publication->publish_date }} |  <a href="{{ URL::to($instance->name.'/archive') }}">Archive</a>
