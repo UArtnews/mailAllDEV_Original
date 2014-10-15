@@ -22,7 +22,7 @@
     <div class="col-xs-12">
         <div class="panel panel-default colorPanel" style="margin-bottom:0px!important;">
             {{-- This is to make the background color fill the entire page --}}
-            @include('publication.publicNav', array('instanceName' => $instanceName))
+            @include('public.publicNav', array('instanceName' => $instanceName))
             <div class="panel-body" id="publicationPanelBody">
                 @include('publication.staticWebPublication', array('publication' => $publication))
             </div>

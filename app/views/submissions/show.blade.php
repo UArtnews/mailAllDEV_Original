@@ -17,7 +17,7 @@
     @include('editor.editorStyle')
 </head>
 <body>
-@include('publication.publicNav', array('instanceName' => $instanceName))
+@include('public.publicNav', array('instanceName' => $instanceName))
 <div class="row">
     <div class="well colorPanel">
         <div class="contentDiv">

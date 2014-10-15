@@ -142,7 +142,7 @@ class PublicationController extends \BaseController
         $added = array();
 
         foreach(json_decode(stripslashes(Input::get('article_order'))) as $article){
-            if(!in_array($article, $added)) {
+            if(!in_array($article[0], $added)) {
                 array_push($added, $article[0]);
 
                 $publicationOrder = new PublicationOrder;

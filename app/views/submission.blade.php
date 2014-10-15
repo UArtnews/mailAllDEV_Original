@@ -17,7 +17,7 @@
 
 </head>
 <body>
-@include('publication.publicNav', array('instanceName' => $instanceName))
+@include('public.publicNav', array('instanceName' => $instanceName))
 <div class="row">
     <div class="well col-lg-8 col-md-offset-2 col-md-10 col-md-offset-1 col-sm-12">
         {{ Form::open(array('url' => '#', 'method' => 'post', 'class' => 'form')) }}

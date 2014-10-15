@@ -18,7 +18,7 @@
 
 </head>
 <body>
-@include('publication.publicNav', array('instanceName' => $instanceName))
+@include('public.publicNav', array('instanceName' => $instanceName))
 <div class="row">
     <div class="col-md-8 col-md-offset-2 col-sm-10 col-sm-offset-1 col-xs-12">
         <div class="panel panel-default colorPanel">
