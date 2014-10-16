@@ -62,9 +62,13 @@
 
         <h3>What Issue Would You Like This Announcement To Appear</h3>
         <ul class="list-group">
+        @if(count($publications) > 0)
             @foreach($publications as $publication)
             <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
             @endforeach
+        @else
+            <li class="list-group-item">No upcoming publications!</li>
+        @endif
         </ul>
         <br/>
         <h3>Your Information</h3>

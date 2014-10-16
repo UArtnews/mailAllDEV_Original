@@ -36,6 +36,7 @@ Route::get('/{instanceName}/', function($instanceName){
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'isPublication'            => true
         );
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -59,8 +60,48 @@ Route::get('/{instanceName}/', function($instanceName){
         $data['publication'] = $publication;
     }
 
-    return View::make('publication')->with($data);
+    return View::make('public.master')->with($data);
 });
+
+//Show this article with share buttons and stuff
+Route::get('/{instanceName}/article/{article_id}', function($instanceName, $article_id){
+    //Fetch Instance out of DB
+    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+
+    $data = array(
+        'instance'		=> $instance,
+        'instanceId'	=> $instance->id,
+        'instanceName'	=> $instance->name,
+        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+        'isArticle'                => true
+    );
+
+    if(isset($data['tweakables']['global-accepts-submissions'])){
+        if($data['tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
+        }else{
+            $data['submission'] = false;
+        }
+    }else{
+        if($data['default_tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
+        }else{
+            $data['submission'] = false;
+        }
+    }
+
+    //Get this publication
+    $article = Article::where('instance_id',$instance->id)->where('id',$article_id)->firstOrFail();
+
+    //Populate $data
+    $data['article'] = $article;
+
+    return View::make('public.master')->with($data);
+});
+
 
 //Show this publication in stripped down reader
 Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $publication_id){
@@ -77,6 +118,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'isPublication'                => true
         );
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -100,7 +142,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
         $data['publication'] = $publication;
     }
 
-    return View::make('publication')->with($data);
+    return View::make('public.master')->with($data);
 });
 
 //Show archives
@@ -200,7 +242,7 @@ Route::get('/{instanceName}/search', function($instanceName){
         $data['publicationResults'] = array();
     }
 
-    return View::make('publication.publicSearch')->with($data);
+    return View::make('public.publicSearch')->with($data);
 });
 
 //////////////////////////////////
@@ -499,4 +541,18 @@ Route::any('/editable/article/{article_id}/{publication_id?}', function($article
         $data['publication'] = Publication::find($publication_id);
     }
     return View::make('publication.editableWebArticle', $data);
+});
+
+Route::get('admin/login', array('before' => 'force.ssl', function(){
+    $name = 'mailAllSession';
+
+    $date = date('Y-m-d');
+
+    $value = md5('mailAll500P3RS3kR3T'.$date);
+
+    return Redirect::to('/')->withCookie(Cookie::make($name, $value,time()+3600*2*1));
+}));
+
+Route::get('admin/logout', function(){
+    return Redirect::guest('/')->withCookie(Cookie::forget('urlSession'));
 });

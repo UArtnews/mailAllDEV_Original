@@ -1,4 +1,45 @@
 <?php
+/* CUSTOM AUTH FILTER
+/*
+/*
+/**/
+Route::filter('simpleAuth', function(){
+        $name = 'urlSession';
+
+        //Check if cookie is set
+        if(Cookie::has($name)){
+            $cookie = Cookie::get($name);
+        }else{
+            $cookie = '';
+        }
+
+        $date = date('Y-m-d');
+        $value = md5('urlAdminS3kR3T'.$date);
+
+
+        $uri = Request::path();
+
+        if($cookie == $value){
+            //Let them in
+        }else{
+            //check to see if they've already whiffed the login page
+            //Log them in, or not
+            return Redirect::to('/admin/login?redirect='.$uri);
+        }
+    });
+
+/* CUSTOM SSL Filter
+/*
+/*
+/**/
+Route::filter('force.ssl', function()
+    {
+        if( ! Request::secure())
+        {
+            return Redirect::secure(Request::path());
+        }
+
+    });
 
 /*
 |--------------------------------------------------------------------------

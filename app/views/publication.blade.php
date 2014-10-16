@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>{{$instance->name}} - {{date('m/d/Y', strtotime($publication->publish_date))}}</title>
+    <title>{{$instance->name}}</title>
 
     <link async rel="StyleSheet" href="{{ URL::to('css/bootstrap.css') }}" type="text/css" />
     <link async rel="StyleSheet" href="{{ URL::to('css/rrssb.css') }}" type="text/css" />
