@@ -237,14 +237,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.2609582" vertical-offset="13069" max-vertical-offset="14100">
-              <caret line="533" column="98" selection-start-line="533" selection-start-column="98" selection-end-line="533" selection-end-column="98" />
+            <state vertical-scroll-proportion="-9.481482" vertical-offset="13069" max-vertical-offset="14100">
+              <caret line="533" column="40" selection-start-line="533" selection-start-column="40" selection-end-line="533" selection-end-column="40" />
               <folding>
                 <element signature="e#6#173#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/config/database.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.12400793" vertical-offset="0" max-vertical-offset="3250">
+              <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -299,7 +309,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/app/controllers/SubmissionController.php" />
         <option value="$PROJECT_DIR$/app/tests/acceptance/bootstrap/FeatureContext.php" />
         <option value="$PROJECT_DIR$/app/views/searchResults/imageResults.blade.php" />
         <option value="$PROJECT_DIR$/app/views/editor/editorNav.blade.php" />
@@ -350,6 +359,7 @@
         <option value="$PROJECT_DIR$/app/views/submission.blade.php" />
         <option value="$PROJECT_DIR$/app/filters.php" />
         <option value="$PROJECT_DIR$/app/routes.php" />
+        <option value="$PROJECT_DIR$/app/config/database.php" />
       </list>
     </option>
   </component>
@@ -825,13 +835,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1125" max-vertical-offset="3250">
-          <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/database/seeds/UsersTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="725">
@@ -1216,11 +1219,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.2609582" vertical-offset="13069" max-vertical-offset="14100">
-          <caret line="533" column="98" selection-start-line="533" selection-start-column="98" selection-end-line="533" selection-end-column="98" />
+        <state vertical-scroll-proportion="-9.481482" vertical-offset="13069" max-vertical-offset="14100">
+          <caret line="533" column="40" selection-start-line="533" selection-start-column="40" selection-end-line="533" selection-end-column="40" />
           <folding>
             <element signature="e#6#173#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.12400793" vertical-offset="0" max-vertical-offset="3250">
+          <caret line="5" column="24" selection-start-line="5" selection-start-column="24" selection-end-line="5" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>
