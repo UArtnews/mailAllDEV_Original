@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="settingPanelHead">
         <ul class="nav nav-tabs">
@@ -139,49 +141,11 @@
             @endif
         </div>
         <div class="col-md-6 col-sm-12 " id="settingsPreviewer">
-                <!-- Now to iterate through the articles -->
-                <div class="contentDiv">
-                    <img class="publicationBanner img-responsive" src="{{ $tweakables['publication-banner-image'] or $default_tweakables['publication-banner-image'] }}"/>
-
-                    {{ isset($tweakables['publication-repeated-items']) ? '<h3 class="repeated-items-heading">Today\'s News</h3>' : $default_tweakables['publication-repeated-items'] == 1 ? '<h3 class="repeated-items-heading">Today\'s News</h3>' : ''  }}
-
-                    <h1 >
-                        Heading H1 <br/>
-                        (how article titles look)
-                    </h1>
-                    {{ isset($tweakables['publication-hr-titles']) ? '<hr/>' : $default_tweakables['publication-hr-titles'] == 1 ? '<hr/>' : '' ; }}
-                    <h2 >Heading H2</h2>
-                    <h3 >Heading H3</h3>
-                    <h4 >Heading H4</h4>
-                    <p >This is Paragraph text. </p>
-                    <p>Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    {{ isset($tweakables['publication-hr-articles']) ? '<hr/>' : $default_tweakables['publication-hr-articles'] == 1 ? '<hr/>' : '' ; }}
-                    <h1 >
-                        Heading H1 <br/>
-                    </h1>
-                    {{ isset($tweakables['publication-hr-titles']) ? '<hr/>' : $default_tweakables['publication-hr-titles'] == 1 ? '<hr/>' : '' ; }}
-                    <p >This is Paragraph text. </p>
-                    <p>Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    {{ isset($tweakables['publication-hr-articles']) ? '<hr/>' : $default_tweakables['publication-hr-articles'] == 1 ? '<hr/>' : '' ; }}
-
-                    {{ isset($tweakables['publication-repeated-items']) ? '<h3 class="repeated-items-heading">Repeated News Items Follow</h3>' : $default_tweakables['publication-repeated-items'] == 1 ? '<h3 class="repeated-items-heading">Repeated News Items Follow</h3>' : '' ; }}
-
-                    <h1 >
-                        Heading H1 <br/>
-                    </h1>
-                    {{ isset($tweakables['publication-hr-titles']) ? '<hr/>' : $default_tweakables['publication-hr-titles'] == 1 ? '<hr/>' : '' ; }}
-                    <p >This is Paragraph text. </p>
-                    <p>Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                    <p >Nisi et sunt illo quas. Ducimus eius suscipit minus veritatis dignissimos fugit et. Atque id laboriosam aut pariatur quaerat ex minima. In et est sint sed porro vero alias. Dolorum quo et earum. Culpa optio iusto et ducimus. Tenetur consequatur et nostrum ut et. Aut tempora aspernatur neque cumque officiis repellat dolorem tempore. Molestias eligendi molestiae libero quas dolor sed. Eum cupiditate voluptatem et qui molestias atque. Architecto aut eligendi illum vel. Omnis ut dolorem et perspiciatis labore saepe. Repellat perspiciatis deleniti mollitia ut quae minus. <a href="#">Hyperlinkitus </a>ut voluptas animi quis ipsam alias. Non sed enim neque asperiores.</p>
-                </div>
+            @include('publication.master')
         </div>
 
     </div>
     <div class="panel-footer" id="settingPanelFoot">
     </div>
 </div>
+@stop

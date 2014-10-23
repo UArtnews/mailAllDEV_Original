@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="articlePanelHead">
         Article Editor
@@ -51,3 +53,4 @@
         </div>
     </div>
 </div>
+@stop

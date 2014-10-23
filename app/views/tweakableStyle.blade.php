@@ -4,13 +4,14 @@ body {
     position:relative;
 }
 
-p {
+p, .article {
     color:{{$tweakables['publication-p-color'] or $default_tweakables['publication-p-color']}};
     font-family:{{$tweakables['publication-p-font'] or $default_tweakables['publication-p-font']}};
     font-size:{{$tweakables['publication-p-font-size'] or $default_tweakables['publication-p-font-size']}};
     font-weight:{{$tweakables['publication-p-font-weight'] or $default_tweakables['publication-p-font-weight']}};
     line-height:{{$tweakables['publication-p-line-height'] or $default_tweakables['publication-p-font-size']}};
 }
+
 
 h1 {
     color:{{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};

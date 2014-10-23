@@ -33,13 +33,13 @@ Route::filter('simpleAuth', function(){
 /*
 /**/
 Route::filter('force.ssl', function()
+{
+    if( ! Request::secure())
     {
-        if( ! Request::secure())
-        {
-            return Redirect::secure(Request::path());
-        }
+        return Redirect::secure(Request::path());
+    }
 
-    });
+});
 
 /*
 |--------------------------------------------------------------------------

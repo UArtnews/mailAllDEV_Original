@@ -12,6 +12,25 @@
  */
 
 //Utility and Uncategorized
+Route::get('ckeditor', function(){
+    //Simple page with ckeditor stuff.
+
+    //Fetch Instance out of DB
+    $instance = Instance::find(2);
+    $data = array(
+        'instance'		=> $instance,
+        'instanceId'	=> $instance->id,
+        'instanceName'	=> $instance->name,
+        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+        'action'                   => 'test'
+    );
+
+    return View::make('editor.ckeditor',$data);
+});
+//This one will eventually go away or change drastically
 Route::get('/', 'HomeController@index');
 
 //////////////////////////
@@ -60,7 +79,7 @@ Route::get('/{instanceName}/', function($instanceName){
         $data['publication'] = $publication;
     }
 
-    return View::make('public.master')->with($data);
+    return View::make('public.publication')->with($data);
 });
 
 //Show this article with share buttons and stuff
@@ -99,7 +118,7 @@ Route::get('/{instanceName}/article/{article_id}', function($instanceName, $arti
     //Populate $data
     $data['article'] = $article;
 
-    return View::make('public.master')->with($data);
+    return View::make('public.article')->with($data);
 });
 
 
@@ -117,8 +136,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
             'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-            'isPublication'                => true
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name')
         );
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -142,7 +160,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
         $data['publication'] = $publication;
     }
 
-    return View::make('public.master')->with($data);
+    return View::make('public.publication')->with($data);
 });
 
 //Show archives
@@ -183,7 +201,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
         $data['publications'] = $publications;
 
     }
-    return View::make('archive')->with($data);
+    return View::make('public.archive')->with($data);
 });
 
 //Show search results for public users
@@ -197,6 +215,7 @@ Route::get('/{instanceName}/search', function($instanceName){
         'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
         'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
         'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+        'searchValue'              => Input::get('search')
     );
 
     if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -242,7 +261,7 @@ Route::get('/{instanceName}/search', function($instanceName){
         $data['publicationResults'] = array();
     }
 
-    return View::make('public.publicSearch')->with($data);
+    return View::make('public.search')->with($data);
 });
 
 //////////////////////////////////
@@ -340,6 +359,8 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'isEditable'               => false,
+            'shareIcons'               => false,
         );
 
         //Get This Publication
@@ -369,6 +390,13 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
 
         $inlineHTML = $inliner->convert();
 
+//        $inlineHTML = str_replace('<div','<span',$inlineHTML);
+//        $inlineHTML = str_replace('</div','</span',$inlineHTML);
+        $inlineHTML = preg_replace('/>\s*</','><',$inlineHTML);
+        $inlineHTML = preg_replace('/( line-height)(.*?);/','><',$inlineHTML);
+
+        //echo $inlineHTML;die;
+
         if(Input::has('addressTo') && Input::has('addressFrom')){
             Mail::send('html', array('html' => $inlineHTML), function($message){
                     $message->to(Input::get('addressTo'))
@@ -381,9 +409,8 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
         }
 
 
-        $data['insertCss'] = true;
         $data['isEmail'] = false;
-        return View::make('emailPublication', $data);
+        return View::make('emailPublication', $data)->withMessage('Email Sent Successfully!');
     });
 
 

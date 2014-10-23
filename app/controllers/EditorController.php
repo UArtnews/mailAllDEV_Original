@@ -18,7 +18,7 @@ class EditorController extends \BaseController
         //Populate $data
         $data['publication'] = $publication;
 
-        return View::make('editor', $data);
+        return View::make('editor.editorDefault', $data);
     }
 
 
@@ -41,7 +41,7 @@ class EditorController extends \BaseController
                 $data['directIsLoaded'] = true;
             }
         }
-        return View::make('editor', $data);
+        return View::make('editor.articleList', $data);
     }
 
     ////////////////////////////////////////////////
@@ -50,7 +50,7 @@ class EditorController extends \BaseController
     public function article($subAction, $data){
         $data['article'] = Article::find($subAction);
 
-        return View::make('editor', $data);
+        return View::make('editor.articleEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -63,7 +63,7 @@ class EditorController extends \BaseController
             'desc'
         )->paginate(15);
         
-        return View::make('editor', $data);
+        return View::make('editor.submissionEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -180,7 +180,7 @@ class EditorController extends \BaseController
         $cal->setEvents($calPubs);
         $data['calendar'] = $cal->generate();
 
-        return View::make('editor', $data);
+        return View::make('editor.publicationList', $data);
     }
 
     ////////////////////////////////////////////////
@@ -196,7 +196,7 @@ class EditorController extends \BaseController
             '%' . $data['publication']->publish_date . '%'
         )->get();
 
-        return View::make('editor', $data);
+        return View::make('editor.publicationEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -207,7 +207,7 @@ class EditorController extends \BaseController
             $data['publish_date'] = date('m/d/Y', strtotime(urldecode(Input::get('publish_date'))));
         }
 
-        return View::make('editor', $data);
+        return View::make('editor.newPublicationEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -216,7 +216,7 @@ class EditorController extends \BaseController
     public function images($subAction, $data){
         $data['images'] = Image::where('instance_id', $data['instance']->id)->orderBy('created_at', 'DESC')->get();
 
-        return View::make('editor', $data);
+        return View::make('editor.imageEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -280,7 +280,19 @@ class EditorController extends \BaseController
         $data['workflowTweakables'] = array(
             'global-accepts-submissions'
         );
-        return View::make('editor', $data);
+
+        $publication = Publication::with('articles')->
+            where('instance_id', $data['instance']->id)->
+            where('published', 'Y')->
+            orderBy('publish_date', 'desc')->
+            first();
+
+        $data['publication'] = $publication;
+        $data['isEditable'] = false;
+        $data['isEmail'] = false;
+        $data['shareIcons'] = false;
+
+        return View::make('editor.settingEditor', $data);
     }
 
     ////////////////////////////////////////////////
@@ -395,14 +407,14 @@ class EditorController extends \BaseController
                     })->get();
         }
 
-        return View::make('editor', $data);
+        return View::make('editor.searchResults', $data);
     }
 
     ////////////////////////////////////////////////
     //  edit/{instanceName}/help/{subAction}
     ////////////////////////////////////////////////
     public function help($subAction, $data){
-        return View::make('editor', $data);
+        return View::make('editor.help', $data);
     }
 
 

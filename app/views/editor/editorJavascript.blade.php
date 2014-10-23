@@ -140,7 +140,9 @@
         $('.editable').click(function() {
             editorClick(this);
         });
+
     });
+
 
     function editorClick(elem){
         //Get idNum
@@ -313,6 +315,7 @@
             publication_id = thisObject.closest('.contentDiv').attr('id').replace('publication','');
             savePublicationOrder(publication_id);
         }
+
     }
 
     function saveImage(elem){

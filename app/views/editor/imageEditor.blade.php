@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 {{--  This Doubles as the Image Search Results  Just pass $isSearch as true to nerf new image stuff  --}}
 <div class="panel panel{{ isset($isSearch) && $isSearch ? '-info' : '-default' }} colorPanel">
     <div class="panel-heading" id="imagesHead">
@@ -112,3 +114,4 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+@stop

@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="publicationPanelHead">
         Publication Editor
@@ -9,3 +11,5 @@
     <div class="panel-footer" id="publicationPanelFoot">
     </div>
 </div>
+@include('editor.sendEmailModal')
+@stop

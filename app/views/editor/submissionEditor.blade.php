@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="articlePanelHead">
         Submission Editor
@@ -129,3 +131,4 @@
     <div class="panel-footer" id="submissionPanelFoot">
     </div>
 </div>
+@stop

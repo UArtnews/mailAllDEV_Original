@@ -1,3 +1,5 @@
+@extends('editor.master')
+@section('content')
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="searchResultsHead">
         Search Results
@@ -19,3 +21,4 @@
     <div class="panel-footer" id="searchResultsPanelFoot">
     </div>
 </div>
+@stop
