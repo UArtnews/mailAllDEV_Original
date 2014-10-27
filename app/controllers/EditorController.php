@@ -9,10 +9,13 @@ class EditorController extends \BaseController
     public function index($subAction, $data){
         //Get most recent live publication
         $data['instance']->id;
-        $publication = Publication::with('articles')->
-            where('instance_id', $data['instance']->id)->
+        $publication = Publication::where('instance_id', $data['instance']->id)->
             where('published', 'Y')->
+            where('type', 'regular')->
             orderBy('publish_date', 'desc')->
+            with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->
             first();
 
         //Populate $data
@@ -73,7 +76,10 @@ class EditorController extends \BaseController
         $data['publications'] = Publication::where('instance_id', $data['instance']->id)->orderBy(
             'publish_date',
             'desc'
-        )->with('articles')->paginate(15);
+        )->with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->
+        paginate(15);
 
         foreach ($data['publications'] as $publication) {
             $publication->submissions = Article::where('instance_id', $data['instance']->id)->where(
@@ -84,13 +90,19 @@ class EditorController extends \BaseController
         }
 
         //Get most recent live publication
-        $data['currentLivePublication'] = Publication::with('articles')->where('instance_id', $data['instance']->id)->
+        $data['currentLivePublication'] = Publication::where('instance_id', $data['instance']->id)->
         where('published', 'Y')->
+        where('type', 'regular')->
+        with(array('articles' => function($query){
+            $query->orderBy('order', 'asc');
+        }))->
         orderBy('publish_date', 'desc')->first();
 
 
         if ($subAction != '') {
-            $data['directPublication'] = Publication::with('articles')->find($subAction);
+            $data['directPublication'] = Publication::find($subAction)->with(array('articles' => function($query){
+                    $query->orderBy('order', 'asc');
+                }));
 
             if (count($data['directPublication']) == 0) {
                 $data['directPublication'] = Publication::find($subAction);
@@ -281,10 +293,13 @@ class EditorController extends \BaseController
             'global-accepts-submissions'
         );
 
-        $publication = Publication::with('articles')->
-            where('instance_id', $data['instance']->id)->
+        $publication = Publication::where('instance_id', $data['instance']->id)->
             where('published', 'Y')->
+            where('type', 'regular')->
             orderBy('publish_date', 'desc')->
+            with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->
             first();
 
         $data['publication'] = $publication;

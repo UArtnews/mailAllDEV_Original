@@ -12,4 +12,5 @@
     </div>
 </div>
 @include('editor.sendEmailModal')
+@include('editor.fromCartModals')
 @stop

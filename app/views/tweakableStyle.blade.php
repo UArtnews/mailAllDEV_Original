@@ -88,3 +88,9 @@ h4 {
     top:0px;
     left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
 }
+
+hr {
+    margin-top:10px;
+    margin-bottom:10px;
+    border-top:1px solid #cccccc;
+}

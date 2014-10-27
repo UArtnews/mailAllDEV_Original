@@ -17,4 +17,13 @@ class Publication extends Eloquent {
         return $this->belongsTo('Instance');
     }
 
+    public function hasRepeat(){
+        foreach($this->articles as $article){
+            if($article->isPublished($this->id) && $article->likeNew($this->id) !== 'Y'){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

@@ -6,30 +6,11 @@
  *
  * 3.  Public Logged In Ajax
  *
- * 4.  Editor Logged In Routes
+ * 4.  Editor Logged In Ajax Routes
  *
- * 5.  Editor Logged In Ajax Routes
+ * 5.  Editor Logged In Routes
  */
 
-//Utility and Uncategorized
-Route::get('ckeditor', function(){
-    //Simple page with ckeditor stuff.
-
-    //Fetch Instance out of DB
-    $instance = Instance::find(2);
-    $data = array(
-        'instance'		=> $instance,
-        'instanceId'	=> $instance->id,
-        'instanceName'	=> $instance->name,
-        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        'action'                   => 'test'
-    );
-
-    return View::make('editor.ckeditor',$data);
-});
 //This one will eventually go away or change drastically
 Route::get('/', 'HomeController@index');
 
@@ -73,7 +54,14 @@ Route::get('/{instanceName}/', function($instanceName){
         }
 
         //Get most recent live publication
-        $publication = Publication::with('articles')->where('instance_id',$instance->id)->where('published','Y')->orderBy('publish_date','desc')->first();
+        $publication = Publication::where('instance_id',$instance->id)->
+        where('published','Y')->
+        where('type', 'regular')->
+        orderBy('publish_date','desc')->
+        with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->
+        first();
 
         //Populate $data
         $data['publication'] = $publication;
@@ -154,7 +142,9 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
         }
 
         //Get this publication
-        $publication = Publication::with('articles')->where('id', $publication_id)->where('published','Y')->first();
+        $publication = Publication::where('id', $publication_id)->where('published','Y')->with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->first();
 
         //Populate $data
         $data['publication'] = $publication;
@@ -180,6 +170,33 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
             'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
         );
 
+        //Setup dropdowns for searching
+        $data['years'] = array('--' => '--');
+
+        foreach($data['years'] as $index => $value){
+            $index = $value;
+        }
+
+        foreach(range(date('Y'), date('Y')-5) as $year){
+            $data['years'][$year] = $year;
+        }
+
+        $data['months'] = array(
+            '--' => '--',
+            '1' => 'January',
+            '2' => 'February',
+            '3' => 'March',
+            '4' => 'April',
+            '5' => 'May',
+            '6' => 'June',
+            '7' => 'July',
+            '8' => 'August',
+            '9' => 'September',
+            '10' => 'October',
+            '11' => 'November',
+            '12' => 'December'
+        );
+
         if(isset($data['tweakables']['global-accepts-submissions'])){
             if($data['tweakables']['global-accepts-submissions']){
                 $data['submission'] = true;
@@ -195,7 +212,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
         }
 
         //Get some pubs
-        $publications = Publication::with('articles')->where('instance_id',$instance->id)->where('published','Y')->orderBy('publish_date','DESC')->paginate(15);
+        $publications = Publication::where('instance_id',$instance->id)->where('published','Y')->orderBy('publish_date','DESC')->paginate(15);
 
         //Populate $data
         $data['publications'] = $publications;
@@ -215,7 +232,37 @@ Route::get('/{instanceName}/search', function($instanceName){
         'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
         'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
         'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        'searchValue'              => Input::get('search')
+        'searchValue'              => Input::get('search'),
+        'year'                     => Input::has('year') ? Input::get('year') : '--',
+        'month'                    => Input::has('month') ? Input::get('month') : '--',
+        'querySummary'             => ''
+    );
+
+    //Setup dropdowns for searching
+    $data['years'] = array('--' => '--');
+
+    foreach($data['years'] as $index => $value){
+        $index = $value;
+    }
+
+    foreach(range(date('Y'), date('Y')-5) as $year){
+        $data['years'][$year] = $year;
+    }
+
+    $data['months'] = array(
+        '--' => '--',
+        '1' => 'January',
+        '2' => 'February',
+        '3' => 'March',
+        '4' => 'April',
+        '5' => 'May',
+        '6' => 'June',
+        '7' => 'July',
+        '8' => 'August',
+        '9' => 'September',
+        '10' => 'October',
+        '11' => 'November',
+        '12' => 'December'
     );
 
     if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -232,33 +279,41 @@ Route::get('/{instanceName}/search', function($instanceName){
         }
     }
 
-    //Get Articles which we'll find the pubs with
-    $data['articleResults'] = Article::where('instance_id', $instance->id)
-        ->where(function($query)
-            {
-                $query->Where('title','LIKE','%'.Input::get('search').'%')
-                    ->orWhere('content','LIKE','%'.Input::get('search').'%');
-            })->get();
+    $data['articleResults'] = DB::table('article')
+        ->join('publication_order', 'article.id', '=', 'publication_order.article_id')
+        ->join('publication', 'publication_order.publication_id', '=', 'publication.id')
+        ->select('article.id as article_id',
+             'article.title as title',
+             'article.updated_at as updated_at',
+             'article.created_at as created_at',
+             'publication.id as publication_id',
+             'publication.published',
+             'publication.publish_date'
+        )->where('publication.instance_id', $instance->id);
 
-    //If we returned articles, go find their publications
-    if(count($data['articleResults']) > 0){
-        //Create array of article ID's for looking up publications
-        $articleArray = array();
-        foreach($data['articleResults'] as $articleResult){
-            //make an array of all article id's
-            array_push($articleArray, $articleResult->id);
-        }
+    if($data['searchValue'] != ''){
+        $data['articleResults'] = $data['articleResults']->where(function ($query) {
+            $query->Where('article.title', 'LIKE', '%' . Input::get('search') . '%')
+                ->orWhere('article.content', 'LIKE', '%' . Input::get('search') . '%');
+        });
+        $data['querySummary'] .= ' where the article contains <strong>' . $data['searchValue'] . '</strong> ';
+    }
 
-        //Get Publications where Articles Appear
-        $data['publicationResults'] = DB::table('publication')
-            ->join('publication_order','publication.id','=','publication_order.publication_id')
-            ->whereIn('publication_order.article_id',$articleArray)
-            ->where('publication.published','Y' )
-            ->groupBy('publication.id')
-            ->get();
-    }else{
-        //Didn't find any, return empty array
-        $data['publicationResults'] = array();
+    if($data['year'] != '--' && $data['month'] == '--'){
+        $data['articleResults'] = $data['articleResults']
+            ->where('publication.publish_date','LIKE','%'.$data['year'].'%');
+        $data['querySummary'] .= ' published in <strong>' . $data['year'] . '</strong>.';
+    }elseif($data['year'] != '--' && $data['month'] != '--'){
+        $data['articleResults'] = $data['articleResults']
+            ->where('publication.publish_date','LIKE','%'.$data['year'].'-'.date('m',strtotime('2014-'.$data['month'].'-01')).'%');
+        $data['querySummary'] .= ' published in <strong>' . $data['months'][$data['month']] . '</strong> of <strong>' . $data['year'] . '</strong>.';
+    }
+
+    $data['articleResults'] = $data['articleResults']->orderBy('publication.publish_date', 'DESC')->paginate(15);
+    foreach($data['articleResults'] as $article){
+        $thisArticle = Article::find($article->article_id);
+        $article->original_publish_date = $thisArticle->originalPublishDate();
+        $article->original_publication_id = $thisArticle->originalPublication();
     }
 
     return View::make('public.search')->with($data);
@@ -277,142 +332,6 @@ Route::get('/submit/{instanceName}', 'SubmissionController@index');
 // 3.  Public Logged In Ajax  //
 //                            //
 ////////////////////////////////
-
-//////////////////////////////////
-//                              //
-// 4.  Editor Logged In Routes  //
-//                              //
-//////////////////////////////////
-//Editor Routing
-Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
-        $app = app();
-        $editorController = $app->make('EditorController');
-
-        //Fetch Instance out of DB
-        $instance = Instance::where('name', $instanceName)->firstOrFail();
-
-        //Stuff parameters into array
-        $parameters = array(
-            'subAction' => $subAction,
-            'data'      => array()
-        );
-
-        //Gather Data Common to all editor views
-        $parameters['data'] = array(
-            'action'                   => $action,
-            'subAction'                => $subAction,
-            'instance'                 => $instance,
-            'instanceId'               => $instance->id,
-            'instanceName'             => $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        );
-
-        //Stuff session data into data parameter
-        if (Session::has('cart')) {
-            $cart = Session::get('cart');
-
-            if (isset($cart[$instance->id])) {
-                $parameters['data']['cart'] = $cart[$instance->id];
-            }
-        }
-
-        //Stuff tweakables into data parameter
-        if (isset($parameters['data']['tweakables']['global-accepts-submissions'])) {
-            if ($parameters['data']['tweakables']['global-accepts-submissions']) {
-                $parameters['data']['submission'] = true;
-            } else {
-                $parameters['data']['submission'] = false;
-            }
-        } else {
-            if ($parameters['data']['default_tweakables']['global-accepts-submissions']) {
-                $parameters['data']['submission'] = true;
-            } else {
-                $parameters['data']['submission'] = false;
-            }
-        }
-
-        //Route to correct method in EditorController
-        //Default Editor Route
-        if($action == null){
-            return $editorController->callAction('index', $parameters);
-        }else{
-            return $editorController->callAction($action, $parameters);
-        }
-    });
-
-//Specific Saving Controller for things in the editor like saving settings
-Route::post('/save/{instanceName}/{action}', 'EditorController@save');
-
-//Fire off an email
-Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
-
-        $instance = Instance::where('name', $instanceName)->first();
-
-        $data = array(
-            'instance'		=> $instance,
-            'instanceId'	=> $instance->id,
-            'instanceName'	=> $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-            'isEditable'               => false,
-            'shareIcons'               => false,
-        );
-
-        //Get This Publication
-        $publication = Publication::with('articles')->find($publication_id);
-        $data['publication'] = $publication;
-        $data['isEmail'] = true;
-
-
-        //Publish if this is a real deal publish things
-        if(!Input::has('isTest')){
-            foreach($publication->articles as $article){
-                $thisArticle = Article::find($article->id);
-                $thisArticle->published = 'Y';
-                $thisArticle->save();
-            }
-
-            $publication->published = 'Y';
-            $publication->save();
-        }
-
-        $html = View::make('emailPublication', $data)->render();
-        $css = View::make('emailStyle', $data)->render();
-
-        $inliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
-        $inliner->setHTML($html);
-        $inliner->setCSS($css);
-
-        $inlineHTML = $inliner->convert();
-
-//        $inlineHTML = str_replace('<div','<span',$inlineHTML);
-//        $inlineHTML = str_replace('</div','</span',$inlineHTML);
-        $inlineHTML = preg_replace('/>\s*</','><',$inlineHTML);
-        $inlineHTML = preg_replace('/( line-height)(.*?);/','><',$inlineHTML);
-
-        //echo $inlineHTML;die;
-
-        if(Input::has('addressTo') && Input::has('addressFrom')){
-            Mail::send('html', array('html' => $inlineHTML), function($message){
-                    $message->to(Input::get('addressTo'))
-                        ->subject(Input::has('subject') ? Input::get('subject') : '')
-                        ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                });
-            $data['success'] = true;
-        }else{
-            $data['error'] = true;
-        }
-
-
-        $data['isEmail'] = false;
-        return View::make('emailPublication', $data)->withMessage('Email Sent Successfully!');
-    });
-
 
 //////////////////////////////////////
 //                                  //
@@ -561,13 +480,17 @@ Route::any('/editable/article/{article_id}/{publication_id?}', function($article
         'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
         'article'                  => $article,
         'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
-        'hideRepeat'               => $article->isPublished($publication_id) ? true : false
+        'hideRepeat'               => $article->isPublished($publication_id) ? true : false,
+        'isEmail'                  => false,
+        'isEditable'               => true
+    ,
+        'shareIcons'               => false,
     );
 
     if($publication_id != ''){
         $data['publication'] = Publication::find($publication_id);
     }
-    return View::make('publication.editableWebArticle', $data);
+    return View::make('article.article', $data);
 });
 
 Route::get('admin/login', array('before' => 'force.ssl', function(){
@@ -583,3 +506,133 @@ Route::get('admin/login', array('before' => 'force.ssl', function(){
 Route::get('admin/logout', function(){
     return Redirect::guest('/')->withCookie(Cookie::forget('urlSession'));
 });
+
+//////////////////////////////////
+//                              //
+// 5.  Editor Logged In Routes  //
+//                              //
+//////////////////////////////////
+//Editor Routing
+Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
+        $app = app();
+        $editorController = $app->make('EditorController');
+
+        //Fetch Instance out of DB
+        $instance = Instance::where('name', $instanceName)->firstOrFail();
+
+        //Stuff parameters into array
+        $parameters = array(
+            'subAction' => $subAction,
+            'data'      => array()
+        );
+
+        //Gather Data Common to all editor views
+        $parameters['data'] = array(
+            'action'                   => $action,
+            'subAction'                => $subAction,
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+        );
+
+        //Stuff session data into data parameter
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+
+            if (isset($cart[$instance->id])) {
+                $parameters['data']['cart'] = $cart[$instance->id];
+            }
+        }
+
+        //Stuff tweakables into data parameter
+        if (isset($parameters['data']['tweakables']['global-accepts-submissions'])) {
+            if ($parameters['data']['tweakables']['global-accepts-submissions']) {
+                $parameters['data']['submission'] = true;
+            } else {
+                $parameters['data']['submission'] = false;
+            }
+        } else {
+            if ($parameters['data']['default_tweakables']['global-accepts-submissions']) {
+                $parameters['data']['submission'] = true;
+            } else {
+                $parameters['data']['submission'] = false;
+            }
+        }
+
+        //Route to correct method in EditorController
+        //Default Editor Route
+        if($action == null){
+            return $editorController->callAction('index', $parameters);
+        }else{
+            return $editorController->callAction($action, $parameters);
+        }
+    });
+
+//Specific Saving Controller for things in the editor like saving settings
+Route::post('/save/{instanceName}/{action}', 'EditorController@save');
+
+//Fire off an email
+Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
+
+        $instance = Instance::where('name', $instanceName)->first();
+
+        $data = array(
+            'instance'		=> $instance,
+            'instanceId'	=> $instance->id,
+            'instanceName'	=> $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'isEditable'               => false,
+            'shareIcons'               => false,
+        );
+
+        //Get This Publication
+        $publication = Publication::find($publication_id)->with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }));
+        $data['publication'] = $publication;
+        $data['isEmail'] = true;
+
+
+        //Publish if this is a real deal publish things
+        if(!Input::has('isTest')){
+            foreach($publication->articles as $article){
+                $thisArticle = Article::find($article->id);
+                $thisArticle->published = 'Y';
+                $thisArticle->save();
+            }
+
+            $publication->published = 'Y';
+            $publication->save();
+        }
+
+        $html = View::make('emailPublication', $data)->render();
+        $css = View::make('emailStyle', $data)->render();
+
+        $inliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
+        $inliner->setHTML($html);
+        $inliner->setCSS($css);
+
+        $inlineHTML = $inliner->convert();
+
+        if(Input::has('addressTo') && Input::has('addressFrom')){
+            Mail::send('html', array('html' => $inlineHTML), function($message){
+                    $message->to(Input::get('addressTo'))
+                        ->subject(Input::has('subject') ? Input::get('subject') : '')
+                        ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                });
+            $data['success'] = true;
+        }else{
+            $data['error'] = true;
+        }
+
+
+        $data['isEmail'] = false;
+        return View::make('emailPublication', $data)->withMessage('Email Sent Successfully!');
+    });

@@ -57,4 +57,14 @@ class Article extends Eloquent {
             ->pluck('publication.id');
     }
 
+    public function originalPublishDate()
+    {
+        return DB::table('publication')
+            ->join('publication_order','publication.id','=','publication_order.publication_id')
+            ->where('publication.published','=','Y')
+            ->where('publication_order.article_id','=',$this->id)
+            ->orderBy('publication.publish_date','ASC')
+            ->pluck('publication.publish_date');
+    }
+
 }

@@ -450,7 +450,7 @@
 
                 //Toggle indicator in articles
                 if( '{{ $action }}' == 'articles'){
-                    $('.addToCartButton'+idNum).attr('onclick', 'addArticleFromCart('+idNum+');');
+                    $('.addToCartButton'+idNum).attr('onclick', 'addArticleToCart('+idNum+');');
                     $('.badge', '.addToCartButton'+idNum).removeClass('alert-danger').addClass('alert-success').text('Add Article to Cart');
                 }
             }else if(data['error']){

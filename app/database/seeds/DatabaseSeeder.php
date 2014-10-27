@@ -11,15 +11,20 @@ class DatabaseSeeder extends Seeder {
 	{
 		Eloquent::unguard();
 
-		//$this->call('UserTableSeeder');
-		$this->call('InstanceTableSeeder');
-		$this->call('UsersTableSeeder');
-		$this->call('ArticleTableSeeder');
-		//$this->call('TweakableTableSeeder');
-		$this->call('PublicationTableSeeder');
-		$this->call('DefaultTweakableTableSeeder');
-		$this->call('PublicationOrderTableSeeder');
-		//$this->call('ImagesTableSeeder');
+        //OLD Process
+//		//$this->call('UserTableSeeder');
+//		$this->call('InstanceTableSeeder');
+//		$this->call('UsersTableSeeder');
+//		$this->call('ArticleTableSeeder');
+//		//$this->call('TweakableTableSeeder');
+//		$this->call('PublicationTableSeeder');
+//		$this->call('DefaultTweakableTableSeeder');
+//		$this->call('PublicationOrderTableSeeder');
+//		//$this->call('ImagesTableSeeder');
+
+        $this->call('InstanceTableSeeder');
+        $this->call('PublicationImporter');
+        $this->call('DefaultTweakableTableSeeder');
 	}
 
 }
