@@ -20,51 +20,58 @@ Route::get('/', 'HomeController@index');
 //                      //
 //////////////////////////
 
+//POST route for Bitbucket WebHook
+Route::any('/bitbucket/{token}', function($token){
+    shell_exec('git pull origin dev');
+});
+
 //Show live publication in stripped down reader
 Route::get('/{instanceName}/', function($instanceName){
 
     //Fetch Instance out of DB
     $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
 
-    if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
 
-        $data = array(
-            'instance'		=> $instance,
-            'instanceId'	=> $instance->id,
-            'instanceName'	=> $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-            'isPublication'            => true
-        );
+    $data = array(
+        'instance'		=> $instance,
+        'instanceId'	=> $instance->id,
+        'instanceName'	=> $instance->name,
+        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+        'isPublication'            => true
+    );
 
-        if(isset($data['tweakables']['global-accepts-submissions'])){
-            if($data['tweakables']['global-accepts-submissions']){
-                $data['submission'] = true;
-            }else{
-                $data['submission'] = false;
-            }
+    if(isset($data['tweakables']['global-accepts-submissions'])){
+        if($data['tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
         }else{
-            if($data['default_tweakables']['global-accepts-submissions']){
-                $data['submission'] = true;
-            }else{
-                $data['submission'] = false;
-            }
+            $data['submission'] = false;
         }
-
+    }else{
+        if($data['default_tweakables']['global-accepts-submissions']){
+            $data['submission'] = true;
+        }else{
+            $data['submission'] = false;
+        }
+    }
+    if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0) {
         //Get most recent live publication
-        $publication = Publication::where('instance_id',$instance->id)->
-        where('published','Y')->
+        $data['publication'] = Publication::where('instance_id', $instance->id)->
+        where('published', 'Y')->
         where('type', 'regular')->
-        orderBy('publish_date','desc')->
-        with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->
+        orderBy('publish_date', 'desc')->
+        with(
+            array(
+                'articles' => function ($query) {
+                    $query->orderBy('order', 'asc');
+                }
+            )
+        )->
         first();
-
-        //Populate $data
-        $data['publication'] = $publication;
+    }else{
+        $data['publication'] = null;
     }
 
     return View::make('public.publication')->with($data);
@@ -488,7 +495,7 @@ Route::any('/editable/article/{article_id}/{publication_id?}', function($article
     );
 
     if($publication_id != ''){
-        $data['publication'] = Publication::find($publication_id);
+        $data['publication'] = Publication::where('id', $publication_id)->first();
     }
     return View::make('article.article', $data);
 });
@@ -593,9 +600,12 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
         );
 
         //Get This Publication
-        $publication = Publication::find($publication_id)->with(array('articles' => function($query){
+        $publication = Publication::where('id', $publication_id)->
+            where('instance_id', $instance->id)->
+            with(array('articles' => function($query){
                 $query->orderBy('order', 'asc');
-            }));
+            }))->first();
+
         $data['publication'] = $publication;
         $data['isEmail'] = true;
 

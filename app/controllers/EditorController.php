@@ -98,33 +98,6 @@ class EditorController extends \BaseController
         }))->
         orderBy('publish_date', 'desc')->first();
 
-
-        if ($subAction != '') {
-            $data['directPublication'] = Publication::find($subAction)->with(array('articles' => function($query){
-                    $query->orderBy('order', 'asc');
-                }));
-
-            if (count($data['directPublication']) == 0) {
-                $data['directPublication'] = Publication::find($subAction);
-            }
-
-            $data['directPublication']->submissions = Article::where('instance_id', $data['instance']->id)->where(
-                'issue_dates',
-                'LIKE',
-                '%' . $data['directPublication']->publish_date . '%'
-            )->get();
-            $data['directPublication']->id = $subAction;
-
-            $data['directIsLoaded'] = false;
-
-            //Check if this publication will be loaded and can be shortcut
-            foreach ($data['publications'] as $publication) {
-                if ($publication->id == $subAction) {
-                    $data['directIsLoaded'] = true;
-                }
-            }
-        }
-
         $calPubs = array();
         foreach (Publication::where('instance_id', $data['instance']->id)->get() as $publication) {
             $button = '';
@@ -199,7 +172,11 @@ class EditorController extends \BaseController
     //  edit/{instanceName}/publication/{subAction}
     ////////////////////////////////////////////////
     public function publication($subAction, $data){
-        $data['publication'] = Publication::find($subAction);
+        $data['publication'] = Publication::where('id', $subAction)->
+        where('instance_id', $data['instance']->id)->
+        with(array('articles' => function($query){
+            $query->orderBy('order', 'asc');
+        }))->first();
 
         //Package submissions
         $data['publication']->submissions = Article::where('instance_id', $data['instance']->id)->where(
@@ -284,6 +261,7 @@ class EditorController extends \BaseController
         );
 
         $data['headerFooterTweakables'] = array(
+            'publication-web-header',
             'publication-header',
             'publication-footer',
             'publication-repeat-separator',

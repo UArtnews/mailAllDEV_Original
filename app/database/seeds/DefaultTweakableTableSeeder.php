@@ -17,7 +17,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-h1-color'                  => array('H1 Color', '#19223B', 'color'),
             'publication-h1-font'                   => array('H1 Font', "'Helvetica Neue', Helvetica, Arial, sans-serif", 'font'),
             'publication-h1-font-size'              => array('H1 Size', '36px', 'text'),
-            'publication-h1-font-weight'            => array('H2 Weight', 'normal', 'weight'),
+            'publication-h1-font-weight'            => array('H1 Weight', 'normal', 'weight'),
             'publication-h1-line-height'            => array('H1 Line Height', '100%', 'text'),
 
             'publication-h2-color'                  => array('H2 Color', '#19223B', 'color'),
@@ -40,9 +40,9 @@ class DefaultTweakableTableSeeder extends Seeder {
 
             'publication-p-color'                   => array('Paragraph Text Color', 'rgb(0,0,0)', 'color'),
             'publication-p-font'                    => array('Paragraph Font', "'Helvetica Neue', Helvetica, Arial, sans-serif", 'font'),
-            'publication-p-font-size'               => array('Paragraph Font Size', '1em', 'text'),
+            'publication-p-font-size'               => array('Paragraph Font Size', '14px', 'text'),
             'publication-p-font-weight'             => array('Paragraph Weight', 'normal', 'weight'),
-            'publication-p-line-height'             => array('Paragraph Line Height', '100%', 'text'),
+            'publication-p-line-height'             => array('Paragraph Line Height', '120%', 'text'),
 
             //Content/Structure Stuff
             'publication-banner-image'              => array('Banner Image URL (ensure banner is not too large!)', 'http://lorempixel.com/500/200', 'text'),
@@ -53,7 +53,8 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-repeated-items'            => array('Automatically Place Repeated Articles at Bottom of Publicaiton', false, 'bool'),
             'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', false, 'bool'),
             'publication-headline-summary-position' => array('Positioning of Headline Summary', 'center', 'select'),
-            'publication-header'                    => array('Header Content', '', 'textarea'),
+            'publication-header'                    => array('Email Header Content', '', 'textarea'),
+            'publication-web-header'                => array('Web Only Header Content', '<h4>**DATE**</h4>', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),

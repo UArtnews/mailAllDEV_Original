@@ -91,7 +91,7 @@ class PublicationController extends \BaseController
     public function update($id)
     {
         //
-        $publication = Publication::find($id);
+        $publication = Publication::where('id', $id)->first();
 
         $inputArr = array();
 
@@ -133,7 +133,7 @@ class PublicationController extends \BaseController
         $publication_id = urldecode(Request::segment(4));
 
         //Update Publication Model
-        $publication = Publication::findOrFail($publication_id)->touch();
+        $publication = Publication::where('id', $publication_id)->first()->touch();
 
         //Update PublicationOrder Model
         PublicationOrder::where('publication_id',$publication_id)->delete();

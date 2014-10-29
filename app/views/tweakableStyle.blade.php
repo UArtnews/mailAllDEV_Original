@@ -12,6 +12,24 @@ p, .article {
     line-height:{{$tweakables['publication-p-line-height'] or $default_tweakables['publication-p-font-size']}};
 }
 
+.article {
+    overflow:auto;
+    padding-bottom:1em;
+}
+
+@if(isset($tweakables['publication-hr-articles']))
+    @if($tweakables['publication-hr-articles'] == 1)
+    .article {
+        margin-bottom:1em;
+        border-bottom:1px solid #cccccc;
+    }
+    @endif
+@elseif($default_tweakables['publication-hr-articles'] == 1)
+    .article {
+        margin-bottom:1em;
+        border-bottom:1px solid #cccccc;
+    }
+@endif
 
 h1 {
     color:{{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
@@ -87,10 +105,4 @@ h4 {
     position:absolute;
     top:0px;
     left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
-}
-
-hr {
-    margin-top:10px;
-    margin-bottom:10px;
-    border-top:1px solid #cccccc;
 }

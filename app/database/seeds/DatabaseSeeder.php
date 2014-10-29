@@ -23,8 +23,10 @@ class DatabaseSeeder extends Seeder {
 //		//$this->call('ImagesTableSeeder');
 
         $this->call('InstanceTableSeeder');
-        $this->call('PublicationImporter');
         $this->call('DefaultTweakableTableSeeder');
+        $this->call('PublicationImporter');
+        //$this->call('DigestFix');
+
 	}
 
 }
