@@ -21,8 +21,19 @@ Route::get('/', 'HomeController@index');
 //////////////////////////
 
 //POST route for Bitbucket WebHook
-Route::any('/bitbucket/{token}', function($token){
-    shell_exec('git pull origin dev');
+Route::post('/bitbucket/{token}', function($token){
+    if(Input::has('commits') && $token == '5237239250'){
+        $commits = Input::get('commits');
+        $doPull = false;
+
+        foreach($commits as $commit){
+            if($commit['branch'] == 'dev')
+                $doPull = true;
+        }
+
+        if($doPull)
+            return shell_exec('git pull origin dev');
+    }
 });
 
 //Show live publication in stripped down reader
