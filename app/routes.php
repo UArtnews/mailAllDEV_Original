@@ -12,7 +12,10 @@
  */
 
 //This one will eventually go away or change drastically
-Route::get('/', 'HomeController@index');
+//Route::get('/', 'HomeController@index');
+Route::get('/', function(){
+    return Response::json(apache_get_modules);
+});
 
 //////////////////////////
 //                      //
@@ -27,8 +30,9 @@ Route::post('/bitbucket/{token}', function($token){
         $doPull = false;
 
         foreach($commits as $commit){
-            if($commit['branch'] == 'dev')
+            if($commit['branch'] == 'dev') {
                 $doPull = true;
+            }
         }
 
         if($doPull)
