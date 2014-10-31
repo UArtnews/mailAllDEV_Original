@@ -14,7 +14,7 @@
 //This one will eventually go away or change drastically
 //Route::get('/', 'HomeController@index');
 Route::get('/', function(){
-    return Response::json(apache_get_modules);
+    return Response::json(apache_get_modules());
 });
 
 //////////////////////////
