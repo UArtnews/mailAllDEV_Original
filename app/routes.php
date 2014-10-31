@@ -14,7 +14,11 @@
 //This one will eventually go away or change drastically
 //Route::get('/', 'HomeController@index');
 Route::get('/', function(){
-    return Response::json(apache_get_modules());
+    $output = '';
+    foreach(apache_get_modules() as $module){
+        $output .= $module . "<br/>";
+    }
+    return $output;
 });
 
 //////////////////////////
