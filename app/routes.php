@@ -35,8 +35,11 @@ Route::any('/bitbucket/{token}', function($token){
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
-
-    $log = File::get('/web_content/share/mailAllSource/log.txt');
+    if(File::exists('/web_content/share/mailAllSource/log.txt')){
+        $log = File::get('/web_content/share/mailAllSource/log.txt');
+    }else{
+        $log = '';
+    }
     if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
