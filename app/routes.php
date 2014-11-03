@@ -29,9 +29,9 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
-    $input = Input::get('payload');
+    $input = json_decode(Input::get('payload'));
     $log = "Log Header \n\n";
-    File::put('/web_content/share/mailAllSource/log.json', var_dump($_POST));
+    File::put('/web_content/share/mailAllSource/log.json', $input);
     if(isset($input['commits']) && $token == '5237239250'){
         $log .= "Payload Recieved:\n";
         $commits = $input['commits'];
@@ -41,7 +41,7 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-        
+
         if($doPull) {
             $log .= "Doing Pull!\n";
             //return shell_exec('git pull origin dev');
