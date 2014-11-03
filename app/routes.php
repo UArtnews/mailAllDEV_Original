@@ -31,12 +31,16 @@ Route::get('/', function(){
 Route::any('/bitbucket/{token}', function($token){
     //Branch to pull
     $branch = 'dev';
+    //Path for log file
+    $path = '/web_content/share/mailAllSource/log.txt';
+    //Token from bitbucket (Keep this unique per app)
+    $theToken = 5237239250;
 
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
-    if(isset($input->commits) && $token == '5237239250'){
+    if(isset($input->commits) && $token == $theToken){
         $commits = $input->commits;
         $doPull = false;
         foreach($commits as $commit) {
@@ -49,7 +53,7 @@ Route::any('/bitbucket/{token}', function($token){
             $log .= shell_exec('git pull origin ' . $branch);
         }
     }
-    File::put('/web_content/share/mailAllSource/log.txt', $log);
+    File::put($path, $log);
 });
 
 //Show live publication in stripped down reader
