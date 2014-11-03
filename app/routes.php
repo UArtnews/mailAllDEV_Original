@@ -11,8 +11,13 @@
  * 5.  Editor Logged In Routes
  */
 
+
+Route::get('/', function() {
+    return 'Yay';
+});
 //This one will eventually go away or change drastically
-Route::get('/', 'HomeController@index');
+//Route::get('/', 'HomeController@index');
+
 
 //////////////////////////
 //                      //
