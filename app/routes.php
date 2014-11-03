@@ -39,7 +39,6 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-
         if($doPull)
             return shell_exec('git pull origin dev');
     }else {
