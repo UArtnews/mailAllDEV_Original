@@ -31,6 +31,7 @@ Route::get('/', function(){
 Route::any('/bitbucket/{token}', function($token){
     $input = Input::get('payload');
     File::put('/web_content/share/mailAllSource/log.json', $input['commits']);
+        
 
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
