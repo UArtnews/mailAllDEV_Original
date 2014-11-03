@@ -37,7 +37,7 @@ Route::any('/bitbucket/{token}', function($token){
     foreach($input as $name => $value){
         $stuff .= $name ."\n";
     }
-    $stuff .= "Commits Isset: " . isset($input['commits']) . "\n";
+    $stuff .= "Commits Isset: " . isset($input->commits) . "\n";
     $stuff .= "Token: " . $token . "\n";
 
     File::put('/web_content/share/mailAllSource/input.json', $stuff);
@@ -51,7 +51,6 @@ Route::any('/bitbucket/{token}', function($token){
             }
         }
 
-        
         if($doPull) {
             $log .= "Doing Pull!\n";
             //return shell_exec('git pull origin dev');
