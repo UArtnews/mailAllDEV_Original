@@ -29,13 +29,13 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
-    $payload = Input::get('payload');
-    File::put('/web_content/share/mailAllSource/log.json', Input::all());
+    $commits = Input::get('commits');
+    File::put('/web_content/share/mailAllSource/log.json', $commits);
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
         $doPull = false;
 
-        
+
         foreach($commits as $commit){
             if($commit['branch'] == 'dev') {
                 $doPull = true;
