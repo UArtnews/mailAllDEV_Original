@@ -36,6 +36,7 @@ Route::any('/bitbucket/{token}', function($token){
     //Token from bitbucket (Keep this unique per app)
     $theToken = 5237239250;
 
+
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
