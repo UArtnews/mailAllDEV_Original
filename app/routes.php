@@ -40,7 +40,7 @@ Route::any('/bitbucket/{token}', function($token){
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
-        
+
     if(isset($input->commits) && $token == $theToken){
         $commits = $input->commits;
         $doPull = false;
@@ -50,7 +50,7 @@ Route::any('/bitbucket/{token}', function($token){
             }
         }
         if($doPull) {
-            $log .= "Pulling $branch on " . date('Y-m-d H:m:s') . "\n";
+            $log .= "Pulling $branch on " . date("F j, Y, g:i a") . "\n";
             $log .= shell_exec('git pull origin ' . $branch);
         }
     }
