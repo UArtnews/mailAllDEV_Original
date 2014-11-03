@@ -41,7 +41,6 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-        
 
         if($doPull) {
             $log .= "Doing Pull!\n";
