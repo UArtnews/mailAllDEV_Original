@@ -45,6 +45,8 @@ Route::any('/bitbucket/{token}', function($token){
         if($doPull) {
             $log .= "Pulling $branch on " . date("F j, Y, g:i a") . "\n";
             $log .= shell_exec('git pull origin dev');
+            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
+            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
         }
     }
     File::put('/web_content/share/mailAllSource/log.txt', $log);
