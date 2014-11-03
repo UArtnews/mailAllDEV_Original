@@ -29,11 +29,11 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
+    File::put('log.json', json_encode(Input::all()));
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
         $doPull = false;
 
-        
         foreach($commits as $commit){
             if($commit['branch'] == 'dev') {
                 $doPull = true;
