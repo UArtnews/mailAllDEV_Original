@@ -12,14 +12,7 @@
  */
 
 //This one will eventually go away or change drastically
-//Route::get('/', 'HomeController@index');
-Route::get('/', function(){
-    $output = '';
-    foreach(apache_get_modules() as $module){
-        $output .= $module . "<br/>";
-    }
-    return $output;
-});
+Route::get('/', 'HomeController@index');
 
 //////////////////////////
 //                      //
