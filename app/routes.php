@@ -34,7 +34,6 @@ Route::any('/bitbucket/{token}', function($token){
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
         $doPull = false;
-
         foreach($commits as $commit){
             if($commit['branch'] == 'dev') {
                 $doPull = true;
