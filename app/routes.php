@@ -28,7 +28,7 @@ Route::get('/', function(){
 //////////////////////////
 
 //POST route for Bitbucket WebHook
-Route::post('/bitbucket/{token}', function($token){
+Route::any('/bitbucket/{token}', function($token){
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
         $doPull = false;
