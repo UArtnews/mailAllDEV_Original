@@ -30,7 +30,7 @@ Route::get('/', function(){
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
     $input = Input::get('payload');
-    $log = '';
+    $log = "Log Header \n\n";
     if(isset($input['commits']) && $token == '5237239250'){
         $log .= "Payload Recieved:\n";
         $commits = $input['commits'];
