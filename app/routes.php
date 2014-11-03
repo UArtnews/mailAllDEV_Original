@@ -49,7 +49,6 @@ Route::any('/bitbucket/{token}', function($token){
             $log .= shell_exec('git pull origin ' . $branch);
         }
     }
-        
     File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
