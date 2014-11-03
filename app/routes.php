@@ -50,7 +50,7 @@ Route::any('/bitbucket/{token}', function($token){
         $log .= "Incorrect token or no commits made!\n";
         //return 'HAHA, NOPE!';
     }
-    //File::put('/web_content/share/mailAllSource/log.json', $log);
+    File::put('/web_content/share/mailAllSource/log.json', $log);
 });
 
 //Show live publication in stripped down reader
