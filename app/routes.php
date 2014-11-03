@@ -41,6 +41,8 @@ Route::post('/bitbucket/{token}', function($token){
 
         if($doPull)
             return shell_exec('git pull origin dev');
+    }else {
+        return 'HAHA, NOPE!';
     }
 });
 
