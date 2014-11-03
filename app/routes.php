@@ -51,6 +51,7 @@ Route::any('/bitbucket/{token}', function($token){
             return;
         }
     }
+        
     File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
