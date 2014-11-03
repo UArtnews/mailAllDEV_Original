@@ -29,8 +29,6 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
-    //Branch to pull
-    $branch = 'dev';
     //Path for log file
     $path = '/web_content/share/mailAllSource/log.txt';
     //Token from bitbucket (Keep this unique per app)
@@ -46,13 +44,13 @@ Route::any('/bitbucket/{token}', function($token){
         $commits = $input->commits;
         $doPull = false;
         foreach($commits as $commit) {
-            if ($commit->branch == $branch) {
+            if ($commit->branch == 'dev') {
                 $doPull = true;
             }
         }
         if($doPull) {
             $log .= "Pulling $branch on " . date("F j, Y, g:i a") . "\n";
-            $log .= shell_exec('git pull origin ' . $branch);
+            $log .= shell_exec('git pull origin dev');
         }
     }
     File::put($path, $log);
