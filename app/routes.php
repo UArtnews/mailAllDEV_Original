@@ -40,16 +40,14 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-        
+
         if($doPull) {
             $log .= "Doing Pull!\n";
-            File::put('/web_content/share/mailAllSource/log.json', $log);
-            return shell_exec('git pull origin dev');
+            //return shell_exec('git pull origin dev');
         }
     }else {
         $log .= "Incorrect token or no commits made!\n";
-        File::put('/web_content/share/mailAllSource/log.json', $log);
-        return 'HAHA, NOPE!';
+        //return 'HAHA, NOPE!';
     }
     File::put('/web_content/share/mailAllSource/log.json', $log);
 });
