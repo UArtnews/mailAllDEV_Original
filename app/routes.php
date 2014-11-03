@@ -29,7 +29,7 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
-    $input = json_decode(Input::get('payload'));
+    $input = Input::get('payload');
     $log = "Log Header \n\n";
     File::put('/web_content/share/mailAllSource/log.json', $input);
     if(isset($input['commits']) && $token == '5237239250'){
