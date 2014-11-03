@@ -33,12 +33,13 @@ Route::any('/bitbucket/{token}', function($token){
     $path = '/web_content/share/mailAllSource/log.txt';
     //Token from bitbucket (Keep this unique per app)
     $theToken = 5237239250;
-        
+
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
 
+        
     if(isset($input->commits) && $token == $theToken){
         $commits = $input->commits;
         $doPull = false;
