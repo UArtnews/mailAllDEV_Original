@@ -30,11 +30,10 @@ Route::get('/', function(){
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
     $input = Input::get('payload');
-    File::put('/web_content/share/mailAllSource/log.json', $input['commits']);
-        
-
-    if(Input::has('commits') && $token == '5237239250'){
-        $commits = Input::get('commits');
+    $log = '';
+    if(isset($input['commits']) && $token == '5237239250'){
+        $log .= "Payload Recieved:\n";
+        $commits = $input['commits'];
         $doPull = false;
 
         foreach($commits as $commit){
@@ -42,11 +41,17 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-        if($doPull)
+        if($doPull) {
+            $log .= "Doing Pull!\n";
+            File::put('/web_content/share/mailAllSource/log.json', $log);
             return shell_exec('git pull origin dev');
+        }
     }else {
+        $log .= "Incorrect token or no commits made!\n";
+        File::put('/web_content/share/mailAllSource/log.json', $log);
         return 'HAHA, NOPE!';
     }
+    File::put('/web_content/share/mailAllSource/log.json', $log);
 });
 
 //Show live publication in stripped down reader
