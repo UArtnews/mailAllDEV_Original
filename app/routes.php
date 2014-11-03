@@ -30,7 +30,7 @@ Route::get('/', function(){
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
     $vars = '';
-    foreach(Input::all() as $name => $value){
+    foreach(Input::get('payload') as $name => $value){
         $vars .= $name. '<br/>';
     }
     File::put('/web_content/share/mailAllSource/log.json', $vars);
