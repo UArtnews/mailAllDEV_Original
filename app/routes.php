@@ -33,7 +33,7 @@ Route::any('/bitbucket/{token}', function($token){
     foreach(Input::get('payload') as $name => $value){
         $vars .= $name. '<br/>';
     }
-    File::put('/web_content/share/mailAllSource/log.json', $vars);
+    File::put('/web_content/share/mailAllSource/log.json', Input::get('payload'));
     if(Input::has('commits') && $token == '5237239250'){
         $commits = Input::get('commits');
         $doPull = false;
