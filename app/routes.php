@@ -47,9 +47,9 @@ Route::any('/bitbucket/{token}', function($token){
         if($doPull) {
             $log .= "Pulling $branch on " . date('Y-m-d H:m:s') . "\n";
             $log .= shell_exec('git pull origin ' . $branch);
-            return;
         }
     }
+        
     if(File::exists('/web_content/share/mailAllSource/log.txt')){
         File::append('/web_content/share/mailAllSource/log.txt', $log);
     }else {
