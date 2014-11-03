@@ -29,18 +29,12 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
-    //Path for log file
-    $path = '/web_content/share/mailAllSource/log.txt';
-    //Token from bitbucket (Keep this unique per app)
-    $theToken = 5237239250;
-
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
 
-        
-    if(isset($input->commits) && $token == $theToken){
+    if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
         foreach($commits as $commit) {
@@ -53,7 +47,7 @@ Route::any('/bitbucket/{token}', function($token){
             $log .= shell_exec('git pull origin dev');
         }
     }
-    File::put($path, $log);
+    File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
 //Show live publication in stripped down reader
