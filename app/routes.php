@@ -35,7 +35,6 @@ Route::any('/bitbucket/{token}', function($token){
         $log .= "Payload Recieved:\n";
         $commits = $input['commits'];
         $doPull = false;
-
         foreach($commits as $commit){
             if($commit['branch'] == 'dev') {
                 $doPull = true;
