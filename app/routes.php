@@ -44,7 +44,6 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-
         if($doPull) {
             $log .= "Pulling $branch on " . date('Y-m-d H:m:s') . "\n";
             $log .= shell_exec('git pull origin ' . $branch);
