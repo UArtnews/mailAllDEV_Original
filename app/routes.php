@@ -37,6 +37,7 @@ Route::any('/bitbucket/{token}', function($token){
     foreach($input as $name => $value){
         $stuff .= $name ."\n";
     }
+        
     $stuff .= "Commits Isset: " . isset($input->commits) . "\n";
     $stuff .= "Token: " . $token . "\n";
 
