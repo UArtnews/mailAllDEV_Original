@@ -35,12 +35,7 @@ Route::any('/bitbucket/{token}', function($token){
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
-    if(File::exists('/web_content/share/mailAllSource/log.txt')){
-        $log = File::get('/web_content/share/mailAllSource/log.txt');
-    }else{
-        $log = '';
-    }
-        
+
     if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
@@ -55,7 +50,11 @@ Route::any('/bitbucket/{token}', function($token){
             return;
         }
     }
-    File::put('/web_content/share/mailAllSource/log.txt', $log);
+    if(File::exists('/web_content/share/mailAllSource/log.txt')){
+        File::append('/web_content/share/mailAllSource/log.txt', $log);
+    }else {
+        File::put('/web_content/share/mailAllSource/log.txt', $log);
+    }
 });
 
 //Show live publication in stripped down reader
