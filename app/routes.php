@@ -29,37 +29,29 @@ Route::get('/', function(){
 
 //POST route for Bitbucket WebHook
 Route::any('/bitbucket/{token}', function($token){
+    //Branch to pull
+    $branch = 'dev';
+
     $input = Input::get('payload');
     $input = str_replace('\\"','"',$input);
-    $log = "Log Header \n\n";
     $input = json_decode($input);
-    $stuff = '';
-    foreach($input as $name => $value){
-        $stuff .= $name ."\n";
-    }
 
-    $stuff .= "Commits Isset: " . isset($input->commits) . "\n";
-    $stuff .= "Token: " . $token . "\n";
-
-    File::put('/web_content/share/mailAllSource/input.json', $stuff);
+    $log = File::get('/web_content/share/mailAllSource/log.txt');
     if(isset($input->commits) && $token == '5237239250'){
-        $log .= "Payload Recieved:\n";
         $commits = $input->commits;
         $doPull = false;
         foreach($commits as $commit) {
-            if ($commit->branch == 'dev') {
+            if ($commit->branch == $branch) {
                 $doPull = true;
             }
         }
         if($doPull) {
-            $log .= "Doing Pull!\n";
-            //return shell_exec('git pull origin dev');
+            $log .= "Pulling $branch on " . date('Y-m-d H:m:s') . "\n";
+            $log .= shell_exec('git pull origin ' . $branch);
+            return;
         }
-    }else {
-        $log .= "Incorrect token or no commits made!\n";
-        //return 'HAHA, NOPE!';
     }
-    File::put('/web_content/share/mailAllSource/log.json', $log);
+    File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
 //Show live publication in stripped down reader
