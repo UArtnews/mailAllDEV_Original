@@ -49,12 +49,7 @@ Route::any('/bitbucket/{token}', function($token){
             $log .= shell_exec('git pull origin ' . $branch);
         }
     }
-        
-    if(File::exists('/web_content/share/mailAllSource/log.txt')){
-        File::append('/web_content/share/mailAllSource/log.txt', $log);
-    }else {
-        File::put('/web_content/share/mailAllSource/log.txt', $log);
-    }
+    File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
 //Show live publication in stripped down reader
