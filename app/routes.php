@@ -40,6 +40,7 @@ Route::any('/bitbucket/{token}', function($token){
     }else{
         $log = '';
     }
+        
     if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
