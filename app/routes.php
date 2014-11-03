@@ -49,7 +49,6 @@ Route::any('/bitbucket/{token}', function($token){
             shell_exec('chmod 775 -R /web_content/share/mailAllSource');
         }
     }
-
     File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 
