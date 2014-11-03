@@ -31,16 +31,19 @@ Route::any('/bitbucket/{token}', function($token){
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
+    $msgs = '';
     if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
         foreach($commits as $commit) {
             if ($commit->branch == 'dev') {
                 $doPull = true;
+                $msgs .= $commit->author . ' - ' . $commit->message . "\n";
             }
         }
         if($doPull) {
             $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
+            $log .= $msgs;
             sleep(10);
             $log .= shell_exec('git pull origin dev');
             shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
