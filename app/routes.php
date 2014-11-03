@@ -31,7 +31,6 @@ Route::any('/bitbucket/{token}', function($token){
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
-
     if(isset($input->commits) && $token == '5237239250'){
         $commits = $input->commits;
         $doPull = false;
@@ -40,7 +39,6 @@ Route::any('/bitbucket/{token}', function($token){
                 $doPull = true;
             }
         }
-
         if($doPull) {
             $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
             sleep(10);
