@@ -40,6 +40,7 @@ Route::any('/bitbucket/{token}', function($token){
     $input = str_replace('\\"','"',$input);
     $input = json_decode($input);
     $log = '';
+        
     if(isset($input->commits) && $token == $theToken){
         $commits = $input->commits;
         $doPull = false;
