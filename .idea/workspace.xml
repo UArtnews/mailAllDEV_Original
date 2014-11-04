@@ -237,11 +237,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="17050">
-              <caret line="43" column="9" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
+            <state vertical-scroll-proportion="0.66964287" vertical-offset="650" max-vertical-offset="17075">
+              <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
               <folding>
                 <element signature="e#6#173#0#PHP" expanded="true" />
               </folding>
@@ -249,11 +249,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditorController.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EditorController.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4359504" vertical-offset="7453" max-vertical-offset="11550">
-              <caret line="315" column="59" selection-start-line="315" selection-start-column="59" selection-end-line="315" selection-end-column="59" />
+            <state vertical-scroll-proportion="-17.481482" vertical-offset="7453" max-vertical-offset="11550">
+              <caret line="317" column="65" selection-start-line="317" selection-start-column="65" selection-end-line="317" selection-end-column="65" />
               <folding>
                 <marker date="1415114042013" expanded="true" signature="5696:5717" placeholder="..." />
                 <marker date="1415114042013" expanded="true" signature="5856:5911" placeholder="..." />
@@ -345,7 +345,6 @@
         <option value="$PROJECT_DIR$/app/views/article/article.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/PublicationController.php" />
         <option value="$PROJECT_DIR$/app/views/editor/cartModal.blade.php" />
-        <option value="$PROJECT_DIR$/app/routes.php" />
         <option value="$PROJECT_DIR$/gulpfile.js" />
         <option value="$PROJECT_DIR$/less/materialDesign/_navbar.less" />
         <option value="$PROJECT_DIR$/app/views/editor/master.blade.php" />
@@ -356,6 +355,7 @@
         <option value="$PROJECT_DIR$/app/views/searchResults/publicationResults.blade.php" />
         <option value="$PROJECT_DIR$/app/views/searchResults/articleResults.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
+        <option value="$PROJECT_DIR$/app/routes.php" />
       </list>
     </option>
   </component>
@@ -370,7 +370,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="49" />
-    <option name="y" value="24" />
+    <option name="y" value="-1056" />
     <option name="width" value="1871" />
     <option name="height" value="1056" />
   </component>
@@ -838,7 +838,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
+    <frame x="49" y="-1056" width="1871" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1234,16 +1234,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="500" max-vertical-offset="17050">
-          <caret line="43" column="9" selection-start-line="43" selection-start-column="9" selection-end-line="43" selection-end-column="9" />
-          <folding>
-            <element signature="e#6#173#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/editor/imagePanel.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="2.839196" vertical-offset="0" max-vertical-offset="2975">
@@ -1291,11 +1281,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4359504" vertical-offset="7453" max-vertical-offset="11550">
-          <caret line="315" column="59" selection-start-line="315" selection-start-column="59" selection-end-line="315" selection-end-column="59" />
+        <state vertical-scroll-proportion="-17.481482" vertical-offset="7453" max-vertical-offset="11550">
+          <caret line="317" column="65" selection-start-line="317" selection-start-column="65" selection-end-line="317" selection-end-column="65" />
           <folding>
             <marker date="1415114042013" expanded="true" signature="5696:5717" placeholder="..." />
             <marker date="1415114042013" expanded="true" signature="5856:5911" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.66964287" vertical-offset="650" max-vertical-offset="17075">
+          <caret line="53" column="8" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="8" />
+          <folding>
+            <element signature="e#6#173#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
