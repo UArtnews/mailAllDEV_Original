@@ -1,5 +1,6 @@
 @extends('editor.master')
 @section('content')
+STUFF
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="searchResultsHead">
         Search Results
@@ -9,13 +10,13 @@
         @if($subAction == 'everything')
             @include('searchResults.articleResults',array('articleResults' => $articleResults))
             @include('searchResults.publicationResults',array('publicationResults' => $publicationResults))
-            @include('editor.imageEditor',array('images' => $imageResults, 'isSearch' => true))
+            @include('editor.imagePanel',array('images' => $imageResults, 'isSearch' => true))
         @elseif($subAction == 'articles')
             @include('searchResults.articleResults',array('articleResults' => $articleResults))
         @elseif($subAction == 'publications')
             @include('searchResults.publicationResults',array('publicationResults' => $publicationResults))
         @elseif($subAction == 'images')
-            @include('editor.imageEditor',array('images' => $imageResults, 'isSearch' => true))
+            @include('editor.imagePanel',array('images' => $imageResults, 'isSearch' => true))
         @endif
     </div>
     <div class="panel-footer" id="searchResultsPanelFoot">

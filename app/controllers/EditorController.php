@@ -306,14 +306,14 @@ class EditorController extends \BaseController
                         $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
                             ->orWhere('content', 'LIKE', '%' . Input::get('search') . '%');
                     }
-                )->get();
+                )->orderBy('created_at', 'DESC')->paginate(15);
 
             //Get Images
             $data['imageResults'] = Image::where('instance_id', $data['instance']->id)
                 ->where(function($query){
                         $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
                             ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
-                    })->get();
+                    })->orderBy('created_at', 'DESC')->get();
 
             //If we returned articles, go find their publications
             if (count($data['articleResults']) > 0) {
@@ -338,7 +338,8 @@ class EditorController extends \BaseController
                     ->where('publication.instance_id', $data['instance']->id)
                     ->whereIn('publication_order.article_id', $articleArray)
                     ->groupBy('publication.id')
-                    ->get();
+                    ->orderBy('publish_date', 'DESC')
+                    ->paginate(15);
             } else {
                 //Didn't find any, return empty array
                 $data['publicationResults'] = array();
@@ -352,7 +353,7 @@ class EditorController extends \BaseController
                         $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
                             ->orWhere('content', 'LIKE', '%' . Input::get('search') . '%');
                     }
-                )->get();
+                )->orderBy('created_at', 'DESC')->paginate(15);
             //Search Publications
         } elseif ($subAction == 'publications') {
             //Get Articles which we'll find the pubs with
@@ -362,7 +363,7 @@ class EditorController extends \BaseController
                         $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
                             ->orWhere('content', 'LIKE', '%' . Input::get('search') . '%');
                     }
-                )->get();
+                )->orderBy('updated_at', 'DESC')->paginate(15);
 
             //If we returned articles, go find their publications
             if (count($data['articleResults']) > 0) {
@@ -387,7 +388,8 @@ class EditorController extends \BaseController
                     ->where('publication.instance_id', $data['instance']->id)
                     ->whereIn('publication_order.article_id', $articleArray)
                     ->groupBy('publication.id')
-                    ->get();
+                    ->orderBy('publication.publish_date')
+                    ->paginate(15);
             } else {
                 //Didn't find any, return empty array
                 $data['publicationResults'] = array();
@@ -397,9 +399,9 @@ class EditorController extends \BaseController
                 ->where(function($query){
                         $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
                             ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
-                    })->get();
+                    })->orderBy('updated_at')->get();
         }
-
+        $data['searchVal'] = Input::get('search');
         return View::make('editor.searchResults', $data);
     }
 
