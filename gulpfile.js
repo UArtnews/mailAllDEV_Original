@@ -35,7 +35,11 @@ gulp.task('behat', function(){
 });
 
 gulp.task('less', function() {
-    return gulp.src(['./less/bootstrap/bootstrap.less'])
+    return gulp.src([
+            './less/bootstrap/bootstrap.less',
+            './less/materialDesign/material.less',
+            './less/materialDesign/ripples.less',
+            './less/materialDesign/material-wfont.less'])
         .pipe(less())
         .pipe(gulp.dest('./public/css'));
 });
