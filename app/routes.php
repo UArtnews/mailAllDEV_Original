@@ -46,12 +46,14 @@ Route::any('/bitbucket/{token}', function($token){
             $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
             $log .= $msgs . "\n";
             sleep(10);
+            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
+            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
             $log .= shell_exec('git pull origin dev');
             shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
             shell_exec('chmod 775 -R /web_content/share/mailAllSource');
         }
     }
-        
+
     File::put('/web_content/share/mailAllSource/log.txt', $log);
 });
 

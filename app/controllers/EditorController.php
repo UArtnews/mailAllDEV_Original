@@ -311,40 +311,30 @@ class EditorController extends \BaseController
             //Get Images
             $data['imageResults'] = Image::where('instance_id', $data['instance']->id)
                 ->where(function($query){
-                        $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
-                            ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
-                    })->orderBy('created_at', 'DESC')->get();
+                    $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
+                        ->orWhere('filename', 'LIKE', '%' . Input::get('search') . '%');
+                })->orderBy('created_at', 'DESC')->get();
 
-            //If we returned articles, go find their publications
-            if (count($data['articleResults']) > 0) {
-                //Create array of article ID's for looking up publications
-                $articleArray = array();
-                foreach ($data['articleResults'] as $articleResult) {
-                    //make an array of all article id's
-                    array_push($articleArray, $articleResult->id);
-                }
+            //Get Publications
+            $data['publicationResults'] = DB::table('publication')
+                ->select('publication.id',
+                    'publication.published',
+                    'publication.publish_date',
+                    'publication.created_at',
+                    'publication.updated_at',
+                    'article.id as article_id',
+                    'article.title')
+                ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                ->join('article', 'publication_order.article_id', '=', 'article.id')
+                ->where('publication.instance_id', $data['instance']->id)
+                ->where(function ($query) {
+                        $query->Where('article.title', 'LIKE', '%' . Input::get('search') . '%')
+                            ->orWhere('article.content', 'LIKE', '%' . Input::get('search') . '%');
+                    })->groupBy('publication.id')
+                ->orderBy('publication.publish_date', 'DESC')
+                ->paginate(15);
 
-                //Get Publications where Articles Appear
-                $data['publicationResults'] = DB::table('publication')
-                    ->select('publication.id',
-                        'publication.published',
-                        'publication.publish_date',
-                        'publication.created_at',
-                        'publication.updated_at',
-                        'article.id as article_id',
-                        'article.title')
-                    ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
-                    ->join('article', 'publication_order.article_id', '=', 'article.id')
-                    ->where('publication.instance_id', $data['instance']->id)
-                    ->whereIn('publication_order.article_id', $articleArray)
-                    ->groupBy('publication.id')
-                    ->orderBy('publish_date', 'DESC')
-                    ->paginate(15);
-            } else {
-                //Didn't find any, return empty array
-                $data['publicationResults'] = array();
-            }
-            //Search Articles
+        //Search Articles
         } elseif ($subAction == 'articles') {
             //Get Articles
             $data['articleResults'] = Article::where('instance_id', $data['instance']->id)
@@ -356,44 +346,25 @@ class EditorController extends \BaseController
                 )->orderBy('created_at', 'DESC')->paginate(15);
             //Search Publications
         } elseif ($subAction == 'publications') {
-            //Get Articles which we'll find the pubs with
-            $data['articleResults'] = Article::where('instance_id', $data['instance']->id)
-                ->where(
-                    function ($query) {
-                        $query->Where('title', 'LIKE', '%' . Input::get('search') . '%')
-                            ->orWhere('content', 'LIKE', '%' . Input::get('search') . '%');
-                    }
-                )->orderBy('updated_at', 'DESC')->paginate(15);
+            //Get Publications where Articles Appear
+            $data['publicationResults'] = DB::table('publication')
+                ->select('publication.id',
+                    'publication.published',
+                    'publication.publish_date',
+                    'publication.created_at',
+                    'publication.updated_at',
+                    'article.id as article_id',
+                    'article.title')
+                ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                ->join('article', 'publication_order.article_id', '=', 'article.id')
+                ->where('publication.instance_id', $data['instance']->id)
+                ->where(function ($query) {
+                        $query->Where('article.title', 'LIKE', '%' . Input::get('search') . '%')
+                            ->orWhere('article.content', 'LIKE', '%' . Input::get('search') . '%');
+                    })->groupBy('publication.id')
+                ->orderBy('publication.publish_date', 'DESC')
+                ->paginate(15);
 
-            //If we returned articles, go find their publications
-            if (count($data['articleResults']) > 0) {
-                //Create array of article ID's for looking up publications
-                $articleArray = array();
-                foreach ($data['articleResults'] as $articleResult) {
-                    //make an array of all article id's
-                    array_push($articleArray, $articleResult->id);
-                }
-
-                //Get Publications where Articles Appear
-                $data['publicationResults'] = DB::table('publication')
-                    ->select('publication.id',
-                        'publication.published',
-                        'publication.publish_date',
-                        'publication.created_at',
-                        'publication.updated_at',
-                        'article.id as article_id',
-                        'article.title')
-                    ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
-                    ->join('article', 'publication_order.article_id', '=', 'article.id')
-                    ->where('publication.instance_id', $data['instance']->id)
-                    ->whereIn('publication_order.article_id', $articleArray)
-                    ->groupBy('publication.id')
-                    ->orderBy('publication.publish_date')
-                    ->paginate(15);
-            } else {
-                //Didn't find any, return empty array
-                $data['publicationResults'] = array();
-            }
         }elseif ($subAction == 'images'){
             $data['imageResults'] = Image::where('instance_id', $data['instance']->id)
                 ->where(function($query){

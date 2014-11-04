@@ -1,6 +1,5 @@
 @extends('editor.master')
 @section('content')
-STUFF
 <div class="panel panel-default colorPanel">
     <div class="panel-heading" id="searchResultsHead">
         Search Results
