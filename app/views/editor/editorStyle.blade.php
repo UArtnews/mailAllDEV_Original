@@ -1,8 +1,8 @@
 <style>
 
     @import url("{{ URL::to('css/bootstrap.css') }}");
-    {{--@import url("{{ URL::to('css/material.css') }}");--}}
-    {{--@import url("{{ URL::to('css/ripples.css') }}");--}}
+    @import url("{{ URL::to('css/material.css') }}");
+    @import url("{{ URL::to('css/ripples.css') }}");
 
     @include('tweakableStyle')
 
