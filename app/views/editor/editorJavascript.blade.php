@@ -78,6 +78,8 @@
         EditorData.contents[id] = {};
         EditorData.contents[id].title = $('#articleTitle'+id).html().replace('<div>','').replace('</div>','');
         EditorData.contents[id].content = $('#articleContent'+id).html().replace('<div>','').replace('</div>','');
+        $('#articleTitle'+id).html( $('#articleTitle'+id).html().replace('<div>','').replace('</div>',''));
+       $('#articleContent'+id).html( $('#articleContent'+id).html().replace('<div>','').replace('</div>',''));
         EditorData.contents[id].state = 'No Unsaved Changes';
         EditorData.contents[id].color = 'Green';
         getArticleState(id);
@@ -96,6 +98,7 @@
                 }
         }).done(function(data){
             console.log(data);
+            getArticleState(id);
         });
 
     }
@@ -176,7 +179,7 @@
 
         if('{{ $action }}' == 'publications' || '{{ $action }}' == 'publication' || '{{ $action }}' == ''){
             //Place save/revert controls off to side of article, NOT TITLE
-            $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" style="z-index:50;">' +
+            $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" style="z-index:500;">' +
                 '<button type="button" class="btn btn-success btn-block" onclick="saveEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>' +
                 '<button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-remove"></span>&nbsp;Revert</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'up\',this);"><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Move</button>' +
@@ -190,7 +193,7 @@
         }else if('{{ $action }}' == 'newPublication'){
             //Place save/revert controls off to side of article, NOT TITLE
             $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" ' +
-                'style="z-index:50;min-height:8.5em;">' +
+                'style="z-index:500;min-height:8.5em;">' +
                 '<button type="button" class="btn btn-success btn-block" onclick="saveEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>' +
                 '<button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-remove"></span>&nbsp;Revert</button>' +
                 '<button type="button" class="btn btn-primary btn-block" onclick="moveArticle(\''+idNum+'\',\'up\',this);"><span class="glyphicon glyphicon-hand-up"></span>&nbsp;Move</button>' +
@@ -203,7 +206,7 @@
         }else{
             //Place save/revert controls off to side of article, NOT TITLE
             $controls = '<div id="'+'article'+idNum+'save" class="editorSaveRevert" ' +
-                'style="z-index:50;min-height:8.5em;">' +
+                'style="z-index:500;min-height:8.5em;">' +
                 '<button type="button" class="btn btn-success btn-block" onclick="saveEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Save</button>' +
                 '<button type="button" class="btn btn-warning btn-block" onclick="revertEdits(\''+idNum+'\');"><span class="glyphicon glyphicon-remove"></span>&nbsp;Revert</button>' +
                 '<div class="row" id="articleIndicator" style="text-align:center;color:'+EditorData.contents[idNum].color+';">'+
@@ -250,6 +253,7 @@
     function getArticleState(idNum){
         console.log('Checking '+idNum+'\'s state!');
         //Set Some EditorData for this article so we can alert the user to save or not
+        console.log(EditorData.contents[idNum].content != $('#articleContent'+idNum).html());
         if(EditorData.contents[idNum].title != $('#articleTitle'+idNum).html() || EditorData.contents[idNum].content != $('#articleContent'+idNum).html()){
             EditorData.contents[idNum].state = 'Unsaved Changes Pending';
             EditorData.contents[idNum].color = 'Red';
@@ -558,6 +562,17 @@
     function addArticleCartToExistingPublication(publication_id){
         $('#addFromCartModal'+publication_id+' .addCartItem').each(function(index, elem){
             addArticleToExistingPublication($(elem).attr('id').replace('addCartArticle',''), publication_id, false);
+        });
+
+        //TODO: Fix this so it's not a dumb timeout
+        setTimeout(function(){
+            savePublicationOrder(publication_id);
+        },2000);
+    }
+
+    function addSubmissionCartToExistingPublication(publication_id){
+        $('#addPendingSubmissionsModal'+publication_id+' .addPendingSubmission').each(function(index, elem){
+            addArticleToExistingPublication($(elem).attr('id').replace('addPendingSubmission',''), publication_id, false);
         });
 
         //TODO: Fix this so it's not a dumb timeout

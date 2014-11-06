@@ -44,7 +44,7 @@
                     @foreach($publication->submissions as $submission)
                     <li id="addPendingSubmission{{ $submission->id }}" class="list-group-item addPendingSubmission">
                         {{ stripslashes($submission->title) }}&nbsp;&nbsp;
-                        <button class="btn btn-xs btn-success" onclick="addArticleToExistingPublication({{ $submission->id }}, {{ $publication->id }})">
+                        <button class="btn btn-xs btn-success" onclick="addArticleToExistingPublication({{ $submission->id }}, {{ $publication->id }}, true)">
                             <strong>+</strong>&nbsp;Add Article to Publication
                         </button>
                         @if(preg_match('/'.$submission->id.'/', $publication->article_order))
@@ -53,6 +53,7 @@
                     </li>
                     @endforeach
                 </ul>
+                <button class="btn btn-success btn-block" onclick="addSubmissionCartToExistingPublication({{ $publication->id }})">Add All Pending Submissions</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

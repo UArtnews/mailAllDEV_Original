@@ -121,3 +121,4 @@ h4 {
     top:-{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
     left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
 }
+

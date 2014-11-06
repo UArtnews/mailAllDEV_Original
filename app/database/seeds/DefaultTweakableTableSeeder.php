@@ -55,8 +55,8 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-headline-summary-width'    => array('Width of Headline Summary (when on left or right)', '225px', 'text'),
 
             //Header Footer Textareas
-            'publication-header'                    => array('Email Header Content', '', 'textarea'),
             'publication-web-header'                => array('Web Only Header Content', '<h4>**DATE**</h4>', 'textarea'),
+            'publication-header'                    => array('Email Header Content', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),

@@ -18,9 +18,9 @@
                             @include('publication.headlineSummary')
                         </td>
                     @endif
-                        <td class="contentDiv" id="publication{{ $publication->id }}">
+                        <td class="contentDiv" id="publication{{ $publication->id }}" >
                             @if(strlen($publication->banner_image) > 0)
-                            <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}" {{ $isEmail ? 'align="center"' : '' }}/>
+                            <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
                             @endif
                             @include('publication.publicationHeader')
                             @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')

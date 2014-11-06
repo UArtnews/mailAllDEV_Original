@@ -39,8 +39,5 @@
     &nbsp;|&nbsp;
     <a href="{{ URL::to($instance->name) }}">Live Publication View</a>
 </div>
-<script>
-    $.material.init();
-</script>
 </body>
 </html>
