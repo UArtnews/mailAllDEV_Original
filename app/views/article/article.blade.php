@@ -63,4 +63,13 @@
     @yield('details')
 @if(!$isEmail)
 </div>
+@else
+    @if(isset($tweakables['publication-hr-articles']) && $isEmail)
+        @if($tweakables['publication-hr-articles'] == 1)
+            <hr/>
+        @endif
+    @elseif($default_tweakables['publication-hr-articles'] == 1 && $isEmail)
+        <hr/>
+    @endif
 @endif
+

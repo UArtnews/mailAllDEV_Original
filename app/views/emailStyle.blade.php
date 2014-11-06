@@ -19,4 +19,8 @@
         mso-margin-bottom-alt:0px;
         mso-padding-alt: 0px 0px 0px 0px;
     }
+
+    .btn {
+        margin-bottom:1em;
+    }
 </style>
