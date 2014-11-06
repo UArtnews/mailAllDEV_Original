@@ -216,7 +216,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
             $index = $value;
         }
 
-        foreach(range(date('Y'), date('Y')-5) as $year){
+        foreach(range(date('Y'), date('Y')-10) as $year){
             $data['years'][$year] = $year;
         }
 
