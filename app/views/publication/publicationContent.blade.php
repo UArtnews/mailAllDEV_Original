@@ -5,10 +5,10 @@
     @if(strlen($publication->banner_image) > 0)
     <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}" {{ $isEmail ? 'align="center"' : '' }}/>
     @endif
-    @include('publication.publicationHeader')
     @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
         @include('publication.headlineSummary')
     @endif
+    @include('publication.publicationHeader')
     @include('publication.articleContainer')
     {{-- Conditional HR's after Titles --}}
     @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 1)

@@ -24,12 +24,12 @@
                             @if(strlen($publication->banner_image) > 0)
                             <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
                             @endif
-                            @include('publication.publicationHeader')
                             @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
                                 @if(isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
                                     @include('publication.headlineSummary')
                                 @endif
                             @endif
+                            @include('publication.publicationHeader')
                             @include('publication.articleContainer')
                             {{-- Conditional Separator --}}
                             @if((isset($tweakables['publication-repeat-separator-toggle']) && $tweakables['publication-repeat-separator-toggle'] == 1 ) || $default_tweakables['publication-repeat-separator-toggle'] == 1 )
