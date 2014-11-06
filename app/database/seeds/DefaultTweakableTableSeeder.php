@@ -50,14 +50,19 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-padding'                   => array('Publication Padding', '5px', 'text'),
             'publication-hr-articles'               => array('Horizontal Rule After Articles', true, 'bool'),
             'publication-hr-titles'                 => array('Horizontal Rule After Titles', false, 'bool'),
-            'publication-repeated-items'            => array('Automatically Place Repeated Articles at Bottom of Publicaiton', false, 'bool'),
             'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', false, 'bool'),
             'publication-headline-summary-position' => array('Positioning of Headline Summary', 'center', 'select'),
+            'publication-headline-summary-width'    => array('Width of Headline Summary (when on left or right)', '225px', 'text'),
+
+            //Header Footer Textareas
             'publication-header'                    => array('Email Header Content', '', 'textarea'),
             'publication-web-header'                => array('Web Only Header Content', '<h4>**DATE**</h4>', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),
+            'publication-headline-summary-header'   => array('Headline Summary Header', '<h4>Today\'s Headlines</h4>', 'textarea'),
+            'publication-headline-summary-footer'   => array('Headline Summary Footer', '', 'textarea'),
+            'publication-headline-summary-style'   => array('Summary Headline Styling', '- **HEADLINE**', 'textarea'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),

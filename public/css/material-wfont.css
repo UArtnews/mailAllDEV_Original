@@ -3714,7 +3714,6 @@ select[multiple].form-control.focus {
 }
 .form-control-wrapper {
   position: relative;
-  /* active state */
 }
 .form-control-wrapper .form-control:focus,
 .form-control-wrapper .form-control.focus {
@@ -3788,12 +3787,6 @@ select[multiple].form-control.focus {
 }
 .form-control-wrapper textarea ~ .form-control-highlight {
   margin-top: -11px;
-}
-.form-control-wrapper .form-control:focus ~ .material-input:after,
-.form-control-wrapper .form-control.focus ~ .material-input:after {
-  animation: input-highlight 0.3s ease;
-  animation-fill-mode: forwards;
-  opacity: 0;
 }
 .form-control-wrapper select ~ .material-input:after {
   display: none;

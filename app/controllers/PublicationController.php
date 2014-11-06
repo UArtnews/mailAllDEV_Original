@@ -96,7 +96,9 @@ class PublicationController extends \BaseController
         $inputArr = array();
 
         foreach(Input::all() as $index => $value){
-            if(strlen($value) > 0){
+            if($index == 'banner_image'){
+                $inputArr[$index] = $value;
+            }elseif(strlen($value) > 0){
                 $inputArr[$index] = $value;
             }
         }

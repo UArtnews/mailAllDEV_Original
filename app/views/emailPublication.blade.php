@@ -13,10 +13,19 @@
             <td>
                 <table style="margin:0px auto" align="center">
                     <tr>
-                        <td class="contentDiv" id="publication{{ $publication->id }}">
-                            <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
-                            @include('publication.publicationHeader')
+                    @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'left')
+                        <td class="headline-summary-table">
                             @include('publication.headlineSummary')
+                        </td>
+                    @endif
+                        <td class="contentDiv" id="publication{{ $publication->id }}">
+                            @if(strlen($publication->banner_image) > 0)
+                            <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}" {{ $isEmail ? 'align="center"' : '' }}/>
+                            @endif
+                            @include('publication.publicationHeader')
+                            @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
+                                @include('publication.headlineSummary')
+                            @endif
                             @include('publication.articleContainer')
                             {{-- Conditional Separator --}}
                             @if((isset($tweakables['publication-repeat-separator-toggle']) && $tweakables['publication-repeat-separator-toggle'] == 1 ) || $default_tweakables['publication-repeat-separator-toggle'] == 1 )
@@ -27,6 +36,11 @@
                             @include('publication.repeatContainer')
                             @include('publication.publicationFooter')
                         </td>
+                    @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'right')
+                        <td class="headline-summary-table">
+                            @include('publication.headlineSummary')
+                        </td>
+                    @endif
                     </tr>
                 </table>
             </td>

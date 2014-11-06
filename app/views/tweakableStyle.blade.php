@@ -1,10 +1,18 @@
+<?
+$summaryWidth = str_replace('px','',isset($tweakables['publication-headline-summary-width']) ? $tweakables['publication-headline-summary-width'] : $default_tweakables['publication-headline-summary-width']);
+?>
+
 body {
     background-color:{{$tweakables['global-background-color'] or $default_tweakables['global-background-color']}};
     color:#222;
     position:relative;
 }
 
-p, .article {
+a {
+    text-decoration:none;
+}
+
+p, .article, .aritcleContent {
     color:{{$tweakables['publication-p-color'] or $default_tweakables['publication-p-color']}};
     font-family:{{$tweakables['publication-p-font'] or $default_tweakables['publication-p-font']}};
     font-size:{{$tweakables['publication-p-font-size'] or $default_tweakables['publication-p-font-size']}};
@@ -89,20 +97,27 @@ h4 {
     position:relative;
 }
 
+.headline-summary-table {
+    background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
+    padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
+    width:{{ $tweakables['publication-headline-summary-width'] or $default_tweakables['publication-headline-summary-width'] }};
+    vertical-align:top;
+}
+
 .headline-summary-left {
     background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
     padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
-    width:225px;
+    width:{{ $tweakables['publication-headline-summary-width'] or $default_tweakables['publication-headline-summary-width'] }};
     position:absolute;
-    top:0px;
-    left:{{ isset($tweakables['publication-padding']) ? (-225 - (2*str_replace('px','',$tweakables['publication-padding']))) : (-225 - (2*str_replace('px','',$default_tweakables['publication-padding']))) }}px;
+    top:-{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
+    left:{{ isset($tweakables['publication-padding']) ? (-$summaryWidth - (2*str_replace('px','',$tweakables['publication-padding']))) : (-$summaryWidth - (2*str_replace('px','',$default_tweakables['publication-padding']))) }}px;
 }
 
 .headline-summary-right {
     background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
     padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
-    width:225px;
+    width:{{ $tweakables['publication-headline-summary-width'] or $default_tweakables['publication-headline-summary-width'] }};
     position:absolute;
-    top:0px;
+    top:-{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
     left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
 }

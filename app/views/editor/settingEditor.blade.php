@@ -140,7 +140,7 @@
 
             @endif
         </div>
-        <div class="col-md-6 col-sm-12 " id="settingsPreviewer">
+        <div class="col-md-6 col-sm-12 " id="settingsPreviewer" >
             @include('publication.master')
         </div>
 

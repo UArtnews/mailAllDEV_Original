@@ -31,10 +31,11 @@ class ImageController extends \BaseController
      */
     public function store()
     {
-        if (Image::where('filename', Input::file('imageFile')->getClientOriginalName())->count() > 0) {
+        $instance = Instance::findOrFail(Input::get('instance_id'));
+
+        if (Image::where('filename', Input::file('imageFile')->getClientOriginalName())->where('instance_id', $instance->id)->count() > 0) {
             return Redirect::back()->with(array('error' => 'An Image with that Filename Already Exists'));
         }
-        $instance = Instance::findOrFail(Input::get('instance_id'));
 
         $pathName = preg_replace('/[^\w]+/', '_', $instance->name);
 

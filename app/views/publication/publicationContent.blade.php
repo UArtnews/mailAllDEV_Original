@@ -1,10 +1,17 @@
 <div class="contentDiv" id="publication{{ $publication->id }}">
-    <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
+    @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) != 'center')
+        @include('publication.headlineSummary')
+    @endif
+    @if(strlen($publication->banner_image) > 0)
+    <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}" {{ $isEmail ? 'align="center"' : '' }}/>
+    @endif
     @include('publication.publicationHeader')
-    @include('publication.headlineSummary')
+    @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
+        @include('publication.headlineSummary')
+    @endif
     @include('publication.articleContainer')
     {{-- Conditional HR's after Titles --}}
-    @if((isset($tweakables['publication-repeat-separator-toggle']) && $tweakables['publication-repeat-separator-toggle'] == 1 ) || $default_tweakables['publication-repeat-separator-toggle'] == 1 )
+    @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 1)
         @if(isset($tweakables['publication-repeat-separator']))
             @if($publication->hasRepeat())
             {{ $tweakables['publication-repeat-separator'] }}

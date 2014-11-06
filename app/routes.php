@@ -565,6 +565,8 @@ Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName
             'data'      => array()
         );
 
+        $defaultTweakable = DefaultTweakable::all();
+
         //Gather Data Common to all editor views
         $parameters['data'] = array(
             'action'                   => $action,
@@ -573,9 +575,9 @@ Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName
             'instanceId'               => $instance->id,
             'instanceName'             => $instance->name,
             'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'default_tweakables'       => reindexArray($defaultTweakable, 'parameter', 'value'),
+            'tweakables_types'         => reindexArray($defaultTweakable, 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray($defaultTweakable, 'parameter', 'display_name'),
         );
 
         //Stuff session data into data parameter
@@ -675,6 +677,6 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
         }
 
 
-        $data['isEmail'] = false;
-        return View::make('emailPublication', $data)->withMessage('Email Sent Successfully!');
+        $data['isEmail'] = true;
+        return $inlineHTML;
     });

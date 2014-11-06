@@ -13,8 +13,6 @@
     <script src="{{ URL::to('js/bootstrap-colorpicker.js') }}"></script>
     <script src="{{ URL::to('js/moment.js') }}"></script>
     <script src="{{ URL::to('js/bootstrap-datetimepicker.min.js') }}"></script>
-    <script src="{{ URL::to('js/material.js') }}"></script>
-    <script src="{{ URL::to('js/ripples.js') }}"></script>
 
     @include('editor.editorJavascript')
 

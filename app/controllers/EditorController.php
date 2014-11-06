@@ -254,9 +254,9 @@ class EditorController extends \BaseController
             'publication-padding',
             'publication-hr-articles',
             'publication-hr-titles',
-            'publication-repeated-items',
             'publication-headline-summary',
             'publication-headline-summary-position',
+            'publication-headline-summary-width',
             'publication-repeat-separator-toggle',
         );
 
@@ -265,6 +265,9 @@ class EditorController extends \BaseController
             'publication-header',
             'publication-footer',
             'publication-repeat-separator',
+            'publication-headline-summary-header',
+            'publication-headline-summary-footer',
+            'publication-headline-summary-style'
         );
 
         $data['workflowTweakables'] = array(
@@ -399,30 +402,26 @@ class EditorController extends \BaseController
         if ($action == 'settings') {
             foreach (Input::except('_token') as $parameter => $value) {
                 //Check to see if this is a default value, if so don't duplicate things
-                if ($default_tweakables[$parameter] == $value || trim(strip_tags($value)) == '') {
+                if ($default_tweakables[$parameter] == $value) {
                     $tweakables = Tweakable::where('parameter', $parameter)->where('instance_id', $instanceID)->get();
                     foreach ($tweakables as $tweakable) {
                         $tweakable->delete();
                     }
-
                 } else {
                     $tweakable = Tweakable::firstOrCreate(
                         array('parameter' => $parameter, 'instance_id' => $instanceID)
                     );
+
                     $tweakable->instance_id = $instanceID;
                     $tweakable->parameter = $parameter;
+
                     if ($parameter) {
                         $tweakable->value = stripslashes($value);
                     }
                     $tweakable->save();
                 }
             }
-
             return Redirect::back()->withMessage('Successfully Saved Settings');
-
-
         }
-
-
     }
 }
