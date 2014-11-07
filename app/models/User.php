@@ -12,12 +12,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $table = 'users';
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = array('password');
+    public $guarded = array('id');
+
+    public function permissions(){
+        return $this->hasMany('UserPermission', 'user_id', 'id');
+    }
+
+    public function hasPermission($instanceId, $node){
+        if($this->isSuperAdmin()) {
+            return true;
+        }elseif(UserPermission::where('user_id', $this->id)->where('instance_id', $instanceId)->where('node', $node)->count() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function isSuperAdmin(){
+        if(UserPermission::where('user_id', $this->id)->where('instance_id', 0)->where('node', 'superAdmin')->count() > 0);
+    }
 
 	/**
 	 * Get the unique identifier for the user.
@@ -48,7 +61,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	{
 		return $this->email;
 	}
-	
+
 	public function getRememberToken()
 	{
 	    return $this->remember_token;

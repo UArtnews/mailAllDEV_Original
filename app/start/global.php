@@ -124,3 +124,11 @@ if(!function_exists('uanetID')){
         return Request::server('REMOTE_USER');
     }
 }
+
+//Make sure we have this function.  I'll stop doing this soon.
+if(!function_exists('getInstanceName')){
+    function getInstanceName()
+    {
+        return Instance::where('name', Request::segment(2))->firstOrFail()->pluck('name');
+    }
+}

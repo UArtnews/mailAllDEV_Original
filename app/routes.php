@@ -554,6 +554,11 @@ Route::group(array('before' => 'force.ssl'), function(){
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl'), function(){
     //Editor Routing
+    if(Auth::attempt(array('user_id' => uanetID()))){
+        echo "Yup";die;
+    }else{
+        echo "Nope";die;
+    }
     Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
         $app = app();
         $editorController = $app->make('EditorController');
