@@ -81,15 +81,15 @@ Route::filter('auth', function()
 
 Route::filter('instanceAuth', function() {
     $user = User::where('uanet', uanet())->first();
+    $instance = Instance::where('name', getInstanceName())->first();
 
     if(count($user) <= 0){
         return Redirect::guest('/');
     }else{
         Auth::login(User::find($user->id));
     }
-    dd($user->hasPermission(getInstanceName(), 'edit'));
 
-    if($user->hasPermission(getInstanceName(), 'edit')){
+    if($user->hasPermission($instance->id, 'edit')){
 
     }else{
         return Redirect::guest('/');
