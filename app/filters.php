@@ -85,7 +85,7 @@ Route::filter('instanceAuth', function() {
     if(count($user) <= 0){
         return Redirect::guest('/');
     }else{
-        Auth::login($user);
+        Auth::login(User::find($user->id));
     }
 
     if($user->isSuperAdmin()){
