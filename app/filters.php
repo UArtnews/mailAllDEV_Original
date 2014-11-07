@@ -83,15 +83,13 @@ Route::filter('instanceAuth', function() {
     $user = User::where('uanet', uanet())->first();
 
     if(count($user) <= 0){
-        dd('count');
         return Redirect::guest('/');
     }else{
         Auth::login(User::find($user->id));
     }
     dd($user->hasPermission(getInstanceName(), 'edit'));
-    if($user->isSuperAdmin()){
 
-    }elseif($user->hasPermission(getInstanceName(), 'edit')){
+    if($user->hasPermission(getInstanceName(), 'edit')){
 
     }else{
         return Redirect::guest('/');
