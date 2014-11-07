@@ -76,11 +76,25 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::guest('login');
+	if (Auth::guest()) return Redirect::guest('/');
 });
 
 Route::filter('instanceAuth', function() {
-    if (Auth::guest()) return Redirect::guest('login');
+    if (Auth::guest()) return Redirect::guest('/');
+
+    $user = User::where('uanet', uanet())->get();
+
+    if(count($user) <= 0){
+        return Redirect::guest('/');
+    }
+
+    if($user->isSuperAdmin()){
+
+    }elseif($user->hasPermission(getInstanceName(), 'edit')){
+
+    }
+
+    return Redirect::guest('/');
 });
 
 
