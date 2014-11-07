@@ -80,17 +80,43 @@ Route::filter('auth', function()
 });
 
 Route::filter('instanceAuth', function() {
-    $user = User::where('uanet', uanet())->first();
     $instance = Instance::where('name', getInstanceName())->first();
+    //Log them in, or not
+    if(Auth::check()){
+        $user = Auth::user();
+    }else {
+        $user = User::where('uanet', uanet())->first();
 
-    if(count($user) <= 0){
-        return Redirect::guest('/');
-    }else{
-        Auth::login(User::find($user->id));
+        if (count($user) <= 0) {
+            return Redirect::guest('/');
+        } else {
+            Auth::login(User::find($user->id));
+        }
     }
+    //Perform Instance Node Permission Check
+    if(Auth::check() && $user->hasPermission($instance->id, 'edit')){
+        //Let them in
+    }else{
+        return Redirect::guest('/');
+    }
+});
 
-    if($user->hasPermission($instance->id, 'edit')){
+Route::filter('superAuth', function() {
+    //Log them in, or not
+    if(Auth::check()){
+        $user = Auth::user();
+    }else {
+        $user = User::where('uanet', uanet())->first();
 
+        if (count($user) <= 0) {
+            return Redirect::guest('/');
+        } else {
+            Auth::login(User::find($user->id));
+        }
+    }
+    //Perform SuperAdmin Check
+    if(Auth::check() && $user->isSuperAdmin()){
+        //Let them in
     }else{
         return Redirect::guest('/');
     }

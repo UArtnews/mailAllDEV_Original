@@ -1,23 +1,37 @@
 <?php
 /*
- * 1.  Public  Routes
+ * 1.  Super Admin Routes
+
+ * 2.  Public  Routes
  *
- * 2.  Public Logged In Routes
+ * 3.  Public Logged In Routes
  *
- * 3.  Public Logged In Ajax
+ * 4.  Public Logged In Ajax
  *
- * 4.  Editor Logged In Ajax Routes
+ * 5.  Editor Logged In Ajax Routes
  *
- * 5.  Editor Logged In Routes
+ * 6.  Editor Logged In Routes
+ *
  */
 
 //This one will eventually go away or change drastically
 Route::get('/', 'HomeController@index');
 
+//////////////////////////////////
+//                              //
+// 1.  SuperAdmin Routes        //
+//                              //
+//////////////////////////////////
+Route::group(array('before' => 'force.ssl|superAuth'), function() {
+    Route::get('admin',function () {
+            return "Wow, such admin";
+        }
+    );
+});
 
 //////////////////////////
 //                      //
-//   1. Public Routes   //
+//   2. Public Routes   //
 //                      //
 //////////////////////////
 
@@ -356,7 +370,7 @@ Route::get('/{instanceName}/search', function($instanceName){
 
 //////////////////////////////////
 //                              //
-// 2.  Public Logged In Routes  //
+// 3.  Public Logged In Routes  //
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl'), function(){
@@ -365,7 +379,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 
 ////////////////////////////////
 //                            //
-// 3.  Public Logged In Ajax  //
+// 4.  Public Logged In Ajax  //
 //                            //
 ////////////////////////////////
 
@@ -549,7 +563,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 
 //////////////////////////////////
 //                              //
-// 5.  Editor Logged In Routes  //
+// 6.  Editor Logged In Routes  //
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl|instanceAuth'), function(){
@@ -682,5 +696,3 @@ Route::group(array('before' => 'force.ssl|instanceAuth'), function(){
         return $inlineHTML;
     });
 });
-
-
