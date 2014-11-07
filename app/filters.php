@@ -81,7 +81,7 @@ Route::filter('auth', function()
 
 Route::filter('instanceAuth', function() {
     $user = User::where('uanet', uanet())->get();
-
+    dd($user);
     if(count($user) <= 0){
         return Redirect::guest('/');
     }else{
