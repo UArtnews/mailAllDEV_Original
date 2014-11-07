@@ -80,12 +80,12 @@ Route::filter('auth', function()
 });
 
 Route::filter('instanceAuth', function() {
-    if (Auth::guest()) return Redirect::guest('/');
-
     $user = User::where('uanet', uanet())->get();
 
     if(count($user) <= 0){
         return Redirect::guest('/');
+    }else{
+        Auth::login($user);
     }
 
     if($user->isSuperAdmin()){
