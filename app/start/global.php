@@ -129,7 +129,6 @@ if(!function_exists('uanet')){
 if(!function_exists('getInstanceName')){
     function getInstanceName()
     {
-        dd(Request::segment(2));
         return Instance::where('name', Request::segment(2))->firstOrFail()->name;
     }
 }
