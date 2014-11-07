@@ -19,7 +19,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function hasPermission($instanceId, $node){
-        dd($instanceId . ':' . $node);
         if($this->isSuperAdmin()) {
             return true;
         }elseif(UserPermission::where('user_id', $this->id)->where('instance_id', $instanceId)->where('node', $node)->count() > 0){
