@@ -240,8 +240,8 @@
       <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3255578" vertical-offset="13554" max-vertical-offset="17350">
-              <caret line="555" column="38" selection-start-line="555" selection-start-column="38" selection-end-line="555" selection-end-column="38" />
+            <state vertical-scroll-proportion="0.3255578" vertical-offset="13554" max-vertical-offset="17325">
+              <caret line="555" column="20" selection-start-line="555" selection-start-column="20" selection-end-line="555" selection-end-column="20" />
               <folding>
                 <element signature="e#6#173#0#PHP" expanded="true" />
               </folding>
@@ -399,7 +399,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="49" />
-    <option name="y" value="24" />
+    <option name="y" value="-1056" />
     <option name="width" value="1871" />
     <option name="height" value="1056" />
   </component>
@@ -799,7 +799,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
+    <frame x="49" y="-1056" width="1871" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1285,8 +1285,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3255578" vertical-offset="13554" max-vertical-offset="17350">
-          <caret line="555" column="38" selection-start-line="555" selection-start-column="38" selection-end-line="555" selection-end-column="38" />
+        <state vertical-scroll-proportion="0.3255578" vertical-offset="13554" max-vertical-offset="17325">
+          <caret line="555" column="20" selection-start-line="555" selection-start-column="20" selection-end-line="555" selection-end-column="20" />
           <folding>
             <element signature="e#6#173#0#PHP" expanded="true" />
           </folding>

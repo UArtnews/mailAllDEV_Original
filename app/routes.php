@@ -553,7 +553,6 @@ Route::group(array('before' => 'force.ssl'), function(){
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl'), function(){
-    echo "UANET IS: " . uanetID();die;
     //Editor Routing
     Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
         $app = app();
