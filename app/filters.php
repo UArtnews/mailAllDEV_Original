@@ -83,6 +83,7 @@ Route::filter('instanceAuth', function() {
     $user = User::where('uanet', uanet())->first();
 
     if(count($user) <= 0){
+        dd('count');
         return Redirect::guest('/');
     }else{
         Auth::login(User::find($user->id));
@@ -93,8 +94,8 @@ Route::filter('instanceAuth', function() {
     }elseif($user->hasPermission(getInstanceName(), 'edit')){
 
     }
-
-    return Redirect::guest('/');
+        
+    if (Auth::guest()) return Redirect::guest('/');
 });
 
 
