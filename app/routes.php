@@ -554,7 +554,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl'), function(){
     //Editor Routing
-    if(Auth::attempt(array('user_id' => uanetID()))){
+    if(Auth::attempt(array('uanet' => uanet()))){
         echo "Yup";die;
     }else{
         echo "Nope";die;

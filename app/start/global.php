@@ -112,8 +112,8 @@ if(!function_exists('reindexArray')){
 }
 
 //Make sure we have this function.  I'll stop doing this soon.
-if(!function_exists('uanetID')){
-    function uanetID()
+if(!function_exists('uanet')){
+    function uanet()
     {
         //Only SECURE routes can get uanetID's and be sure about it
         if(!Request::secure())
