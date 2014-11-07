@@ -11,12 +11,8 @@
  * 5.  Editor Logged In Routes
  */
 
-
-Route::get('/', function() {
-    return 'Yay';
-});
 //This one will eventually go away or change drastically
-//Route::get('/', 'HomeController@index');
+Route::get('/', 'HomeController@index');
 
 
 //////////////////////////
@@ -363,8 +359,9 @@ Route::get('/{instanceName}/search', function($instanceName){
 // 2.  Public Logged In Routes  //
 //                              //
 //////////////////////////////////
-
-Route::get('/submit/{instanceName}', 'SubmissionController@index');
+Route::group(array('before' => 'force.ssl'), function(){
+    Route::get('/submit/{instanceName}', 'SubmissionController@index');
+});
 
 ////////////////////////////////
 //                            //
@@ -378,47 +375,56 @@ Route::get('/submit/{instanceName}', 'SubmissionController@index');
 //                                  //
 //////////////////////////////////////
 
-Route::post('/promote/{instanceName}/{submission_id}', 'SubmissionController@promoteSubmission');
+Route::group(array('before' => 'force.ssl'), function(){
+    Route::post('/promote/{instanceName}/{submission_id}', 'SubmissionController@promoteSubmission');
 
-Route::resource('/resource/article', 'ArticleController');
+    Route::resource('/resource/article', 'ArticleController');
 
-Route::resource('/resource/publication', 'PublicationController');
+    Route::resource('/resource/publication', 'PublicationController');
 
-Route::resource('/resource/image', 'ImageController');
+    Route::resource('/resource/image', 'ImageController');
 
-Route::resource('/resource/submission', 'SubmissionController');
+    Route::resource('/resource/submission', 'SubmissionController');
 
-Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
+    Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
 
-//Return image lists for ckeditors
-Route::get('/json/{instanceName}/images', function($instanceName){
-    $instance = Instance::where('name',urldecode($instanceName))->first();
+    //Return image lists for ckeditors
+    Route::get('/json/{instanceName}/images', function($instanceName){
+        $instance = Instance::where('name',urldecode($instanceName))->first();
 
-    //Grab all the images for that instance and send them to the user
-    $images = array();
-    foreach(Image::where('instance_id',$instance->id)->get() as $image){
-        array_push($images,array(
-                'image'  => URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename),
-            ));
-    }
-    return Response::json($images);
-});
+        //Grab all the images for that instance and send them to the user
+        $images = array();
+        foreach(Image::where('instance_id',$instance->id)->get() as $image){
+            array_push($images,array(
+                    'image'  => URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename),
+                ));
+        }
+        return Response::json($images);
+    });
 
-//Handle Article Carts
-//Add to cart
-Route::post('/cart/{instanceName}/add', function($instanceName){
-    $instance = Instance::where('name',urldecode($instanceName))->first();
-    $article_id = Input::get('article_id');
+    //Handle Article Carts
+    //Add to cart
+    Route::post('/cart/{instanceName}/add', function($instanceName){
+        $instance = Instance::where('name',urldecode($instanceName))->first();
+        $article_id = Input::get('article_id');
 
-    if(Session::has('cart')){
-        $cart = Session::get('cart');
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
 
-        if(isset($cart[$instance->id])){
-            if(isset($cart[$instance->id][$article_id])){
-                return Response::json(array(
-                        'error'  => 'Article already in cart',
-                        'cart'   => $cart[$instance->id]
-                    ));
+            if(isset($cart[$instance->id])){
+                if(isset($cart[$instance->id][$article_id])){
+                    return Response::json(array(
+                            'error'  => 'Article already in cart',
+                            'cart'   => $cart[$instance->id]
+                        ));
+                }else{
+                    $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
+                    Session::put('cart', $cart);
+                    return Response::json(array(
+                            'success'   => 'Article added to cart',
+                            'cart'      => $cart[$instance->id]
+                        ));
+                }
             }else{
                 $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
                 Session::put('cart', $cart);
@@ -428,6 +434,7 @@ Route::post('/cart/{instanceName}/add', function($instanceName){
                     ));
             }
         }else{
+            $cart = array();
             $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
             Session::put('cart', $cart);
             return Response::json(array(
@@ -435,124 +442,119 @@ Route::post('/cart/{instanceName}/add', function($instanceName){
                     'cart'      => $cart[$instance->id]
                 ));
         }
-    }else{
-        $cart = array();
-        $cart[$instance->id][$article_id] = Article::findOrFail($article_id)->title;
-        Session::put('cart', $cart);
-        return Response::json(array(
-                'success'   => 'Article added to cart',
-                'cart'      => $cart[$instance->id]
-            ));
-    }
-});
+    });
 
-//Remove from cart
-Route::post('/cart/{instanceName}/remove', function($instanceName){
-    $instance = Instance::where('name',urldecode($instanceName))->first();
-    $article_id = Input::get('article_id');
+    //Remove from cart
+    Route::post('/cart/{instanceName}/remove', function($instanceName){
+        $instance = Instance::where('name',urldecode($instanceName))->first();
+        $article_id = Input::get('article_id');
 
-    if(Session::has('cart')){
-        $cart = Session::get('cart');
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
 
-        if(isset($cart[$instance->id])){
-            if(isset($cart[$instance->id][$article_id])){
-                unset($cart[$instance->id][$article_id]);
-                Session::put('cart', $cart);
-                return Response::json(array(
-                        'success'  => 'Article removed from cart',
-                        'cart'   => $cart[$instance->id]
-                    ));
+            if(isset($cart[$instance->id])){
+                if(isset($cart[$instance->id][$article_id])){
+                    unset($cart[$instance->id][$article_id]);
+                    Session::put('cart', $cart);
+                    return Response::json(array(
+                            'success'  => 'Article removed from cart',
+                            'cart'   => $cart[$instance->id]
+                        ));
+                }else{
+                    return Response::json(array(
+                            'error'   => 'Article not in cart',
+                            'cart'      => $cart[$instance->id]
+                        ));
+                }
             }else{
                 return Response::json(array(
-                        'error'   => 'Article not in cart',
-                        'cart'      => $cart[$instance->id]
+                        'error'   => 'Article not in cart.',
+                        'cart'      => array()
                     ));
             }
         }else{
             return Response::json(array(
-                    'error'   => 'Article not in cart.',
+                    'error'   => 'Article not in cart ',
                     'cart'      => array()
                 ));
         }
-    }else{
-        return Response::json(array(
-                'error'   => 'Article not in cart ',
-                'cart'      => array()
-            ));
-    }
-});
+    });
 
-Route::post('/cart/{instanceName}/clear', function($instanceName){
-    $instance = Instance::where('name',urldecode($instanceName))->first();
+    Route::post('/cart/{instanceName}/clear', function($instanceName){
+        $instance = Instance::where('name',urldecode($instanceName))->first();
 
-    if(Session::has('cart')){
-        $cart = Session::get('cart');
+        if(Session::has('cart')){
+            $cart = Session::get('cart');
 
-        if(isset($cart[$instance->id])){
-            unset($cart[$instance->id]);
-            Session::put('cart',$cart);
-            return Response::json(array(
-                    'success'   => 'Cart cleared'
-                ));
-        }else{
-            return Response::json(array(
-                    'error' => 'Cart already empty'
-                ));
+            if(isset($cart[$instance->id])){
+                unset($cart[$instance->id]);
+                Session::put('cart',$cart);
+                return Response::json(array(
+                        'success'   => 'Cart cleared'
+                    ));
+            }else{
+                return Response::json(array(
+                        'error' => 'Cart already empty'
+                    ));
+            }
         }
-    }
+    });
+
+    //Post routes so AJAX can grab editable regions
+    Route::any('/editable/article/{article_id}/{publication_id?}', function($article_id, $publication_id = ''){
+            $article = Article::findOrFail($article_id);
+            //Grab instance ID from article
+
+            $instanceId = $article->instance_id;
+
+            $instance = Instance::findOrFail($instanceId);
+
+            $data = array(
+                'instance'                 => $instance,
+                'instanceId'               => $instance->id,
+                'instanceName'             => $instance->name,
+                'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+                'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+                'article'                  => $article,
+                'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
+                'hideRepeat'               => $article->isPublished($publication_id) ? true : false,
+                'isEmail'                  => false,
+                'isEditable'               => true
+            ,
+                'shareIcons'               => false,
+            );
+
+            if($publication_id != ''){
+                $data['publication'] = Publication::where('id', $publication_id)->first();
+            }
+            return View::make('article.article', $data);
+        });
+
+    Route::get('admin/login', array('before' => 'force.ssl', function(){
+            $name = 'mailAllSession';
+
+            $date = date('Y-m-d');
+
+            $value = md5('mailAll500P3RS3kR3T'.$date);
+
+            return Redirect::to('/')->withCookie(Cookie::make($name, $value,time()+3600*2*1));
+        }));
+
+    Route::get('admin/logout', function(){
+            return Redirect::guest('/')->withCookie(Cookie::forget('urlSession'));
+        });
 });
 
-//Post routes so AJAX can grab editable regions
-Route::any('/editable/article/{article_id}/{publication_id?}', function($article_id, $publication_id = ''){
-    $article = Article::findOrFail($article_id);
-    //Grab instance ID from article
 
-    $instanceId = $article->instance_id;
-
-    $instance = Instance::findOrFail($instanceId);
-
-    $data = array(
-        'instance'                 => $instance,
-        'instanceId'               => $instance->id,
-        'instanceName'             => $instance->name,
-        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-        'article'                  => $article,
-        'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
-        'hideRepeat'               => $article->isPublished($publication_id) ? true : false,
-        'isEmail'                  => false,
-        'isEditable'               => true
-    ,
-        'shareIcons'               => false,
-    );
-
-    if($publication_id != ''){
-        $data['publication'] = Publication::where('id', $publication_id)->first();
-    }
-    return View::make('article.article', $data);
-});
-
-Route::get('admin/login', array('before' => 'force.ssl', function(){
-    $name = 'mailAllSession';
-
-    $date = date('Y-m-d');
-
-    $value = md5('mailAll500P3RS3kR3T'.$date);
-
-    return Redirect::to('/')->withCookie(Cookie::make($name, $value,time()+3600*2*1));
-}));
-
-Route::get('admin/logout', function(){
-    return Redirect::guest('/')->withCookie(Cookie::forget('urlSession'));
-});
 
 //////////////////////////////////
 //                              //
 // 5.  Editor Logged In Routes  //
 //                              //
 //////////////////////////////////
-//Editor Routing
-Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
+Route::group(array('before' => 'force.ssl'), function(){
+    //Editor Routing
+    Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
         $app = app();
         $editorController = $app->make('EditorController');
 
@@ -613,11 +615,11 @@ Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName
         }
     });
 
-//Specific Saving Controller for things in the editor like saving settings
-Route::post('/save/{instanceName}/{action}', 'EditorController@save');
+    //Specific Saving Controller for things in the editor like saving settings
+    Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
-//Fire off an email
-Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
+    //Fire off an email
+    Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
 
         $instance = Instance::where('name', $instanceName)->first();
 
@@ -635,8 +637,8 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
 
         //Get This Publication
         $publication = Publication::where('id', $publication_id)->
-            where('instance_id', $instance->id)->
-            with(array('articles' => function($query){
+        where('instance_id', $instance->id)->
+        with(array('articles' => function($query){
                 $query->orderBy('order', 'asc');
             }))->first();
 
@@ -680,3 +682,6 @@ Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, 
         $data['isEmail'] = true;
         return $inlineHTML;
     });
+});
+
+
