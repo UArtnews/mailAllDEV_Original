@@ -110,3 +110,17 @@ if(!function_exists('reindexArray')){
         return $tempArr;
     }
 }
+
+//Make sure we have this function.  I'll stop doing this soon.
+if(!function_exists('uanetID')){
+    function uanetID()
+    {
+        //Only SECURE routes can get uanetID's and be sure about it
+        if(!Request::secure())
+        {
+            return false;
+        }
+
+        return Request::server('REMOTE_USER');
+    }
+}
