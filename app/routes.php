@@ -23,11 +23,11 @@ Route::get('/', 'HomeController@index');
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl|superAuth'), function() {
-    Route::get('admin',function () {
-            return "Wow, such admin";
+    Route::get('admin/{action?}',function ($action = null) {
         }
     );
 });
+
 
 //////////////////////////
 //                      //

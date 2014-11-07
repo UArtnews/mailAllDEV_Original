@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="share.uakron.edu">
+  <component name="PublishConfigData" autoUpload="On explicit save action" serverName="share.uakron.edu">
     <serverData>
       <paths name="MailAll">
         <serverdata>
@@ -9,7 +9,15 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="share.uakron.edu">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/mailAllSource" local="$PROJECT_DIR$" web="/mailAll/" />
+          </mappings>
+        </serverdata>
+      </paths>
     </serverData>
+    <option name="myAutoUpload" value="ON_EXPLICIT_SAVE" />
   </component>
 </project>
 
