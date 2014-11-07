@@ -88,7 +88,7 @@ Route::filter('instanceAuth', function() {
     }else{
         Auth::login(User::find($user->id));
     }
-
+    dd($user->hasPermission(getInstanceName(), 'edit'));
     if($user->isSuperAdmin()){
 
     }elseif($user->hasPermission(getInstanceName(), 'edit')){
