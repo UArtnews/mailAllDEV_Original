@@ -93,9 +93,9 @@ Route::filter('instanceAuth', function() {
 
     }elseif($user->hasPermission(getInstanceName(), 'edit')){
 
+    }else{
+        return Redirect::guest('/');
     }
-        
-    if (Auth::guest()) return Redirect::guest('/');
 });
 
 
