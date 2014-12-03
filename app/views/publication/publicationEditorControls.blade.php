@@ -11,10 +11,12 @@
             @endif
         </div>
         <div class="col-xs-4">
+            @if(Auth::user()->isAdmin($instanceId))
             <button class="btn btn-primary" data-toggle="modal" data-target="#sendEmailModal{{ $publication->id }}">
                 <span class="glyphicon glyphicon-send"></span>&nbsp;
                 Publish Email
             </button>
+            @endif
         </div>
         <div class="col-xs-4">
             <div class="btn-group pull-right">

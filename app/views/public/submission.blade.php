@@ -64,12 +64,12 @@
     <h3>Your Information</h3>
     {{ Form::label('name', 'Name: ') }}
     <span id='name_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('name', null, array('class' => 'form-control')) }}
+    {{ Form::text('name', isset($_SERVER['cn']) ? $_SERVER['cn'] : null, array('class' => 'form-control')) }}
     <br/>
 
     {{ Form::label('email', 'Email: ') }}
     <span id='email_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('email', null, array('class' => 'form-control')) }}
+    {{ Form::text('email', isset($_SERVER['mail']) ? $_SERVER['mail'] : null, array('class' => 'form-control')) }}
     <br/>
 
     {{ Form::label('phone', 'Phone: ') }}<small>&nbsp;&nbsp;&nbsp;Phone Numbers will not be printed in publications</small>

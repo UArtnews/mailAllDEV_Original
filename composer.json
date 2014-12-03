@@ -8,7 +8,9 @@
 		"way/generators": "1.1",
         "makzumi/calendar": "dev-master",
         "tijsverkoyen/css-to-inline-styles": "1.3.0",
-		"beelab/bowerphp": "0.1.*@alpha"
+		"beelab/bowerphp": "0.1.*@alpha",
+        "tijsverkoyen/css-to-inline-styles": "1.5.0",
+        "maatwebsite/excel": "1.2.2"
 	},
     "require-dev": {
         "fzaninotto/faker": "dev-master",

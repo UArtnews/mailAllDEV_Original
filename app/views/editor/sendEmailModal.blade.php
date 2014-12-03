@@ -15,35 +15,85 @@
                 </h4>
             </div>
             <div class="modal-body ">
-                {{ Form::open(array('method' => 'post','url' => URL::to('sendEmail/'.$instance->name.'/'.$publication->id))) }}
+                {{-- Do Mail Merge --}}
+                @if(isset($tweakables['publication-allow-merge']) ? $tweakables['publication-allow-merge'] : $defaultTweakables['publication-allow-merge'] == true)
+                    {{ Form::open(array('method' => 'post','files' => true, 'url' => URL::to('mergeEmail/'.$instance->name.'/'.$publication->id))) }}
 
-                {{ Form::label('addressTo', 'To: ') }}
-                {{ Form::text('addressTo',null ,array('class' => 'form-control')) }}
-                <br/>
+                    {{ Form::label('mergeFile', 'Address File: ') }}
+                    {{ Form::file('mergeFile',null ,array('class' => 'form-control')) }}
+                    <br/>
 
-                {{ Form::label('addressFrom', 'From Address: ') }}
-                {{ Form::text('addressFrom',null ,array('class' => 'form-control')) }}
-                <br/>
+                    {{ Form::label('addressFrom', 'From Address: ') }}
+                    {{ Form::text('addressFrom',null ,array('class' => 'form-control')) }}
+                    <br/>
 
-                {{ Form::label('nameFrom', 'From Name: ') }}
-                {{ Form::text('nameFrom',null ,array('class' => 'form-control')) }}
-                <br/>
+                    {{ Form::label('nameFrom', 'From Name: ') }}
+                    {{ Form::text('nameFrom',null ,array('class' => 'form-control')) }}
+                    <br/>
 
-                {{ Form::label('subject', 'Subject: ') }}
-                {{ Form::text('subject',null ,array('class' => 'form-control')) }}
-                <br/>
+                    {{ Form::label('subject', 'Subject: ') }}
+                    {{ Form::text('subject',null ,array('class' => 'form-control')) }}
+                    <br/>
 
-                {{ Form::label('isTest', 'Send Test Email ONLY: ') }}
-                {{ Form::checkbox('isTest', 'true', array('class' => 'btn btn-warning')) }}
-                <br/>
+                    {{ Form::label('isTest', 'Send Test-Email ONLY (will send only one email to the test address using the first entry in the address list): ') }}
+                    {{ Form::checkbox('isTest', 'true', array('class' => 'btn btn-warning')) }}
+                    <br/>
 
-                <div class="btn-group">
-                    <span class="btn btn-success" onclick="$('#publishEmailSubmit{{ $publication->id }}').toggle()">Email Publication</span>
-                    {{ Form::submit('Are you sure you want to publish? ', array('id' => 'publishEmailSubmit'.$publication->id, 'class' => 'btn btn-warning', 'style' => 'display:none;')) }}
-                    <span class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-send"></span></span>
-                </div>
+                    <div id="mergeTestTo">
+                        {{ Form::label('testTo', 'Test-Email To Address: ') }}
+                        {{ Form::text('testTo',null ,array('class' => 'form-control')) }}
+                        <br/>
+                    </div>
 
-                {{ Form::close() }}
+                    <div class="btn-group">
+                        <span class="btn btn-success" onclick="$('#publishEmailSubmit{{ $publication->id }}').toggle()">Email Publication</span>
+                        {{ Form::submit('Are you sure you want to publish? ', array('id' => 'publishEmailSubmit'.$publication->id, 'class' => 'btn btn-warning', 'style' => 'display:none;')) }}
+                        <span class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-send"></span></span>
+                    </div>
+
+                    {{ Form::close() }}
+                    <script>
+                        $('#isTest').change(function(){
+                            if($('#isTest').prop('checked')){
+                                $('#mergeTestTo').show();
+                            }else{
+                                $('#mergeTestTo').hide();
+                            }
+                        });
+                    </script>
+
+                {{-- Do Normal Mail --}}
+                @else
+                    {{ Form::open(array('method' => 'post','url' => URL::to('sendEmail/'.$instance->name.'/'.$publication->id))) }}
+
+                    {{ Form::label('addressTo', 'To: ') }}
+                    {{ Form::text('addressTo',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('addressFrom', 'From Address: ') }}
+                    {{ Form::text('addressFrom',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('nameFrom', 'From Name: ') }}
+                    {{ Form::text('nameFrom',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('subject', 'Subject: ') }}
+                    {{ Form::text('subject',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('isTest', 'Send Test Email ONLY: ') }}
+                    {{ Form::checkbox('isTest', 'true', array('class' => 'btn btn-warning')) }}
+                    <br/>
+
+                    <div class="btn-group">
+                        <span class="btn btn-success" onclick="$('#publishEmailSubmit{{ $publication->id }}').toggle()">Email Publication</span>
+                        {{ Form::submit('Are you sure you want to publish? ', array('id' => 'publishEmailSubmit'.$publication->id, 'class' => 'btn btn-warning', 'style' => 'display:none;')) }}
+                        <span class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-send"></span></span>
+                    </div>
+
+                    {{ Form::close() }}
+                @endif
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

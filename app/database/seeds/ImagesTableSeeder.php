@@ -15,9 +15,15 @@ class ImagesTableSeeder extends Seeder {
             //Write file to disc, then save to DB
             $pathName = preg_replace('/[^\w]+/', '_', $instance->name);
 
+            //Create Image Directories
             if(!is_dir(app_path().'/../images/'.$pathName)){
                 echo "Creating directory at ".app_path().'/../images/'.$pathName."\n";
                 mkdir(app_path().'/../images/'.$pathName,0775);
+            }
+
+            if(!is_dir(app_path().'/../docs/'.$pathName)){
+                echo "Creating directory at ".app_path().'/../docs/'.$pathName."\n";
+                mkdir(app_path().'/../docs/'.$pathName,0775);
             }
 
             foreach(range(1,25) as $index){

@@ -1,7 +1,7 @@
 @extends('editor.master')
 @section('content')
     {{-- Render currently live publications --}}
-    @if(isset($publication))
+    @if($publication != '')
     <div class="panel panel-default colorPanel">
         <div class="panel-heading" id="articlePanelHead">Current Live Publication
             <span class="pull-right">
@@ -15,6 +15,7 @@
         <div class="panel-footer" id="articlePanelFoot">
         </div>
     </div>
+    @include('editor.sendEmailModal')
     @else
     <div class="panel panel-default colorPanel">
         <div class="panel-body">
@@ -24,5 +25,4 @@
         </div>
     </div>
     @endif
-    @include('editor.sendEmailModal')
 @stop

@@ -11,6 +11,7 @@ class UsersTableSeeder extends Seeder {
             'email'			=> 'als128@uakron.edu',
             'first'			=> 'Alex',
             'last'			=> 'Sterling',
+            'submitter'     => 0,
             'created_at'	=> date('Y-m-d H:i:s'),
             'updated_at'	=> date('Y-m-d H:i:s'),
         ));

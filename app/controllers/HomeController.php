@@ -22,15 +22,23 @@ class HomeController extends BaseController {
 			'instances' => Instance::all(),
 		);
 
-		foreach($data['instances'] as $instance){
-            if(Tweakable::where('instance_id',$instance->id)->where('parameter', 'publication-banner-image')->count() > 0){
-                $instance->banner_image_url = Tweakable::where('instance_id',$instance->id)->where('parameter','publication-banner-image')->first()->value;
-            }else{
-                $instance->banner_image_url = DefaultTweakable::where('parameter','publication-banner-image')->first()->value;
-            }
-		}
+        $data['types'] = array('success', 'info', 'warning', 'danger');
+        if(Request::secure() && Auth::check()){
+            return Redirect::to('editors');
+        }else{
+            return View::make('publicLanding', $data);
+        }
+	}
 
-		return View::make('landing', $data);
+	public function editors()
+	{
+
+		$data = array(
+			'instances' => Instance::all(),
+		);
+
+        $data['types'] = array('success', 'info', 'warning', 'danger');
+        return View::make('editorLanding', $data);
 	}
 
 

@@ -6,6 +6,8 @@ class Instance extends Eloquent {
 
 	protected $table = 'instance';
 
+	protected $softDelete = true;
+
 	public $timestamps = true;
 
 	public function tweakables(){

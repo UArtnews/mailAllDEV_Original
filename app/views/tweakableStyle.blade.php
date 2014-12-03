@@ -45,6 +45,12 @@ h1 {
     font-size:{{$tweakables['publication-h1-font-size'] or $default_tweakables['publication-h1-font-size']}};
     font-weight:{{$tweakables['publication-h1-font-weight'] or $default_tweakables['publication-h1-font-weight']}};
     line-height:{{$tweakables['publication-h1-line-height'] or $default_tweakables['publication-h1-font-size']}};
+    {{ $subAction }}:DERP;
+    @if(isset($subAction) && ( $subAction == 'articles' || $subAction == 'article' ))
+        {{-- Show articles ONLY in articles/article view mode --}}
+    @elseif( ( isset($tweakables['publication-show-titles']) ? $tweakables['publication-show-titles'] : $default_tweakables['publication-show-titles'] ) == false)
+        display:none;
+    @endif
 }
 
 h2 {

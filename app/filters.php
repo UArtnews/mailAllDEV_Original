@@ -1,37 +1,5 @@
 <?php
-/* CUSTOM AUTH FILTER
-/*
-/*
-/**/
-Route::filter('simpleAuth', function(){
-    $name = 'urlSession';
 
-    //Check if cookie is set
-    if(Cookie::has($name)){
-        $cookie = Cookie::get($name);
-    }else{
-        $cookie = '';
-    }
-
-    $date = date('Y-m-d');
-    $value = md5('urlAdminS3kR3T'.$date);
-
-
-    $uri = Request::path();
-
-    if($cookie == $value){
-        //Let them in
-    }else{
-        //check to see if they've already whiffed the login page
-        //Log them in, or not
-        return Redirect::to('/admin/login?redirect='.$uri);
-    }
-});
-
-/* CUSTOM SSL Filter
-/*
-/*
-/**/
 Route::filter('force.ssl', function()
 {
     if( ! Request::secure())
@@ -74,12 +42,13 @@ App::after(function($request, $response)
 |
 */
 
+
 Route::filter('auth', function()
 {
 	if (Auth::guest()) return Redirect::guest('/');
 });
 
-Route::filter('instanceAuth', function() {
+Route::filter('editAuth', function() {
     $instance = Instance::where('name', getInstanceName())->first();
     //Log them in, or not
     if(Auth::check()){
@@ -94,8 +63,32 @@ Route::filter('instanceAuth', function() {
         }
     }
     //Perform Instance Node Permission Check
-    if(Auth::check() && $user->hasPermission($instance->id, 'edit')){
-        //Let them in
+    if(Auth::check() && ( $user->hasPermission($instance->id, 'edit') || $user->hasPermission(0, 'edit')) ){
+        //Let editors in
+    }else if(Auth::check() && ( $user->hasPermission($instance->id, 'admin') || $user->hasPermission(0, 'admin')) ){
+        //Let admins in
+    }else{
+        return Redirect::guest('/');
+    }
+});
+
+Route::filter('adminAuth', function() {
+    $instance = Instance::where('name', getInstanceName())->first();
+    //Log them in, or not
+    if(Auth::check()){
+        $user = Auth::user();
+    }else {
+        $user = User::where('uanet', uanet())->first();
+
+        if (count($user) <= 0) {
+            return Redirect::guest('/');
+        } else {
+            Auth::login(User::find($user->id));
+        }
+    }
+    //Perform Instance Node Permission Check
+    if(Auth::check() && ( $user->hasPermission($instance->id, 'admin') || $user->hasPermission(0, 'admin')) ){
+        //Let admins in
     }else{
         return Redirect::guest('/');
     }
@@ -119,6 +112,29 @@ Route::filter('superAuth', function() {
         //Let them in
     }else{
         return Redirect::guest('/');
+    }
+});
+
+Route::filter('registerSubmitter', function(){
+    if(Auth::check()){
+        //logged in
+    }else{
+        $user = User::where('uanet', uanet())->first();
+
+        if (count($user) <= 0) {
+            //User does not exist, create new user
+            $user = new User;
+            $user->uanet = uanet();
+            $user->email = $_SERVER['mail'];
+            $user->first = $_SERVER['givenName'];
+            $user->last = $_SERVER['sn'];
+            $user->submitter = 1;
+            $user->save();
+            Auth::login(User::find($user->id));
+        } else {
+            //Log them in
+            Auth::login(User::find($user->id));
+        }
     }
 });
 

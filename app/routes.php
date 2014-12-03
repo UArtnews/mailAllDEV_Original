@@ -14,8 +14,13 @@
  *
  */
 
-//This one will eventually go away or change drastically
 Route::get('/', 'HomeController@index');
+
+Route::get('test', function(){
+    dd(excelOneRow('public/november-employee-list.xlsx'));
+});
+
+Route::get('editors', 'HomeController@editors');
 
 //////////////////////////////////
 //                              //
@@ -23,7 +28,25 @@ Route::get('/', 'HomeController@index');
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl|superAuth'), function() {
-    Route::get('admin/{action?}',function ($action = null) {
+    Route::any('admin/{action?}/{subAction?}/{id?}',function ($action = null, $subAction = null, $id = null) {
+            $app = app();
+            $adminController = $app->make('AdminController');
+
+            $parameters = array(
+                'data'  => array(
+                    'default_tweakables'    => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+                    'tweakables'            => array(),
+                    'action'                => $action,
+                    'subAction'             => $subAction,
+                    'id'                    => $id
+                )
+            );
+
+            if($action == null){
+                return $adminController->callAction('index', $parameters);
+            }else{
+                return $adminController->callAction($action, $parameters);
+            }
         }
     );
 });
@@ -388,6 +411,9 @@ Route::group(array('before' => 'force.ssl'), function(){
 // 5.  Editor Logged In Ajax Routes //
 //                                  //
 //////////////////////////////////////
+Route::group(array('before' => 'force.ssl|registerSubmitter'), function() {
+    Route::resource('/resource/submission', 'SubmissionController');
+});
 
 Route::group(array('before' => 'force.ssl'), function(){
     Route::post('/promote/{instanceName}/{submission_id}', 'SubmissionController@promoteSubmission');
@@ -397,8 +423,6 @@ Route::group(array('before' => 'force.ssl'), function(){
     Route::resource('/resource/publication', 'PublicationController');
 
     Route::resource('/resource/image', 'ImageController');
-
-    Route::resource('/resource/submission', 'SubmissionController');
 
     Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
 
@@ -566,7 +590,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 // 6.  Editor Logged In Routes  //
 //                              //
 //////////////////////////////////
-Route::group(array('before' => 'force.ssl|instanceAuth'), function(){
+Route::group(array('before' => 'force.ssl|editAuth'), function(){
     Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
         $app = app();
         $editorController = $app->make('EditorController');
@@ -630,6 +654,92 @@ Route::group(array('before' => 'force.ssl|instanceAuth'), function(){
 
     //Specific Saving Controller for things in the editor like saving settings
     Route::post('/save/{instanceName}/{action}', 'EditorController@save');
+
+    Route::any('mergeEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
+            $instance = Instance::where('name', $instanceName)->first();
+
+            $data = array(
+                'instance'		=> $instance,
+                'instanceId'	=> $instance->id,
+                'instanceName'	=> $instance->name,
+                'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+                'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+                'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+                'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+                'isEditable'               => false,
+                'shareIcons'               => false,
+            );
+
+            //Get This Publication
+            $publication = Publication::where('id', $publication_id)->
+            where('instance_id', $instance->id)->
+            with(array('articles' => function($query){
+                $query->orderBy('order', 'asc');
+            }))->first();
+
+            $data['publication'] = $publication;
+            $data['isEmail'] = true;
+
+            $mergeFileName = '';
+            //Do File Upload, store as latestMerge.xlsx/xls
+            if(Input::hasFile('mergeFile')){
+                if(Input::file('mergeFile')->isValid()){
+                    mkdir("docs/" . $instance->name);
+                    $mergeFileName = "latestMerge.".Input::file('mergeFile')->getClientOriginalExtension();
+                    unlink($mergeFileName);
+                    Input::file('mergeFile', 0775)->move("docs/" . $instance->name, $mergeFileName);
+                }else{
+                    return 'Invalid File Uploaded!';
+                }
+            }else{
+                return 'No Merge File Uploaded!';
+            }
+
+            return "Ok, got it!";
+
+            //Publish if this is a real deal publish things
+            if(!Input::has('isTest')){
+                foreach($publication->articles as $article){
+                    $thisArticle = Article::find($article->id);
+                    $thisArticle->published = 'Y';
+                    $thisArticle->save();
+                }
+
+                $publication->published = 'Y';
+                $publication->save();
+            }
+
+            $html = View::make('emailPublication', $data)->render();
+            $css = View::make('emailStyle', $data)->render();
+
+            $inliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
+            $inliner->setHTML($html);
+            $inliner->setCSS($css);
+
+            $inlineHTML = $inliner->convert();
+
+
+            if(Input::has('isTest')){
+                //Do a single merge
+                if(Input::has('testTo') && Input::has('addressFrom')){
+                    Mail::send('html', array('html' => $inlineHTML), function($message){
+                            $message->to(Input::get('testTo'))
+                                ->subject(Input::has('subject') ? Input::get('subject') : '')
+                                ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                        });
+                    $data['success'] = true;
+                }else{
+                    $data['error'] = true;
+                }
+            }else{
+                //Do the big-daddy merge
+
+            }
+
+            //Display the results of the last email, might as well, it'll be merged
+            $data['isEmail'] = true;
+            return $inlineHTML;
+    });
 
     //Fire off an email
     Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){

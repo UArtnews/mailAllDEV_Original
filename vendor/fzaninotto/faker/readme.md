@@ -74,9 +74,13 @@ Each of the generator properties (like `name`, `address`, and `lorem`) are calle
     randomLetter            // 'b'
     randomElements($array = array ('a','b','c'), $count = 1) // array('c')
     randomElement($array = array ('a','b','c')) // 'b'
-    numerify($string = '###') // '609'
-    lexify($string = '????') // 'wgts'
-    bothify($string = '## ??') // '42 jz'
+    shuffle('hello, world') // 'rlo,h eoldlw'
+    shuffle(array(1, 2, 3)) // array(2, 1, 3)
+    numerify('Hello ###') // 'Hello 609'
+    lexify('Hello ???') // 'Hello wgt'
+    bothify('Hello ##??') // 'Hello 42jz'
+    asciify('Hello ***') // 'Hello R6+'
+    regexify('[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}'); // sm0@y8k96a.ej
 
 ### `Faker\Provider\Lorem`
 
@@ -191,6 +195,7 @@ Each of the generator properties (like `name`, `address`, and `lorem`) are calle
     creditCardExpirationDate // 04/13
     creditCardExpirationDateString // '04/13'
     creditCardDetails       // array('MasterCard', '4485480221084675', 'Aleksander Nowak', '04/13')
+    swiftBicNumber          // RZTIAT22263
 
 ### `Faker\Provider\Color`
 

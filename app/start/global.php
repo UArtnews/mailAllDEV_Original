@@ -127,8 +127,66 @@ if(!function_exists('uanet')){
 
 //Make sure we have this function.  I'll stop doing this soon.
 if(!function_exists('getInstanceName')){
-    function getInstanceName()
+    function getInstanceName($id = null)
     {
-        return Instance::where('name', Request::segment(2))->firstOrFail()->name;
+        if($id == null) {
+            return Instance::where('name', Request::segment(2))->firstOrFail()->name;
+        }elseif($id == 0) {
+            return 'GLOBAL';
+        }else{
+            return Instance::find($id)->name;
+        }
+    }
+}
+
+//Make sure we have this function.  I'll stop doing this soon.
+if(!function_exists('excelToArray')){
+    function excelToArray($fileName)
+    {
+        $sheetCount = 0;
+        $rows = array();
+
+        //Get sheet count
+        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
+            foreach($results as $sheet){
+                $sheetCount++;
+            }
+        });
+
+        foreach(range(0, $sheetCount-1) as $sheetIndex){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->chunk(1000, function($results) use (&$rows){
+                foreach($results as $row){
+                    array_push($rows, $row->toArray());
+                }
+            });
+        }
+
+        return $rows;
+    }
+}
+
+//Make sure we have this function.  I'll stop doing this soon.
+if(!function_exists('excelOneRow')){
+    function excelOneRow($fileName)
+    {
+        $sheetCount = 0;
+        $row = array();
+
+        //Get sheet count
+        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
+            foreach($results as $sheet){
+                $sheetCount++;
+            }
+        });
+
+        foreach(range(0, $sheetCount-1) as $sheetIndex){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->limit(1)->chunk(1000, function($results) use (&$row){
+                foreach($results as $thisRow){
+                    $row = $thisRow;
+                }
+            });
+        }
+
+        return $row->toArray();
     }
 }

@@ -14,6 +14,8 @@ class CreateSubmissionTable extends Migration {
         Schema::create('submission', function(Blueprint $table) {
             $table->increments('id');
             $table->integer('instance_id');
+            $table->integer('user_id');
+            $table->string('uanet');
             $table->string('title');
             $table->text('content');
             $table->date('event_start_date');

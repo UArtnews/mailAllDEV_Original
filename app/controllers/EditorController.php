@@ -9,14 +9,14 @@ class EditorController extends \BaseController
     public function index($subAction, $data){
         //Get most recent live publication
         $data['instance']->id;
+
         $publication = Publication::where('instance_id', $data['instance']->id)->
             where('published', 'Y')->
             where('type', 'regular')->
             orderBy('publish_date', 'desc')->
             with(array('articles' => function($query){
                 $query->orderBy('order', 'asc');
-            }))->
-            first();
+            }))->first();
 
         //Populate $data
         $data['publication'] = $publication;
@@ -44,6 +44,7 @@ class EditorController extends \BaseController
                 $data['directIsLoaded'] = true;
             }
         }
+        $data['subAction'] = 'articles';
         return View::make('editor.articleList', $data);
     }
 
@@ -52,7 +53,7 @@ class EditorController extends \BaseController
     ////////////////////////////////////////////////
     public function article($subAction, $data){
         $data['article'] = Article::find($subAction);
-
+        $data['subAction'] = 'article';
         return View::make('editor.articleEditor', $data);
     }
 
@@ -212,7 +213,9 @@ class EditorController extends \BaseController
     //  edit/{instanceName}/settings/{subAction}
     ////////////////////////////////////////////////
     public function settings($subAction, $data){
-
+        if(!Auth::user()->isAdmin($data['instanceId'])){
+            return Redirect::to('edit/'.$data['instance']->name);
+        }
         if($subAction == null){
             $data['subAction'] = 'appearanceTweakables';
         }
@@ -249,6 +252,9 @@ class EditorController extends \BaseController
         );
 
         $data['contentStructureTweakables'] = array(
+            'publication-type',
+            'publication-show-titles',
+            'publication-allow-merge',
             'publication-banner-image',
             'publication-width',
             'publication-padding',
@@ -387,19 +393,18 @@ class EditorController extends \BaseController
     }
 
 
-    public function save()
+    public function save($instanceName, $action)
     {
-        //Grab Instance Name from URI
-        $instanceID = urldecode(Request::segment(2));
-
-        //Grab Action Type from URI
-        $action = urldecode(Request::segment(3));
-
-        $instance = Instance::find($instanceID);
+        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instanceID = $instance->id;
 
         $default_tweakables = reindexArray(DefaultTweakable::all(), 'parameter', 'value');
 
         if ($action == 'settings') {
+            //Admin's only!
+            if(!Auth::user()->isAdmin($instanceID)){
+                return Redirect::to('edit/'.$data['instance']->name);
+            }
             foreach (Input::except('_token') as $parameter => $value) {
                 //Check to see if this is a default value, if so don't duplicate things
                 if ($default_tweakables[$parameter] == $value) {

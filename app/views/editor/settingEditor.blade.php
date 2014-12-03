@@ -11,7 +11,7 @@
     </div>
     <div class="panel-body" id="settingPanelBody">
         <div class="col-md-5 col-sm-12" id="settingChooser">
-            {{ Form::open(array('url' => URL::to('/save/'.$instance->id.'/settings'), 'method' => 'post')) }}
+            {{ Form::open(array('url' => URL::to('/save/'.$instance->name.'/settings'), 'method' => 'post')) }}
             @foreach($default_tweakables as $defName => $defVal)
                 @if(in_array($defName, $$subAction))
                 <!-- {{$defName}} Form Input -->
@@ -52,7 +52,7 @@
                             data = {};
                             data[defName] = CKEDITOR.instances[defName].getData();
                             $.ajax({
-                                url: '{{ URL::to('save/'.$instance->id.'/settings') }}',
+                                url: '{{ URL::to('save/'.$instance->name.'/settings') }}',
                                 type: 'post',
                                 data: data
                             }).done(function(data){
@@ -141,7 +141,11 @@
             @endif
         </div>
         <div class="col-md-6 col-sm-12 " id="settingsPreviewer" >
-            @include('publication.master')
+            @if($publication != '')
+                @include('publication.master')
+            @else
+                <h1>No Publication to Preview!</h1>
+            @endif
         </div>
 
     </div>

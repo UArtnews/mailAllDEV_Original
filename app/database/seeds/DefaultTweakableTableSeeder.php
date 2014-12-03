@@ -9,6 +9,10 @@ class DefaultTweakableTableSeeder extends Seeder {
         $faker = Faker\Factory::create();
 
         $tweakables = array(
+            //Mail Merge Options   "regular" "merge"
+            'publication-show-titles'               => array('Show Titles', true, 'bool'),
+            'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
+
             //CSS First
             'global-background-color'               => array('Editor Background Color', '#19223B', 'color'),
             'publication-background-color'          => array('Article Background Color', '#FFFFFF', 'color'),

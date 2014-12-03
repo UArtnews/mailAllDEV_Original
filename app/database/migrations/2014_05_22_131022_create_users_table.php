@@ -18,7 +18,9 @@ class CreateUsersTable extends Migration {
 			$table->string('email');
 			$table->string('first');
 			$table->string('last');
+			$table->bool('submitter');
 			$table->timestamps();
+			$table->timestamp('deleted_at');
 		});
 	}
 

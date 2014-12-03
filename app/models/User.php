@@ -14,6 +14,15 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public $guarded = array('id');
 
+    protected $softDelete = true;
+
+    public static $rules = array(
+        'uanet' => 'required',
+        'email' => 'required|email',
+        'last'  => 'required',
+        'first' => 'required'
+    );
+
     public function permissions(){
         return $this->hasMany('UserPermission', 'user_id', 'id');
     }
@@ -28,35 +37,46 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         }
     }
 
-    public function isSuperAdmin(){
-        if(UserPermission::where('user_id', $this->id)->where('instance_id', 0)->where('node', 'superAdmin')->count() > 0);
+    public function isEditor($instanceId){
+        if($this->isSuperAdmin()){
+            return true;
+        }elseif($this->isAdmin($instanceId)){
+            return true;
+        }elseif($this->hasPermission($instanceId, 'edit') || $this->hasPermission(0, 'edit')){
+            return true;
+        }else{
+            return false;
+        }
     }
 
-	/**
-	 * Get the unique identifier for the user.
-	 *
-	 * @return mixed
-	 */
-	public function getAuthIdentifier()
+    public function isAdmin($instanceId){
+        if($this->isSuperAdmin()){
+            return true;
+        }elseif($this->hasPermission($instanceId, 'admin') || $this->hasPermission(0, 'admin')){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function isSuperAdmin(){
+        if(UserPermission::where('user_id', $this->id)->where('instance_id', 0)->where('node', 'superAdmin')->count() > 0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public function getAuthIdentifier()
 	{
 		return $this->getKey();
 	}
 
-	/**
-	 * Get the password for the user.
-	 *
-	 * @return string
-	 */
 	public function getAuthPassword()
 	{
 		return $this->password;
 	}
 
-	/**
-	 * Get the e-mail address where password reminders are sent.
-	 *
-	 * @return string
-	 */
 	public function getReminderEmail()
 	{
 		return $this->email;

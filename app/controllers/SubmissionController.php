@@ -73,6 +73,8 @@ class SubmissionController extends BaseController {
             $submission = new Submission;
 
             $submission->instance_id = Input::get('instance_id');
+            $submission->user_id = Auth::user()->id;
+            $submission->uanet = Auth::user()->uanet;
             $submission->title = Input::get('title');
             $submission->content = Input::get('content');
             $submission->event_start_date = date('Y-m-d',strtotime(Input::get('event_start_date')));

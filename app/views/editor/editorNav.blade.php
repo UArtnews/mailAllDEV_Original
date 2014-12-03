@@ -40,12 +40,14 @@
                     &nbsp;&nbsp;Images
                 </a>
                 </li>
+                @if(Auth::user()->isAdmin($instance->id))
                 <li @if($action == 'settings')class="active"@endif >
                 <a id="settings-nav-link" href="{{URL::to('edit/'.$instanceName.'/settings')}}">
                     <span class="glyphicon glyphicon-wrench"></span>
                     &nbsp;&nbsp;Settings
                 </a>
                 </li>
+                @endif
                 <li @if($action == 'help')class="active"@endif >
                 <a id="help-nav-link" href="{{URL::to('edit/'.$instanceName.'/help')}}">
                     <span class="glyphicon glyphicon-question-sign"></span>
