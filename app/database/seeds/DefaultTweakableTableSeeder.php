@@ -12,6 +12,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             //Mail Merge Options   "regular" "merge"
             'publication-show-titles'               => array('Show Titles', true, 'bool'),
             'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
+            'publication-public-view'               => array('Public Archive/Homepage?', true, 'bool'),
 
             //CSS First
             'global-background-color'               => array('Editor Background Color', '#19223B', 'color'),
@@ -55,7 +56,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-hr-articles'               => array('Horizontal Rule After Articles', true, 'bool'),
             'publication-hr-titles'                 => array('Horizontal Rule After Titles', false, 'bool'),
             'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', false, 'bool'),
-            'publication-headline-summary-position' => array('Positioning of Headline Summary', 'center', 'select'),
+            'publication-headline-summary-position' => array("Positioning of Headline Summary (will always appear center or right while in \"settings\")", 'center', 'select'),
             'publication-headline-summary-width'    => array('Width of Headline Summary (when on left or right)', '225px', 'text'),
 
             //Header Footer Textareas

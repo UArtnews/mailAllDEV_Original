@@ -73,7 +73,25 @@
             <br/>
             <h1 class="centerMe"><strong>The University of Akron: Publications</strong></h1>
             <br/>
-            <br/>
+            @if(isset($message) && $message != '')
+            <div class="landingMessage alert alert-info alert-dismissible" >
+                <button type="button" class="close" onclick="$('.landingMessage').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $message }}</strong>
+            </div>
+            @endif
+            @if(isset($success) && $success != '')
+            <div class="landingSuccess alert alert-success alert-dismissible" >
+                <button type="button" class="close" onclick="$('.landingSuccess').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $success }}</strong>
+            </div>
+            @endif
+            @if(isset($error) && $error != '')
+            <div class="landingError alert alert-danger alert-dismissible" >
+                <button type="button" class="close" onclick="$('.landingError').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $error }}</strong>
+            </div>
+            @endif
+
             <div class="panel panel-default">
                 <div class="panel-heading">Please Choose a Publication to View</div>
                 <div class="panel-body">
@@ -81,11 +99,11 @@
                     <ul class="list-group">
                     @foreach($instances as $id => $instance)
                         <li class="list-group-item list-group-item-{{ $types[$id%4] }}">
-                            <a href="{{ URL::to($instance->name) }}"><h1> {{ $instance->name }} </h1></a>
+                            <a href="{{ URL::to($instance->name) }}"><h1> {{ $instance->name }} Publication Archives</h1></a>
                         </li>
                     @endforeach
                         <li class="list-group-item">
-                            <a href="{{ URL::secure('/') }}"><h1>Admin/Editor Login</h1></a>
+                            <a href="{{ URL::secure('editors') }}"><h1>Admin/Editor Login</h1></a>
                         </li>
                     </ul>
                 </div>

@@ -16,11 +16,9 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('test', function(){
-    dd(excelOneRow('public/november-employee-list.xlsx'));
+Route::group(array('before' => 'auth|force.ssl'), function(){
+    Route::get('editors', 'HomeController@editors');
 });
-
-Route::get('editors', 'HomeController@editors');
 
 //////////////////////////////////
 //                              //
@@ -108,6 +106,12 @@ Route::get('/{instanceName}/', function($instanceName){
         'isPublication'            => true
     );
 
+    if(isset($data['tweakables']['publication-public-view']) && !$data['tweakables']['publication-public-view']){
+        return Redirect::to('/')->withError('This publication does not have a public archive.');
+    }else if(!$data['default_tweakables']['publication-public-view']){
+        return Redirect::to('/')->withError('This publication does not have a public archive.');
+    }
+
     if(isset($data['tweakables']['global-accepts-submissions'])){
         if($data['tweakables']['global-accepts-submissions']){
             $data['submission'] = true;
@@ -121,6 +125,7 @@ Route::get('/{instanceName}/', function($instanceName){
             $data['submission'] = false;
         }
     }
+
     if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0) {
         //Get most recent live publication
         $data['publication'] = Publication::where('instance_id', $instance->id)->
@@ -391,6 +396,24 @@ Route::get('/{instanceName}/search', function($instanceName){
     return View::make('public.search')->with($data);
 });
 
+//Return image lists for ckeditors
+Route::get('/json/{instanceName}/images', function($instanceName){
+    $instance = Instance::where('name',urldecode($instanceName))->first();
+
+    //Grab all the images for that instance and send them to the user
+    $images = array();
+    foreach(Image::where('instance_id',$instance->id)->get() as $image){
+        $imageLocation = str_replace('https','http', URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename));
+        array_push($images,array(
+                'image'  => $imageLocation,
+            ));
+    }
+
+    return Response::json($images);
+});
+
+
+
 //////////////////////////////////
 //                              //
 // 3.  Public Logged In Routes  //
@@ -425,20 +448,6 @@ Route::group(array('before' => 'force.ssl'), function(){
     Route::resource('/resource/image', 'ImageController');
 
     Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
-
-    //Return image lists for ckeditors
-    Route::get('/json/{instanceName}/images', function($instanceName){
-        $instance = Instance::where('name',urldecode($instanceName))->first();
-
-        //Grab all the images for that instance and send them to the user
-        $images = array();
-        foreach(Image::where('instance_id',$instance->id)->get() as $image){
-            array_push($images,array(
-                    'image'  => URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename),
-                ));
-        }
-        return Response::json($images);
-    });
 
     //Handle Article Carts
     //Add to cart
@@ -619,6 +628,17 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
             'default_tweakables_names' => reindexArray($defaultTweakable, 'parameter', 'display_name'),
         );
 
+        //Get flash messages
+        if(Session::has('message')){
+            $parameters['data']['message'] = Session::get('message');
+        }
+        if(Session::has('error')){
+            $parameters['data']['error'] = Session::get('error');
+        }
+        if(Session::has('success')){
+            $parameters['data']['success'] = Session::get('success');
+        }
+
         //Stuff session data into data parameter
         if (Session::has('cart')) {
             $cart = Session::get('cart');
@@ -653,9 +673,16 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
     });
 
     //Specific Saving Controller for things in the editor like saving settings
+    Route::get('/deleteProfile/{instanceName}/{profileName}', 'EditorController@deleteProfile');
+
+    //Specific Saving Controller for things in the editor like saving settings
+    Route::get('/loadProfile/{instanceName}/{profileName}', 'EditorController@loadProfile');
+
+    //Specific Saving Controller for things in the editor like saving settings
     Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
     Route::any('mergeEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
+            set_time_limit(600);
             $instance = Instance::where('name', $instanceName)->first();
 
             $data = array(
@@ -681,21 +708,25 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
             $data['isEmail'] = true;
 
             $mergeFileName = '';
+
             //Do File Upload, store as latestMerge.xlsx/xls
             if(Input::hasFile('mergeFile')){
-                if(Input::file('mergeFile')->isValid()){
-                    mkdir("docs/" . $instance->name);
+                if(Input::file('mergeFile')->isValid() && ( Input::file('mergeFile')->getClientOriginalExtension() == 'xls' || Input::file('mergeFile')->getClientOriginalExtension() == 'xlsx' ) ){
+                    $mergePath = "/web_content/share/mailAllSource/docs/" . $instance->name;
+                    if(!file_exists($mergePath)){
+                        mkdir($mergePath);
+                    }
                     $mergeFileName = "latestMerge.".Input::file('mergeFile')->getClientOriginalExtension();
-                    unlink($mergeFileName);
-                    Input::file('mergeFile', 0775)->move("docs/" . $instance->name, $mergeFileName);
+                    if(file_exists($mergePath . "/" . $mergeFileName)){
+                        unlink($mergePath . "/" . $mergeFileName);
+                    }
+                    Input::file('mergeFile', 0775)->move($mergePath, $mergeFileName);
                 }else{
-                    return 'Invalid File Uploaded!';
+                    return Redirect::back()->withError('Invalid Merge File Uploaded. XLS or XLSX files only!');
                 }
             }else{
-                return 'No Merge File Uploaded!';
+                return Redirect::back()->withError('No Merge File Uploaded!');
             }
-
-            return "Ok, got it!";
 
             //Publish if this is a real deal publish things
             if(!Input::has('isTest')){
@@ -717,12 +748,17 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
             $inliner->setCSS($css);
 
             $inlineHTML = $inliner->convert();
-
-
+            $mergedHTML = '';
+            $sentCount = 0;
             if(Input::has('isTest')){
                 //Do a single merge
+                $mergedHTML = $inlineHTML;
+                foreach(excelOneRow($mergePath . "/" . $mergeFileName) as $index => $value){
+                    $pattern = '**' . $index . '**';
+                    $mergedHTML = str_replace($pattern, $value, $mergedHTML);
+                }
                 if(Input::has('testTo') && Input::has('addressFrom')){
-                    Mail::send('html', array('html' => $inlineHTML), function($message){
+                    Mail::send('html', array('html' => $mergedHTML), function($message){
                             $message->to(Input::get('testTo'))
                                 ->subject(Input::has('subject') ? Input::get('subject') : '')
                                 ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
@@ -733,12 +769,42 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
                 }
             }else{
                 //Do the big-daddy merge
+                $addresses = excelToArray($mergePath . "/" . $mergeFileName);
+                foreach($addresses as $address) {
+                    $addressField = Input::get('addressField');
+                    $addressTo = $address[$addressField];
+                    $mergedHTML = $inlineHTML;
+                    foreach ($address as $index => $value) {
+                        $pattern = '**' . $index . '**';
+                        $mergedHTML = str_replace($pattern, $value, $mergedHTML);
+                    }
 
+                    if (Input::has('addressFrom')) {
+                        $validator = Validator::make(array('email' => $addressTo), array('email' => 'email|required'));
+                        if($validator->fails()){
+                            $data['error'] = true;
+                        }else{
+                            $sentCount++;
+                            Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
+                                    $message->to($addressTo)
+                                        ->subject(Input::has('subject') ? Input::get('subject') : '')
+                                        ->from(
+                                            Input::get('addressFrom'),
+                                            Input::has('nameFrom') ? Input::get('nameFrom') : ''
+                                        );
+                                }
+                            );
+                            $data['success'] = true;
+                        }
+                    } else {
+                        $data['error'] = true;
+                    }
+                }
             }
 
             //Display the results of the last email, might as well, it'll be merged
             $data['isEmail'] = true;
-            return $inlineHTML;
+            return Redirect::back()->withSuccess("$sentCount messages successfully sent!");
     });
 
     //Fire off an email
@@ -768,19 +834,6 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
         $data['publication'] = $publication;
         $data['isEmail'] = true;
 
-
-        //Publish if this is a real deal publish things
-        if(!Input::has('isTest')){
-            foreach($publication->articles as $article){
-                $thisArticle = Article::find($article->id);
-                $thisArticle->published = 'Y';
-                $thisArticle->save();
-            }
-
-            $publication->published = 'Y';
-            $publication->save();
-        }
-
         $html = View::make('emailPublication', $data)->render();
         $css = View::make('emailStyle', $data)->render();
 
@@ -796,13 +849,20 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
                         ->subject(Input::has('subject') ? Input::get('subject') : '')
                         ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
                 });
-            $data['success'] = true;
+
+            //Publish if this is a real deal publish things
+            if(!Input::has('isTest')){
+                foreach($publication->articles as $article){
+                    $thisArticle = Article::find($article->id);
+                    $thisArticle->published = 'Y';
+                    $thisArticle->save();
+                }
+                $publication->published = 'Y';
+                $publication->save();
+            }
+            return Redirect::back()->withSuccess("Publication successfully sent!");
         }else{
-            $data['error'] = true;
+            return Redirect::back()->withError("An error occurred, publication was not sent");
         }
-
-
-        $data['isEmail'] = true;
-        return $inlineHTML;
     });
 });

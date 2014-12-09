@@ -16,11 +16,15 @@
             </div>
             <div class="modal-body ">
                 {{-- Do Mail Merge --}}
-                @if(isset($tweakables['publication-allow-merge']) ? $tweakables['publication-allow-merge'] : $defaultTweakables['publication-allow-merge'] == true)
+                @if(isset($tweakables['publication-allow-merge']) ? $tweakables['publication-allow-merge'] : $default_tweakables['publication-allow-merge'] == true)
                     {{ Form::open(array('method' => 'post','files' => true, 'url' => URL::to('mergeEmail/'.$instance->name.'/'.$publication->id))) }}
 
                     {{ Form::label('mergeFile', 'Address File: ') }}
                     {{ Form::file('mergeFile',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('addressField', 'Address Field Name (eg. uanet_id, email, etc.): ') }}
+                    {{ Form::text('addressField',null ,array('class' => 'form-control')) }}
                     <br/>
 
                     {{ Form::label('addressFrom', 'From Address: ') }}

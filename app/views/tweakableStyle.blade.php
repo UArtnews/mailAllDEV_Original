@@ -37,6 +37,7 @@ p, .article, .aritcleContent {
         margin-bottom:1em;
         border-bottom:1px solid #cccccc;
     }
+
 @endif
 
 h1 {
@@ -45,7 +46,6 @@ h1 {
     font-size:{{$tweakables['publication-h1-font-size'] or $default_tweakables['publication-h1-font-size']}};
     font-weight:{{$tweakables['publication-h1-font-weight'] or $default_tweakables['publication-h1-font-weight']}};
     line-height:{{$tweakables['publication-h1-line-height'] or $default_tweakables['publication-h1-font-size']}};
-    {{ $subAction }}:DERP;
     @if(isset($subAction) && ( $subAction == 'articles' || $subAction == 'article' ))
         {{-- Show articles ONLY in articles/article view mode --}}
     @elseif( ( isset($tweakables['publication-show-titles']) ? $tweakables['publication-show-titles'] : $default_tweakables['publication-show-titles'] ) == false)
@@ -89,6 +89,11 @@ h4 {
     position:relative;
     background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
     z-index:0;
+}
+
+.share-container {
+    width: calc({{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }} - 10 * {{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }});
+    margin:0em 0em;
 }
 
 .publicationBanner {

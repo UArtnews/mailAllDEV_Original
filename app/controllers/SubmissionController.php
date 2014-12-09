@@ -21,6 +21,7 @@ class SubmissionController extends BaseController {
             'instanceName'             => $instance->name,
             'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'isEdit'                   => false
         );
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
@@ -125,6 +126,17 @@ class SubmissionController extends BaseController {
             'article'                  => $submission
         );
 
+        //Get flash messages
+        if(Session::has('message')){
+            $data['message'] = Session::get('message');
+        }
+        if(Session::has('error')){
+            $data['error'] = Session::get('error');
+        }
+        if(Session::has('success')){
+            $data['success'] = Session::get('success');
+        }
+
         if(isset($data['tweakables']['global-accepts-submissions'])){
             if($data['tweakables']['global-accepts-submissions']){
                 $data['submission'] = true;
@@ -139,7 +151,6 @@ class SubmissionController extends BaseController {
             }
         }
 
-
         return View::make('submissions.show', $data);
 	}
 
@@ -151,7 +162,49 @@ class SubmissionController extends BaseController {
 	 */
 	public function edit($id)
 	{
-        return View::make('submissions.edit');
+        //Grab Instance Name from submission
+        $submission = Submission::find($id);
+
+        $instanceId = $submission->instance_id;
+
+        //Fetch Instance out of DB
+        $instance = Instance::find($instanceId);
+
+        //Ensure this user is the author
+        if($submission->uanet != Auth::user()->uanet){
+            return Redirect::back()->withError('You are not the author of this article!');
+        }
+
+        $data = array(
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'article'                  => $submission,
+            'id'                       => $id,
+            'isEdit'                   => true,
+            'issue_dates'              => $submission->issue_dates == '' ? array() : json_decode(stripslashes($submission->issue_dates)),
+        );
+
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
+        //Get upcoming publications to submit to
+        $data['publications'] = Publication::where('instance_id', $instance->id)->where('publish_date','>',date('Y-m-d'))->where('type','regular')->orderBy('publish_date','ASC')->limit(4)->get();
+
+        return View::make('public.submission', $data);
 	}
 
 	/**
@@ -162,7 +215,43 @@ class SubmissionController extends BaseController {
 	 */
 	public function update($id)
 	{
-		//
+        $instance = Instance::findOrFail(Input::get('instance_id'));
+
+        $validator = Validator::make(Input::all(),Submission::$rules);
+
+        if($validator->fails()){
+            return Response::json(array(
+                    'error' => 'Incorrect or Missing Fields',
+                    'messages' => $validator->failed()
+                ));
+        }else{
+            $submission = Submission::find($id);
+
+            $submission->instance_id = Input::get('instance_id');
+            $submission->user_id = Auth::user()->id;
+            $submission->uanet = Auth::user()->uanet;
+            $submission->title = Input::get('title');
+            $submission->content = Input::get('content');
+            $submission->event_start_date = date('Y-m-d',strtotime(Input::get('event_start_date')));
+            $submission->event_end_date = date('Y-m-d',strtotime(Input::get('event_end_date')));
+            $submission->start_time = date('H:i:s',strtotime(Input::get('start_time')));
+            $submission->end_time = date('H:i:s',strtotime(Input::get('end_time')));
+            $submission->location = Input::get('location');
+            $submission->issue_dates = Input::get('issue_dates');
+            $submission->name = Input::get('name');
+            $submission->email = Input::get('email');
+            $submission->phone = Input::get('phone');
+            $submission->organization = Input::get('organization');
+            $submission->department = Input::get('department');
+            $submission->publish_contact_info = Input::get('publish_contact_info');
+
+            $submission->save();
+
+            return Response::json(array(
+                    'success'   => 'Publication Submitted Successfully',
+                    'submission_id' => $submission->id
+                ));
+        }
 	}
 
 	/**

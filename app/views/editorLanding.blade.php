@@ -82,7 +82,7 @@
                     @foreach($instances as $id => $instance)
                         @if(Auth::user()->isEditor($instance->id))
                         <li class="list-group-item list-group-item-{{ $types[$id%4] }}">
-                            <a href="{{ URL::to('edit/'.$instance->name) }}"><h1> {{ $instance->name }} </h1></a>
+                            <a href="{{ URL::to('edit/'.$instance->name) }}"><h1> {{ $instance->name }} Publication Editor</h1></a>
                         </li>
                         @endif
                     @endforeach

@@ -40,7 +40,6 @@
         background-color:rgba(255,255,255,0.5);
         padding:5px;
         position:absolute;
-        width:100px;
     }
 
     .side-indicator-hitbox {

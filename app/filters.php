@@ -45,6 +45,18 @@ App::after(function($request, $response)
 
 Route::filter('auth', function()
 {
+    if(Auth::check()){
+        $user = Auth::user();
+    }else {
+        $user = User::where('uanet', uanet())->first();
+
+        if (count($user) <= 0) {
+            return Redirect::guest('/');
+        } else {
+            Auth::login(User::find($user->id));
+        }
+    }
+
 	if (Auth::guest()) return Redirect::guest('/');
 });
 

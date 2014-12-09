@@ -9,15 +9,45 @@
 @stop
 
 @section('content')
+@if(isset($message) && $message != '')
+<div class="editorMessage alert alert-info alert-dismissible" >
+    <button type="button" class="close" onclick="$('.editorMessage').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>{{ $message }}</strong>
+</div>
+@endif
+@if(isset($success) && $success != '')
+<div class="editorSuccess alert alert-success alert-dismissible" >
+    <button type="button" class="close" onclick="$('.editorSuccess').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>{{ $success }}</strong>
+</div>
+@endif
+@if(isset($error) && $error != '')
+<div class="editorError alert alert-danger alert-dismissible" >
+    <button type="button" class="close" onclick="$('.editorError').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+    <strong>{{ $error }}</strong>
+</div>
+@endif
 <div class="well col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
-    {{ Form::open(array('url' => '#', 'method' => 'post', 'class' => 'form')) }}
+    {{ Form::open(array('url' => '#', 'method' => isset($article) ? 'put' : 'post', 'class' => 'form')) }}
     <h3>Your Announcement <small>Click on the Headline or Body to begin editing</small></h3>
     <div class="well colorPanel">
         <div class="contentDiv">
             <img src="{{ isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : $default_tweakables['publication-banner-image']  }}"/>
             <div class="article" id="article">
-                <h1 id="articleTitle" class="submissionEditor articleTitle" contenteditable="true">Your Headline (Click here to edit)</h1>
-                <div id="articleContent" class="submissionEditor articleContent" contenteditable="true">Your Announcement Body (Click here to edit)</div>
+                <h1 id="articleTitle" class="submissionEditor articleTitle" contenteditable="true">
+                @if(isset($article))
+                    {{ stripslashes($article->title) }}
+                @else
+                    Your Announcement Title (Click here to edit)
+                @endif
+                </h1>
+                <div id="articleContent" class="submissionEditor articleContent" contenteditable="true">
+                @if(isset($article))
+                    {{ stripslashes($article->content) }}
+                @else
+                    Your Announcement Body (Click here to edit)
+                @endif
+                </div>
             </div>
         </div>
     </div>
@@ -27,34 +57,34 @@
     <h3>Announcement Information</h3>
     {{ Form::label('event_start_date', 'Start Date: ') }}
     <span id='event_start_date_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('event_start_date', null, array('class' => 'datePicker form-control')) }}
+    {{ Form::text('event_start_date', isset($article) ? $article->event_start_date : null, array('class' => 'datePicker form-control')) }}
     <br/>
 
     {{ Form::label('event_end_date', 'End Date: ') }}
     <span id='event_end_date_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('event_end_date', null, array('class' => 'datePicker form-control')) }}
+    {{ Form::text('event_end_date', isset($article) ? $article->event_end_date : null, array('class' => 'datePicker form-control')) }}
     <br/>
 
     {{ Form::label('start_time', 'Start Time: ') }}
     <span id='start_time_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('start_time', null, array('class' => 'timePicker form-control')) }}
+    {{ Form::text('start_time', isset($article) ? $article->start_time : null, array('class' => 'timePicker form-control')) }}
     <br/>
 
     {{ Form::label('end_time', 'End Time: ') }}
     <span id='end_time_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('end_time', null, array('class' => 'timePicker form-control')) }}
+    {{ Form::text('end_time', isset($article) ? $article->end_time : null, array('class' => 'timePicker form-control')) }}
     <br/>
 
     {{ Form::label('location', 'Location: ') }}
     <span id='location_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('location', null, array('class' => 'form-control')) }}
+    {{ Form::text('location', isset($article) ? $article->location : null, array('class' => 'form-control')) }}
     <br/>
 
     <h3>What Issue Would You Like This Announcement To Appear</h3>
     <ul class="list-group">
     @if(count($publications) > 0)
         @foreach($publications as $publication)
-        <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
+        <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date, in_array($publication->publish_date,$issue_dates)) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
         @endforeach
     @else
         <li class="list-group-item">No upcoming publications!</li>
@@ -74,15 +104,15 @@
 
     {{ Form::label('phone', 'Phone: ') }}<small>&nbsp;&nbsp;&nbsp;Phone Numbers will not be printed in publications</small>
     <span id='phone_error' class="label label-danger" style="display:none;"></span>
-    {{ Form::text('phone', null, array('class' => 'form-control')) }}
+    {{ Form::text('phone', isset($article) ? $article->phone : null, array('class' => 'form-control')) }}
     <br/>
 
     {{ Form::label('organization', 'Registered Student Organization: ') }}
-    {{ Form::text('organization', null, array('class' => 'form-control')) }}
+    {{ Form::text('organization', isset($article) ? $article->organization : null, array('class' => 'form-control')) }}
     <br/>
 
     {{ Form::label('department', 'Campus Department: ') }}
-    {{ Form::text('department', null, array('class' => 'form-control')) }}
+    {{ Form::text('department', isset($article) ? $article->department : null, array('class' => 'form-control')) }}
     <br/>
 
     {{ Form::checkbox('publish_contact_info', false, array('class' => 'form-control')) }}
@@ -142,8 +172,8 @@
             }
 
             $.ajax({
-                url: '{{ URL::to('resource/submission') }}',
-                type: 'post',
+                url: '{{ URL::to('resource/submission') }}' + '{{ isset($article) ? '/'.$article->id : '/' }}',
+                type: '{{ isset($article) ? 'put' : 'post' }}',
                 data: {
                     'instance_id': '{{ $instance->id }}',
                     'title': $('#articleTitle').html(),

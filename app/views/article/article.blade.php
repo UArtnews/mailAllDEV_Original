@@ -2,7 +2,8 @@
 <div class="article" id="article{{ $article->id }}">
 @endif
     {{-- Setup Href Headlines for Repeats --}}
-    @if($isRepeat && $hideRepeat && !$isEditable)
+    @if( $isEmail && ( isset($tweakables['publication-show-titles']) ? $tweakables['publication-show-titles'] : $default_tweakables['publication-show-titles'] ) == false)
+    @elseif($isRepeat && $hideRepeat && !$isEditable)
         <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#article'.$article->id) }}">
             <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->title) }}</h1>
         </a>
@@ -32,9 +33,9 @@
             <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('n-d-Y',strtotime(Publication::find( $article->originalPublication() )->publish_date)); }}</a>
         </div>
     @elseif($isEmail && $isRepeat)
-        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->content) }}</div>
+        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}"><p>{{ stripslashes($article->content) }}</p></div>
     @elseif($isEmail)
-        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->content) }}</div>
+        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}"><p>{{ stripslashes($article->content) }}</p></div>
     {{-- Non-Email Article Content Body --}}
     @elseif($isRepeat)
         <{{ $isEditable ? 'div' : 'div' }} class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on

@@ -219,8 +219,13 @@
         thisSelector.parent().find('.articleContent').after($controls);
 
         //Adjust positioning of save/revert controls
-        thisSelector.parent().find('.editorSaveRevert').css('top',thisSelector.parent().find('.articleTitle').position().top+'px');
-        thisSelector.parent().find('.editorSaveRevert').css('left',thisSelector.parent().find('.articleTitle').parent().parent().outerWidth()+'px');
+        thisSelector.parent().find('.editorSaveRevert').css('top',thisSelector.parent().find('.articleContent').position().top+'px');
+
+        if('{{ $action }}' == 'article'){
+            thisSelector.parent().find('.editorSaveRevert').css('left',thisSelector.parent().find('.articleContent').parent().parent().outerWidth()+'px');
+        }else{
+            thisSelector.parent().find('.editorSaveRevert').css('left',thisSelector.parent().find('.articleContent').parent().parent().parent().outerWidth()+'px');
+        }
 
         //Adjust Height
         thisSelector.parent().find('.editorSaveRevert').css('height',thisSelector.parent().height()+'px');
@@ -228,7 +233,7 @@
         //Init editor since it's not fired up!
         thisSelector.attr('contenteditable', true);
 
-        thisEditor = thisSelector.ckeditor({
+        var thisEditor = thisSelector.ckeditor({
             "extraPlugins": "imagebrowser,sourcedialog",
             "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}"
         });

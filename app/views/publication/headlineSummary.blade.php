@@ -1,3 +1,11 @@
+<?
+//Move the headline summary for the settings page ONLY
+if(isset($action) && $action == 'settings'){
+    if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'left'){
+        $tweakables['publication-headline-summary-position'] = 'right';
+    }
+}
+?>
 @if($isEmail)
     {{ isset($tweakables['publication-headline-summary-header']) ? $tweakables['publication-headline-summary-header'] : $default_tweakables['publication-headline-summary-header']}}
     @foreach($publication->articles as $article)

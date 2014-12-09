@@ -7,10 +7,40 @@
             <li {{$subAction == 'contentStructureTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/contentStructureTweakables") }}">Content/Structure Options</a></li>
             <li {{$subAction == 'headerFooterTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/headerFooterTweakables") }}">Header/Footer</a></li>
             <li {{$subAction == 'workflowTweakables' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/workflowTweakables") }}">Workflow</a></li>
+            <li {{$subAction == 'profiles' ? 'class="active"' : '' ;}}><a href="{{ URL::to("/edit/$instanceName/settings/profiles") }}">Settings Profiles</a></li>
         </ul>
     </div>
     <div class="panel-body" id="settingPanelBody">
         <div class="col-md-5 col-sm-12" id="settingChooser">
+            @if($subAction == 'profiles')
+            {{ Form::open(array('url' => URL::to('/save/'.$instance->name.'/profiles'), 'method' => 'post')) }}
+            <h3><strong>Save current settings as a named profile:</strong></h3>
+            {{ Form::label('profileName','Profile Name') }}
+            {{ Form::text('profileName', null) }}
+            {{ Form::submit('Save Profile',array('class'=>'btn btn-sm btn-success')) }}
+            {{ Form::close()}}<br/><br/>
+            <h3><strong>Load settings from a named profile:</strong></h3>
+                @if(count($profiles) > 0)
+                    <ul class="list-group">
+                    @foreach($profiles as $profileName => $profile)
+                        <li class="list-group-item">
+                            <strong>{{ $profileName  }}</strong>
+                            <button class="btn btn-danger btn-xs pull-right" onclick="deleteProfile('{{ $profileName }}');">Delete Profile</button>
+                            <a href="{{ URL::to('/loadProfile/'.$instance->name.'/'.$profileName) }}" class="btn btn-warning btn-xs pull-right">Load Profile</a>
+                        </li>
+                    @endforeach
+                    </ul>
+                <script>
+                    function deleteProfile(profileName){
+                        if(confirm('Are you sure you wish to delete profile ' + profileName + '?')){
+                            window.location = "{{ URL::to('/deleteProfile/'.$instance->name) }}" + '/' + profileName;
+                        }
+                    }
+                </script>
+                @else
+                    There are no named profiles currently
+                @endif
+            @else
             {{ Form::open(array('url' => URL::to('/save/'.$instance->name.'/settings'), 'method' => 'post')) }}
             @foreach($default_tweakables as $defName => $defVal)
                 @if(in_array($defName, $$subAction))
@@ -138,6 +168,7 @@
 
             {{ Form::submit('Save Settings', array('class'=>'form-control btn btn-primary btn-xl')) }}
 
+            @endif
             @endif
         </div>
         <div class="col-md-6 col-sm-12 " id="settingsPreviewer" >

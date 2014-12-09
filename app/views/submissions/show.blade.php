@@ -21,9 +21,28 @@
 <div class="row">
     <div class="well colorPanel">
         <div class="contentDiv">
+            @if(isset($message) && $message != '')
+            <div class="editorMessage alert alert-info alert-dismissible" >
+                <button type="button" class="close" onclick="$('.editorMessage').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $message }}</strong>
+            </div>
+            @endif
+            @if(isset($success) && $success != '')
+            <div class="editorSuccess alert alert-success alert-dismissible" >
+                <button type="button" class="close" onclick="$('.editorSuccess').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $success }}</strong>
+            </div>
+            @endif
+            @if(isset($error) && $error != '')
+            <div class="editorError alert alert-danger alert-dismissible" >
+                <button type="button" class="close" onclick="$('.editorError').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <strong>{{ $error }}</strong>
+            </div>
+            @endif
             <div class="alert alert-info">
                 Thank you for your submission.  You may return to this URL to check on the status of your submission any time.
             </div>
+            <a href="{{ URL::to('resource/submission/'.$article->id.'/edit') }}" class="btn btn-warning btn-block"><strong>Edit This Submission</strong></a><br/>
             <div class="submission" id="submission{{ $article->id }}">
                 <img src="{{ isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : $default_tweakables['publication-banner-image']  }}"/>
                 <h1 id="submissionTitle{{ $article->id }}" class="articleTitle">{{ stripslashes($article->title) }}</h1>

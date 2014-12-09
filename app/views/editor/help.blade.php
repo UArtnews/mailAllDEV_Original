@@ -6,7 +6,16 @@
     </div>
     <div class="panel-body">
         <div class="well">
-            <h1>Articles</h1>
+            <h3><a href="#articles">Articles</a></h3>
+            <h3><a href="#submissions">Submissions</a></h3>
+            <h3><a href="#publications">Publications</a></h3>
+            <h3><a href="#publishing">Publishing</a></h3>
+            <h3><a href="#images">Images</a></h3>
+            <h3><a href="#settings">Settings</a></h3>
+        </div>
+        <div class="well">
+            <a name="articles"></a>
+            <h2>Articles</h2>
             To create and edit articles click on the <button class="btn btn-default"><span class="glyphicon glyphicon-file">&nbsp;Articles</span></button> tab in the navbar.
             <h3>Creating New Articles</h3>
             New articles can be created by clicking the <button class="btn btn-primary"><b>Create New Article</b></button> just above the list of existing articles.<br/>
@@ -35,21 +44,26 @@
         </div>
 
         <div class="well">
-            <h1>Submissions</h1>
+            <a name="submissions"></a>
+            <h2>Submissions</h2>
             If user submissions have been enabled in the publication settings you can access submissions by clicking on the
             <button class="btn btn-default"><span class="glyphicon glyphicon-inbox">&nbsp;Submissions</span></button> tab
             in the navbar.
 
             <h3>Promoting Submissions to Articles</h3>
+            Submissions cannot be included into publications without first being promoted to articles.<br/>
             Once a user has submitted an article to your publication it will appear in a list on the submissions page.
-            To view the submission simple click it's title.
-
-
+            To view the submission simple click it's title.  This will open the submission for review.  The submitter
+            still has the ability to edit this submission.  This means corrections could be made by the submitter if you
+            were to contact them and let them know.  Otherwise you can promote the submission to an article by clicking the
+            "Promote to Article" button.  This will take you directly to the article editing page for convenience.  Everything
+            is already saved and ready for inclusion in a publication.
         </div>
 
 
         <div class="well">
-            <h1>Publications</h1>
+            <a name="publications"></a>
+            <h2>Publications</h2>
             To create and edit publications click on the
             <button class="btn btn-default"><span class="glyphicon glyphicon-inbox">&nbsp;Publications</span></button> tab in the navbar.
 
@@ -79,6 +93,18 @@
             Click this button in the navbar will open your Article Cart.  Click an article title will go to the article's
             detail page.  You can also remove the article from your cart by clicking the
             <button class="btn btn-xs btn-danger">Remove from cart</button> button.<br/>
+        </div>
+
+        <div class="well">
+            <a name="images"></a>
+            <h2>Images</h2>
+            Images can be uploaded for use in publications.  Simply click the <button class="btn btn-primary">Upload New Image</button>
+            button, fill out the form and choose an image to upload.  A URL that can be used anywhere will be available
+            on the Image listing page.  If you are using the WYSIWYG editor and wish to include an image, click the insert
+            image button and then click the "Browse Server" button.  You should see a simplified listing of the images
+            you have uploaded to choose from.  Choose an image and apply any final tweaks (sizing, margins, alignment) and
+            the image will be included in your article.<br/><br/>
+            Be careful deleting images as they will become unavailable to any publications they were published in.
         </div>
 
 

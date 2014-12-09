@@ -254,7 +254,6 @@ class EditorController extends \BaseController
         $data['contentStructureTweakables'] = array(
             'publication-type',
             'publication-show-titles',
-            'publication-allow-merge',
             'publication-banner-image',
             'publication-width',
             'publication-padding',
@@ -277,8 +276,21 @@ class EditorController extends \BaseController
         );
 
         $data['workflowTweakables'] = array(
+            'publication-public-view',
+            'publication-allow-merge',
             'global-accepts-submissions'
         );
+
+        //Grab settings profiles for this instance
+        if($subAction == 'profiles'){
+            $data['profiles'] = array();
+
+            $profiles = Profile::where('instance_id', $data['instance']->id)->groupBy('name')->get();
+
+            foreach($profiles as $profile){
+                $data['profiles'][$profile->name] = Profile::where('name', $profile->name)->get();
+            }
+        }
 
         $publication = Publication::where('instance_id', $data['instance']->id)->
             where('published', 'Y')->
@@ -426,7 +438,68 @@ class EditorController extends \BaseController
                     $tweakable->save();
                 }
             }
-            return Redirect::back()->withMessage('Successfully Saved Settings');
+            return Redirect::back()->withSuccess('Successfully Saved Settings');
+        }elseif($action == 'profiles'){
+            //Admin's only!
+            if(!Auth::user()->isAdmin($instanceID)){
+                return Redirect::to('edit/'.$data['instance']->name);
+            }
+
+            if(Input::has('profileName')){
+                if(Profile::where('instance_id', $instanceID)->where('name', Input::get('profileName'))->count() > 0){
+                    return Redirect::back()->withError('A profile with that name already exists!  Delete the existing profile or pick a unique name.');
+                }
+                foreach(Tweakable::where('instance_id', $instanceID)->get() as $tweakable){
+                    $profile = new Profile;
+                    $profile->name = Input::get('profileName');
+                    $profile->instance_id = $instanceID;
+                    $profile->tweakable = $tweakable->parameter;
+                    $profile->value = $tweakable->value;
+                    $profile->save();
+                }
+            }else{
+                return Redirect::back()->withError('No Profile Name!');
+            }
+
+            return Redirect::back()->withSuccess('Successfully saved profile ' . Input::get('profileName'));
         }
+    }
+
+    public function deleteProfile($instanceName, $profileName){
+        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instanceID = $instance->id;
+
+        //Admin's only!
+        if(!Auth::user()->isAdmin($instanceID)){
+            return Redirect::to('edit/'.$instanceName);
+        }
+
+        Profile::where('name', $profileName)->where('instance_id', $instanceID)->delete();
+        return Redirect::back()->withSuccess('Successfully deleted profile ' . Input::get('profileName'));
+    }
+
+    public function loadProfile($instanceName, $profileName){
+        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instanceID = $instance->id;
+
+        //Admin's only!
+        if(!Auth::user()->isAdmin($instanceID)){
+            return Redirect::to('edit/'.$instanceName);
+        }
+
+        $profile = Profile::where('name', $profileName)->where('instance_id', $instanceID)->get();
+
+        //Kill old settings
+        Tweakable::where('instance_id', $instanceID)->delete();
+        foreach($profile as $setting){
+            //Load in new settings
+            $tweakable = new Tweakable;
+            $tweakable->instance_id = $instanceID;
+            $tweakable->parameter = $setting->tweakable;
+            $tweakable->value = $setting->value;
+            $tweakable->save();
+        }
+
+        return Redirect::back()->withSuccess('Successfully loaded profile ' . Input::get('profileName'));
     }
 }
