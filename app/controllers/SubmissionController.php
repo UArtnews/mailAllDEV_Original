@@ -126,17 +126,6 @@ class SubmissionController extends BaseController {
             'article'                  => $submission
         );
 
-        //Get flash messages
-        if(Session::has('message')){
-            $data['message'] = Session::get('message');
-        }
-        if(Session::has('error')){
-            $data['error'] = Session::get('error');
-        }
-        if(Session::has('success')){
-            $data['success'] = Session::get('success');
-        }
-
         if(isset($data['tweakables']['global-accepts-submissions'])){
             if($data['tweakables']['global-accepts-submissions']){
                 $data['submission'] = true;

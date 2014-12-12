@@ -56,13 +56,7 @@ App::error(function(Exception $exception, $code)
 
 App::error(function(ModelNotFoundException $exception, $code)
 {
-    if(preg_match("/resource\//",Request::path())){
-        return Response::json(array(
-            'error' => 'Item Not Found in Database'
-        ));
-    }else{
-        Log::error($exception);
-    }
+    return Redirect::to('/')->withError('Sorry, but what you are looking for does not exist!');
 });
 
 
@@ -130,7 +124,7 @@ if(!function_exists('getInstanceName')){
     function getInstanceName($id = null)
     {
         if($id == null) {
-            return Instance::where('name', Request::segment(2))->firstOrFail()->name;
+            return Instance::where('name', strtolower(urldecode(Request::segment(2))))->firstOrFail()->name;
         }elseif($id == 0) {
             return 'GLOBAL';
         }else{
@@ -154,7 +148,7 @@ if(!function_exists('excelToArray')){
         });
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->chunk(1000, function($results) use (&$rows){
                 foreach($results as $row){
                     array_push($rows, $row->toArray());
                 }
@@ -180,13 +174,13 @@ if(!function_exists('excelOneRow')){
         });
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->limit(1)->chunk(1000, function($results) use (&$row){
-                foreach($results as $thisRow){
-                    $row = $thisRow;
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->limit(1)->chunk(1000, function($results) use (&$rows){
+                foreach($results as $row){
+                    array_push($rows, $row->toArray());
                 }
             });
         }
 
-        return $row->toArray();
+        return $rows;
     }
 }

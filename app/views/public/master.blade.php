@@ -23,6 +23,7 @@
     <div class="col-xs-12">
         <div class="colorPanel" style="margin-bottom:0px!important;">
             @include('public.publicNav', array('instanceName' => $instanceName))
+            @include('public.messages')
             @yield('content')
         </div>
     </div>

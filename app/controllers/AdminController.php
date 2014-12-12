@@ -4,12 +4,7 @@ class AdminController extends BaseController {
 
     public function index($data)
     {
-        $data = array(
-            'default_tweakables'    => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables'            => array(),
-            'action'                => null,
-        );
-        return View::make('admin.index', $data);
+        return Redirect::to('admin/instances');
     }
 
     public function users($data){
@@ -47,22 +42,29 @@ class AdminController extends BaseController {
         if($data['subAction'] == 'permissionNode'){
             if(UserPermission::where('instance_id', Input::get('instance_id', Input::get('instance_id')))->where('user_id', Input::get('user_id'))->where('node', Input::get('node'))->count() > 0){
                 //Just leave it alone!
-                return Redirect::back()->withMessage('Permission Node Updated!');
+                return Redirect::back()->withSuccess('Permission Node Updated!');
             }else{
                 UserPermission::create(Input::all());
-                return Redirect::back()->withMessage('Permission Node Added!');
+                return Redirect::back()->withSuccess('Permission Node Added!');
             }
         }elseif($data['subAction'] == 'user'){
             $validator = Validator::make(Input::all(), User::$rules);
             if($validator->fails()){
-                return Redirect::back()->withErrors($validator, 'newUser');
+                return Redirect::back()->withError('Invalid input');
             }else{
                 //Do the insert
+                //Check if they're a submitter being added to the admin group
                 if(User::where('uanet', Input::get('uanet'))->count() > 0){
-                    return Redirect::back()->withMessage('User already exists!');
+                    if(User::where('uanet', Input::get('uanet'))->where('submitter', 1)->count() > 0){
+                        //user is a submitter, promote them
+                        $user = User::where('uanet', Input::get('uanet'))->first();
+                        $user->submitter = false;
+                        $user->save();
+                    }
+                    return Redirect::back()->withSuccess('User already existed, promoting!');
                 }else{
                     User::create(Input::all());
-                    return Redirect::back()->withMessage('User succesfully Added!');
+                    return Redirect::back()->withSuccess('User succesfully Added!');
                 }
             }
         }elseif($data['subAction'] == 'instance'){
@@ -70,7 +72,7 @@ class AdminController extends BaseController {
                 return Redirect::back()->withError('An instance with that name already exists');
             }else {
                 Instance::create(array('name' => Input::get('name')));
-                return Redirect::back()->withMessage('Instance Successfully Created!');
+                return Redirect::back()->withSuccess('Instance Successfully Created!');
             }
         }
     }
@@ -79,24 +81,24 @@ class AdminController extends BaseController {
         //Handle Incoming PermissionNodes
         if($data['subAction'] == 'permissionNode'){
             UserPermission::find($data['id'])->delete();
-            return Redirect::back()->withMessage('Permission Node Deleted');
+            return Redirect::back()->withSuccess('Permission Node Deleted');
         }elseif($data['subAction'] == 'user'){
             User::find($data['id'])->delete();
             UserPermission::where('user_id', $data['id'])->delete();
-            return Redirect::back()->withMessage('User successfully Deleted!');
+            return Redirect::back()->withSuccess('User successfully Deleted!');
         }elseif($data['subAction'] == 'instance'){
             Instance::find($data['id'])->delete();
-            return Redirect::back()->withMessage('Instance successfully Deleted!');
+            return Redirect::back()->withSuccess('Instance successfully Deleted!');
         }
     }
 
     public function restore($data){
         if($data['subAction'] == 'instance'){
             Instance::onlyTrashed()->where('id', $data['id'])->restore();
-            return Redirect::back()->withmessage('Instance Successfully Restored!');
+            return Redirect::back()->withSuccess('Instance Successfully Restored!');
         }elseif($data['subAction'] == 'user'){
             User::onlyTrashed()->where('id', $data['id'])->restore();
-            return Redirect::back()->withMessage('User Successfully Restored');
+            return Redirect::back()->withSuccess('User Successfully Restored');
         }
     }
 }

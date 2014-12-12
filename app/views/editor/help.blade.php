@@ -6,19 +6,25 @@
     </div>
     <div class="panel-body">
         <div class="well">
-            <h3><a href="#articles">Articles</a></h3>
-            <h3><a href="#submissions">Submissions</a></h3>
-            <h3><a href="#publications">Publications</a></h3>
-            <h3><a href="#publishing">Publishing</a></h3>
-            <h3><a href="#images">Images</a></h3>
-            <h3><a href="#settings">Settings</a></h3>
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3><a href="#articles">Articles</a></h3>
+                    <h3><a href="#submissions">Submissions</a></h3>
+                    <h3><a href="#publications">Publications</a></h3>
+                </div>
+                <div class="col-xs-6">
+                    <h3><a href="#publishing">Publishing</a></h3>
+                    <h3><a href="#images">Images</a></h3>
+                    <h3><a href="#settings">Settings</a></h3>
+                </div>
+            </div>
         </div>
         <div class="well">
             <a name="articles"></a>
             <h2>Articles</h2>
             To create and edit articles click on the <button class="btn btn-default"><span class="glyphicon glyphicon-file">&nbsp;Articles</span></button> tab in the navbar.
             <h3>Creating New Articles</h3>
-            New articles can be created by clicking the <button class="btn btn-primary"><b>Create New Article</b></button> just above the list of existing articles.<br/>
+            New articles can be created by clicking the <button class="btn btn-success"><b>Create New Article</b></button> just above the list of existing articles.<br/>
             This will expand the article creation area.
             Articles are edited "in place" inside a content area that matches the current settings of the publication.
             This is to give you a better idea of the final result without much distortion.<br/>
@@ -98,23 +104,39 @@
         <div class="well">
             <a name="images"></a>
             <h2>Images</h2>
+            To edit, upload or inspect images click on the
+            <button class="btn btn-default"><span class="glyphicon glyphicon-picture">&nbsp;Images</span></button> tab in the navbar.
             Images can be uploaded for use in publications.  Simply click the <button class="btn btn-primary">Upload New Image</button>
             button, fill out the form and choose an image to upload.  A URL that can be used anywhere will be available
             on the Image listing page.  If you are using the WYSIWYG editor and wish to include an image, click the insert
             image button and then click the "Browse Server" button.  You should see a simplified listing of the images
             you have uploaded to choose from.  Choose an image and apply any final tweaks (sizing, margins, alignment) and
             the image will be included in your article.<br/><br/>
-            Be careful deleting images as they will become unavailable to any publications they were published in.
+            To view or edit details of an existing image, click on the image to expand its details.  Clicking the picture again will take
+            you to the original source image at full size (assuming your browser does not shrink oversized images down).
+
+            <br/><br/>Be careful deleting images as they will become unavailable to any publications they were published in.
         </div>
 
-
-
-
+        <div class="well">
+            <a name="settings"></a>
+            <h2>Settings</h2>
+            To change settings click on the
+            <button class="btn btn-default"><span class="glyphicon glyphicon-wrench">&nbsp;Settings</span></button> tab in the navbar.<br/><br/>
+            Settings have been broken out into a few categories;<br/><br/>
+            <ul>
+                <li>Appearance Settings - Fine-grained settings for background colors and font settings</li>
+                <li>Content/Structure Options - Settings controlling the publications basic structure</li>
+                <li>Header/Footer - WYSIWYG editors for configuring headers, the footer, separators and headline summaries</li>
+                <li>Workflow - Settings controlling mail merge, public archive availability and article submission</li>
+                <li>Settings Profiles - A method of saving all current settings as named profiles to</li>
+            </ul><br/><br/>
+            Once you are pleased with how your publication is configured consider saving the current configuration using by using
+            a "Settings Profile".  Just navigate to the "Settings Profiles" tab, enter a name for the current configuration and
+            click the save button.  Your settings are saved away and if you further configure your publication wish to return to the
+            previous configuration simply click the <button class="btn btn-warning btn-xs">Load Profile</button> button of the
+            corresponding profile.
+        </div>
     </div>
-    <ul class="list-group">
-        <li class="list-group-item list-group-item-warning">
-            List Group Item!
-        </li>
-    </ul>
 </div>
 @stop

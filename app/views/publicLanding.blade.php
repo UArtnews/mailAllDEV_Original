@@ -71,8 +71,9 @@
         <div class="col-xs-10 col-xs-offset-1">
             <br/>
             <br/>
-            <h1 class="centerMe"><strong>The University of Akron: Publications</strong></h1>
-            <br/>
+            <h1 class="centerMe"><span class="glyphicon glyphicon-book" aria-hidden="true" style="font-size:400%;">&nbsp;</span>
+                <strong>The University of Akron: Publications</strong>
+            </h1>
             @if(isset($message) && $message != '')
             <div class="landingMessage alert alert-info alert-dismissible" >
                 <button type="button" class="close" onclick="$('.landingMessage').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>

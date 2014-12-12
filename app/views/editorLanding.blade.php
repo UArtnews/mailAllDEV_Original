@@ -71,11 +71,11 @@
         <div class="col-xs-10 col-xs-offset-1">
             <br/>
             <br/>
-            <h1 class="centerMe"><strong>The University of Akron Publication Editor</strong></h1>
-            <br/>
-            <br/>
+            <h1 class="centerMe"><span class="glyphicon glyphicon-wrench" aria-hidden="true" style="font-size:400%;">&nbsp;</span>
+                <strong>The University of Akron: Publications</strong>
+            </h1>
             <div class="panel panel-default">
-                <div class="panel-heading">Please Choose a Publication to Edit</div>
+                <div class="panel-heading">Please Choose a Publication to Edit <a href="{{ URL::to('/') }}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return to Publication Archive List&nbsp;<span class="glyphicon glyphicon-arrow-left"></span></a></div>
                 <div class="panel-body">
                     <br/>
                     <ul class="list-group">

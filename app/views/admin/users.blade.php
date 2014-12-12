@@ -40,7 +40,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
-                                    Instance:
+                                    Scope:
                                 </div>
                                 {{ Form::select('instance_id', $instances, null, array('class' => 'form-control')) }}
                             </div>
@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="input-group-addon">
-                                    Node:
+                                    Function:
                                 </div>
                                 {{ Form::select('node', $nodes, null, array('class' => 'form-control')) }}
                             </div>
@@ -118,6 +118,25 @@
 
     </div>
     <div class="panel-footer">
+        <h3>Permission Node Cheat Sheet</h3>
+        Permissions are defined as a node with two parts;
+        <ul>
+            <li>Scope - defines what publications this node applies to</li>
+            <li>Function - defines what function this node is permitting</li>
+        </ul>
+        <br/>
+        The available Scopes are as follows;
+        <ul>
+            <li>Global - This means the following Function will be available in ALL publications</li>
+            <li>&lt;Publication-Name&gt; (e.g. Zipmail) - A publication name indicates the function is available specifically for the named publication</li>
+        </ul>
+        The available Functions are as follows;
+        <ul>
+            <li>Super Admin - this only applies if paired with the GLOBAL scope.  This function lets administrators acces this page as well as the Instance administration page</li>
+            <li>Admin - This function allows the user to Edit the publication as well as send emails and publish the publication</li>
+            <li>Edit - This function allows the user to Edit the publication but not send emails</li>
+        </ul>
+        <br/>
     </div>
 </div>
 <script>

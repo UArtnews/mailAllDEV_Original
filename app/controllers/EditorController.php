@@ -82,14 +82,6 @@ class EditorController extends \BaseController
             }))->
         paginate(15);
 
-        foreach ($data['publications'] as $publication) {
-            $publication->submissions = Article::where('instance_id', $data['instance']->id)->where(
-                'issue_dates',
-                'LIKE',
-                '%' . $publication->publish_date . '%'
-            )->get();
-        }
-
         //Get most recent live publication
         $data['currentLivePublication'] = Publication::where('instance_id', $data['instance']->id)->
         where('published', 'Y')->
@@ -407,7 +399,7 @@ class EditorController extends \BaseController
 
     public function save($instanceName, $action)
     {
-        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
         $instanceID = $instance->id;
 
         $default_tweakables = reindexArray(DefaultTweakable::all(), 'parameter', 'value');
@@ -466,7 +458,7 @@ class EditorController extends \BaseController
     }
 
     public function deleteProfile($instanceName, $profileName){
-        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
         $instanceID = $instance->id;
 
         //Admin's only!
@@ -479,7 +471,7 @@ class EditorController extends \BaseController
     }
 
     public function loadProfile($instanceName, $profileName){
-        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
         $instanceID = $instance->id;
 
         //Admin's only!

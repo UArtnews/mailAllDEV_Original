@@ -17,7 +17,7 @@ class CreateProfilesTable extends Migration {
             $table->string('name');
 			$table->integer('instance_id');
 			$table->string('tweakable');
-			$table->string('value');
+			$table->text('value');
 
 			$table->timestamps();
 		});

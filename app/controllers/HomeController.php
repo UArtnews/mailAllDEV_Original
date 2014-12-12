@@ -23,16 +23,6 @@ class HomeController extends BaseController {
 		);
 
         $data['types'] = array('success', 'info', 'warning', 'danger');
-        //Get flash messages
-        if(Session::has('message')){
-            $data['message'] = Session::get('message');
-        }
-        if(Session::has('error')){
-            $data['error'] = Session::get('error');
-        }
-        if(Session::has('success')){
-            $data['success'] = Session::get('success');
-        }
 
         return View::make('publicLanding', $data);
 

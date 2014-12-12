@@ -104,4 +104,14 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
+    <script>
+        $(document).ready(function() {
+          $(window).keydown(function(event){
+            if(event.keyCode == 13) {
+              event.preventDefault();
+              return false;
+            }
+          });
+        });
+    </script>
 </div><!-- /.modal -->

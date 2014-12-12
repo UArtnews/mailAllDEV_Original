@@ -56,43 +56,43 @@ Route::group(array('before' => 'force.ssl|superAuth'), function() {
 //                      //
 //////////////////////////
 
-//POST route for Bitbucket WebHook
-Route::any('/bitbucket/{token}', function($token){
-    $input = Input::get('payload');
-    $input = str_replace('\\"','"',$input);
-    $input = json_decode($input);
-    $log = '';
-    $msgs = '';
-
-    if(isset($input->commits) && $token == '5237239250'){
-        $commits = $input->commits;
-        $doPull = false;
-        foreach($commits as $commit) {
-            if ($commit->branch == 'dev') {
-                $doPull = true;
-                $msgs .= $commit->author . ' - ' . $commit->message;
-            }
-        }
-        if($doPull) {
-            $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
-            $log .= $msgs . "\n";
-            sleep(10);
-            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
-            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
-            $log .= shell_exec('git pull origin dev');
-            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
-            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
-        }
-    }
-
-    File::put('/web_content/share/mailAllSource/log.txt', $log);
-});
+////POST route for Bitbucket WebHook
+//Route::any('/bitbucket/{token}', function($token){
+//    $input = Input::get('payload');
+//    $input = str_replace('\\"','"',$input);
+//    $input = json_decode($input);
+//    $log = '';
+//    $msgs = '';
+//
+//    if(isset($input->commits) && $token == '5237239250'){
+//        $commits = $input->commits;
+//        $doPull = false;
+//        foreach($commits as $commit) {
+//            if ($commit->branch == 'dev') {
+//                $doPull = true;
+//                $msgs .= $commit->author . ' - ' . $commit->message;
+//            }
+//        }
+//        if($doPull) {
+//            $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
+//            $log .= $msgs . "\n";
+//            sleep(10);
+//            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
+//            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
+//            $log .= shell_exec('git pull origin dev');
+//            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
+//            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
+//        }
+//    }
+//
+//    File::put('/web_content/share/mailAllSource/log.txt', $log);
+//});
 
 //Show live publication in stripped down reader
 Route::get('/{instanceName}/', function($instanceName){
 
     //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
 
     $data = array(
@@ -150,7 +150,7 @@ Route::get('/{instanceName}/', function($instanceName){
 //Show this article with share buttons and stuff
 Route::get('/{instanceName}/article/{article_id}', function($instanceName, $article_id){
     //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
     $data = array(
         'instance'		=> $instance,
@@ -190,7 +190,7 @@ Route::get('/{instanceName}/article/{article_id}', function($instanceName, $arti
 //Show this publication in stripped down reader
 Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $publication_id){
     //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
     if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
 
@@ -233,7 +233,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
 //Show archives
 Route::get('/{instanceName}/archive/', function($instanceName) {
     //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
     if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
 
@@ -300,7 +300,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
 
 //Show search results for public users
 Route::get('/{instanceName}/search', function($instanceName){
-    $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
     $data = array(
         'instance'		=> $instance,
         'instanceId'	=> $instance->id,
@@ -398,7 +398,7 @@ Route::get('/{instanceName}/search', function($instanceName){
 
 //Return image lists for ckeditors
 Route::get('/json/{instanceName}/images', function($instanceName){
-    $instance = Instance::where('name',urldecode($instanceName))->first();
+    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->first();
 
     //Grab all the images for that instance and send them to the user
     $images = array();
@@ -428,15 +428,15 @@ Route::group(array('before' => 'force.ssl'), function(){
 // 4.  Public Logged In Ajax  //
 //                            //
 ////////////////////////////////
+Route::group(array('before' => 'force.ssl|registerSubmitter'), function() {
+    Route::resource('/resource/submission', 'SubmissionController');
+});
 
 //////////////////////////////////////
 //                                  //
 // 5.  Editor Logged In Ajax Routes //
 //                                  //
 //////////////////////////////////////
-Route::group(array('before' => 'force.ssl|registerSubmitter'), function() {
-    Route::resource('/resource/submission', 'SubmissionController');
-});
 
 Route::group(array('before' => 'force.ssl'), function(){
     Route::post('/promote/{instanceName}/{submission_id}', 'SubmissionController@promoteSubmission');
@@ -452,7 +452,7 @@ Route::group(array('before' => 'force.ssl'), function(){
     //Handle Article Carts
     //Add to cart
     Route::post('/cart/{instanceName}/add', function($instanceName){
-        $instance = Instance::where('name',urldecode($instanceName))->first();
+        $instance = Instance::where('name',strtolower(urldecode($instanceName)))->first();
         $article_id = Input::get('article_id');
 
         if(Session::has('cart')){
@@ -493,7 +493,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 
     //Remove from cart
     Route::post('/cart/{instanceName}/remove', function($instanceName){
-        $instance = Instance::where('name',urldecode($instanceName))->first();
+        $instance = Instance::where('name',strtolower(urldecode($instanceName)))->first();
         $article_id = Input::get('article_id');
 
         if(Session::has('cart')){
@@ -528,7 +528,7 @@ Route::group(array('before' => 'force.ssl'), function(){
     });
 
     Route::post('/cart/{instanceName}/clear', function($instanceName){
-        $instance = Instance::where('name',urldecode($instanceName))->first();
+        $instance = Instance::where('name',strtolower(urldecode($instanceName)))->first();
 
         if(Session::has('cart')){
             $cart = Session::get('cart');
@@ -605,7 +605,7 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
         $editorController = $app->make('EditorController');
 
         //Fetch Instance out of DB
-        $instance = Instance::where('name', $instanceName)->firstOrFail();
+        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
 
         //Stuff parameters into array
         $parameters = array(
@@ -627,17 +627,6 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
             'tweakables_types'         => reindexArray($defaultTweakable, 'parameter', 'type'),
             'default_tweakables_names' => reindexArray($defaultTweakable, 'parameter', 'display_name'),
         );
-
-        //Get flash messages
-        if(Session::has('message')){
-            $parameters['data']['message'] = Session::get('message');
-        }
-        if(Session::has('error')){
-            $parameters['data']['error'] = Session::get('error');
-        }
-        if(Session::has('success')){
-            $parameters['data']['success'] = Session::get('success');
-        }
 
         //Stuff session data into data parameter
         if (Session::has('cart')) {
@@ -681,188 +670,9 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
     //Specific Saving Controller for things in the editor like saving settings
     Route::post('/save/{instanceName}/{action}', 'EditorController@save');
 
-    Route::any('mergeEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
-            set_time_limit(600);
-            $instance = Instance::where('name', $instanceName)->first();
+    //Perform and send a mail merge
+    Route::any('mergeEmail/{instanceName}/{publication_id}', 'EmailController@mergeEmail');
 
-            $data = array(
-                'instance'		=> $instance,
-                'instanceId'	=> $instance->id,
-                'instanceName'	=> $instance->name,
-                'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-                'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-                'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-                'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-                'isEditable'               => false,
-                'shareIcons'               => false,
-            );
-
-            //Get This Publication
-            $publication = Publication::where('id', $publication_id)->
-            where('instance_id', $instance->id)->
-            with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
-
-            $data['publication'] = $publication;
-            $data['isEmail'] = true;
-
-            $mergeFileName = '';
-
-            //Do File Upload, store as latestMerge.xlsx/xls
-            if(Input::hasFile('mergeFile')){
-                if(Input::file('mergeFile')->isValid() && ( Input::file('mergeFile')->getClientOriginalExtension() == 'xls' || Input::file('mergeFile')->getClientOriginalExtension() == 'xlsx' ) ){
-                    $mergePath = "/web_content/share/mailAllSource/docs/" . $instance->name;
-                    if(!file_exists($mergePath)){
-                        mkdir($mergePath);
-                    }
-                    $mergeFileName = "latestMerge.".Input::file('mergeFile')->getClientOriginalExtension();
-                    if(file_exists($mergePath . "/" . $mergeFileName)){
-                        unlink($mergePath . "/" . $mergeFileName);
-                    }
-                    Input::file('mergeFile', 0775)->move($mergePath, $mergeFileName);
-                }else{
-                    return Redirect::back()->withError('Invalid Merge File Uploaded. XLS or XLSX files only!');
-                }
-            }else{
-                return Redirect::back()->withError('No Merge File Uploaded!');
-            }
-
-            //Publish if this is a real deal publish things
-            if(!Input::has('isTest')){
-                foreach($publication->articles as $article){
-                    $thisArticle = Article::find($article->id);
-                    $thisArticle->published = 'Y';
-                    $thisArticle->save();
-                }
-
-                $publication->published = 'Y';
-                $publication->save();
-            }
-
-            $html = View::make('emailPublication', $data)->render();
-            $css = View::make('emailStyle', $data)->render();
-
-            $inliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
-            $inliner->setHTML($html);
-            $inliner->setCSS($css);
-
-            $inlineHTML = $inliner->convert();
-            $mergedHTML = '';
-            $sentCount = 0;
-            if(Input::has('isTest')){
-                //Do a single merge
-                $mergedHTML = $inlineHTML;
-                foreach(excelOneRow($mergePath . "/" . $mergeFileName) as $index => $value){
-                    $pattern = '**' . $index . '**';
-                    $mergedHTML = str_replace($pattern, $value, $mergedHTML);
-                }
-                if(Input::has('testTo') && Input::has('addressFrom')){
-                    Mail::send('html', array('html' => $mergedHTML), function($message){
-                            $message->to(Input::get('testTo'))
-                                ->subject(Input::has('subject') ? Input::get('subject') : '')
-                                ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                        });
-                    $data['success'] = true;
-                }else{
-                    $data['error'] = true;
-                }
-            }else{
-                //Do the big-daddy merge
-                $addresses = excelToArray($mergePath . "/" . $mergeFileName);
-                foreach($addresses as $address) {
-                    $addressField = Input::get('addressField');
-                    $addressTo = $address[$addressField];
-                    $mergedHTML = $inlineHTML;
-                    foreach ($address as $index => $value) {
-                        $pattern = '**' . $index . '**';
-                        $mergedHTML = str_replace($pattern, $value, $mergedHTML);
-                    }
-
-                    if (Input::has('addressFrom')) {
-                        $validator = Validator::make(array('email' => $addressTo), array('email' => 'email|required'));
-                        if($validator->fails()){
-                            $data['error'] = true;
-                        }else{
-                            $sentCount++;
-                            Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
-                                    $message->to($addressTo)
-                                        ->subject(Input::has('subject') ? Input::get('subject') : '')
-                                        ->from(
-                                            Input::get('addressFrom'),
-                                            Input::has('nameFrom') ? Input::get('nameFrom') : ''
-                                        );
-                                }
-                            );
-                            $data['success'] = true;
-                        }
-                    } else {
-                        $data['error'] = true;
-                    }
-                }
-            }
-
-            //Display the results of the last email, might as well, it'll be merged
-            $data['isEmail'] = true;
-            return Redirect::back()->withSuccess("$sentCount messages successfully sent!");
-    });
-
-    //Fire off an email
-    Route::any('sendEmail/{instanceName}/{publication_id}', function($instanceName, $publication_id){
-
-        $instance = Instance::where('name', $instanceName)->first();
-
-        $data = array(
-            'instance'		=> $instance,
-            'instanceId'	=> $instance->id,
-            'instanceName'	=> $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-            'isEditable'               => false,
-            'shareIcons'               => false,
-        );
-
-        //Get This Publication
-        $publication = Publication::where('id', $publication_id)->
-        where('instance_id', $instance->id)->
-        with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
-
-        $data['publication'] = $publication;
-        $data['isEmail'] = true;
-
-        $html = View::make('emailPublication', $data)->render();
-        $css = View::make('emailStyle', $data)->render();
-
-        $inliner = new \TijsVerkoyen\CssToInlineStyles\CssToInlineStyles();
-        $inliner->setHTML($html);
-        $inliner->setCSS($css);
-
-        $inlineHTML = $inliner->convert();
-
-        if(Input::has('addressTo') && Input::has('addressFrom')){
-            Mail::send('html', array('html' => $inlineHTML), function($message){
-                    $message->to(Input::get('addressTo'))
-                        ->subject(Input::has('subject') ? Input::get('subject') : '')
-                        ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                });
-
-            //Publish if this is a real deal publish things
-            if(!Input::has('isTest')){
-                foreach($publication->articles as $article){
-                    $thisArticle = Article::find($article->id);
-                    $thisArticle->published = 'Y';
-                    $thisArticle->save();
-                }
-                $publication->published = 'Y';
-                $publication->save();
-            }
-            return Redirect::back()->withSuccess("Publication successfully sent!");
-        }else{
-            return Redirect::back()->withError("An error occurred, publication was not sent");
-        }
-    });
+    //Send an email
+    Route::any('sendEmail/{instanceName}/{publication_id}', 'EmailController@sendEmail');
 });

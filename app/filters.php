@@ -57,7 +57,7 @@ Route::filter('auth', function()
         }
     }
 
-	if (Auth::guest()) return Redirect::guest('/');
+	if (Auth::guest()) return Redirect::guest('/')->withError('You do not have permission to access that!');
 });
 
 Route::filter('editAuth', function() {
@@ -69,7 +69,7 @@ Route::filter('editAuth', function() {
         $user = User::where('uanet', uanet())->first();
 
         if (count($user) <= 0) {
-            return Redirect::guest('/');
+            return Redirect::guest('/')->withError('You do not have permission to access that!');
         } else {
             Auth::login(User::find($user->id));
         }
@@ -80,7 +80,7 @@ Route::filter('editAuth', function() {
     }else if(Auth::check() && ( $user->hasPermission($instance->id, 'admin') || $user->hasPermission(0, 'admin')) ){
         //Let admins in
     }else{
-        return Redirect::guest('/');
+        return Redirect::guest('/')->withError('You do not have permission to access that!');
     }
 });
 
@@ -93,7 +93,7 @@ Route::filter('adminAuth', function() {
         $user = User::where('uanet', uanet())->first();
 
         if (count($user) <= 0) {
-            return Redirect::guest('/');
+            return Redirect::guest('/')->withError('You do not have permission to access that!');
         } else {
             Auth::login(User::find($user->id));
         }
@@ -102,7 +102,7 @@ Route::filter('adminAuth', function() {
     if(Auth::check() && ( $user->hasPermission($instance->id, 'admin') || $user->hasPermission(0, 'admin')) ){
         //Let admins in
     }else{
-        return Redirect::guest('/');
+        return Redirect::guest('/')->withError('You do not have permission to access that!');
     }
 });
 
@@ -114,7 +114,7 @@ Route::filter('superAuth', function() {
         $user = User::where('uanet', uanet())->first();
 
         if (count($user) <= 0) {
-            return Redirect::guest('/');
+            return Redirect::guest('/')->withError('You do not have permission to access that!');
         } else {
             Auth::login(User::find($user->id));
         }
@@ -123,7 +123,7 @@ Route::filter('superAuth', function() {
     if(Auth::check() && $user->isSuperAdmin()){
         //Let them in
     }else{
-        return Redirect::guest('/');
+        return Redirect::guest('/')->withError('You do not have permission to access that!');
     }
 });
 

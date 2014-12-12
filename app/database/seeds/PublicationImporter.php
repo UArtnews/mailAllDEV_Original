@@ -8,10 +8,16 @@ class PublicationImporter extends Seeder {
         $wayneInstance = Instance::where('name', 'Waynemail')->first();
         $digestInstance = Instance::where('name', 'Digest')->first();
 
-        DB::table('article')->truncate();
-        DB::table('publication')->truncate();
-        DB::table('publication_order')->truncate();
+        $instancesToDelete = Instance::where('name', 'Zipmail')->orWhere('name','Digest')->orWhere('name','Waynemail')->get();
+        foreach($instancesToDelete as $instanceToDelete){
+            Article::where('instance_id', $instanceToDelete->id)->delete();
+            $pubs = Publication::where('instance_id', $instanceToDelete->id)->get();
+            foreach($pubs as $pub){
+                PublicationOrder::where('publication_id', $pub->id)->delete();
+                $pub->delete();
+            }
 
+        }
         //Entire Digest Process
         $articleMap = array();
         $pubMap = array();
@@ -34,7 +40,7 @@ class PublicationImporter extends Seeder {
 
                 $newArticle->instance_id = $digestInstance->id;
                 $newArticle->title = html_entity_decode($thing->title);
-                $newArticle->content = html_entity_decode($thing->story);
+                $newArticle->content = str_replace('%u25BA','&#x25ba;',html_entity_decode($thing->story));
                 $newArticle->author_id = 1;
                 $newArticle->published = $thing->old;
                 $newArticle->submission = 'N';
