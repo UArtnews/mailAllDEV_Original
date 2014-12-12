@@ -74,25 +74,7 @@
             <h1 class="centerMe"><span class="glyphicon glyphicon-book" aria-hidden="true" style="font-size:400%;">&nbsp;</span>
                 <strong>The University of Akron: Publications</strong>
             </h1>
-            @if(isset($message) && $message != '')
-            <div class="landingMessage alert alert-info alert-dismissible" >
-                <button type="button" class="close" onclick="$('.landingMessage').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <strong>{{ $message }}</strong>
-            </div>
-            @endif
-            @if(isset($success) && $success != '')
-            <div class="landingSuccess alert alert-success alert-dismissible" >
-                <button type="button" class="close" onclick="$('.landingSuccess').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <strong>{{ $success }}</strong>
-            </div>
-            @endif
-            @if(isset($error) && $error != '')
-            <div class="landingError alert alert-danger alert-dismissible" >
-                <button type="button" class="close" onclick="$('.landingError').hide()"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <strong>{{ $error }}</strong>
-            </div>
-            @endif
-
+            @include('public.messages')
             <div class="panel panel-default">
                 <div class="panel-heading">Please Choose a Publication to View</div>
                 <div class="panel-body">

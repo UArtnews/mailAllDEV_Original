@@ -2,6 +2,11 @@
 
 class EmailController extends \BaseController
 {
+    private $excel;
+
+    function __constructor(){
+        $this->excel = App::make('ExcelGet');
+    }
 
 
     public function sendEmail($instanceName, $publication_id){
@@ -135,7 +140,7 @@ class EmailController extends \BaseController
         if(Input::has('isTest')){
             //Do a single merge
             $mergedHTML = $inlineHTML;
-            foreach(excelOneRow($mergePath . "/" . $mergeFileName) as $index => $value){
+            foreach($this->excel->oneRow($mergePath . "/" . $mergeFileName) as $index => $value){
                 $pattern = '**' . $index . '**';
                 $mergedHTML = str_replace($pattern, $value, $mergedHTML);
             }
@@ -151,7 +156,7 @@ class EmailController extends \BaseController
             }
         }else{
             //Do the big-daddy merge
-            $addresses = excelToArray($mergePath . "/" . $mergeFileName);
+            $addresses = $this->excel->toArray($mergePath . "/" . $mergeFileName);
             foreach($addresses as $address) {
                 $addressField = Input::get('addressField');
                 $addressTo = $address[$addressField];

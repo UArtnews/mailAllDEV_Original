@@ -30,25 +30,16 @@ class ExcelGet {
 
     function oneRow($fileName)
     {
-        $sheetCount = 0;
-        $row = array();
+        $thisRow = array();
 
-        //Get sheet count
-        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
-            foreach($results as $sheet){
-                $sheetCount++;
+        Excel::selectSheetsByIndex(0)->filter('chunk')->load($fileName)->limit(1)->chunk(1000, function($results) use (&$thisRow){
+            foreach($results as $row){
+                $thisRow = $row->toArray();
+                break;
             }
         });
 
-        foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->limit(1)->chunk(1000, function($results) use (&$rows){
-                foreach($results as $row){
-                    array_push($rows, $row->toArray());
-                }
-            });
-        }
-
-        return $rows;
+        return $thisRow;
     }
 
 }
