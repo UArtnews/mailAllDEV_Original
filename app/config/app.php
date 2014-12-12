@@ -109,6 +109,7 @@ return array(
         'Way\Generators\GeneratorsServiceProvider',
         'Makzumi\Calendar\CalendarServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
+        'ExcelGetServiceProvider',
     ),
 
     /*

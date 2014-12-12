@@ -16,6 +16,12 @@
 
 Route::get('/', 'HomeController@index');
 
+Route::get('test', function(){
+    $excel = App::make('ExcelGet');
+    $excel = $excel->oneRow('public/november-employee-list.xlsx');
+    dd($excel);
+});
+
 Route::group(array('before' => 'auth|force.ssl'), function(){
     Route::get('editors', 'HomeController@editors');
 });
@@ -676,3 +682,4 @@ Route::group(array('before' => 'force.ssl|editAuth'), function(){
     //Send an email
     Route::any('sendEmail/{instanceName}/{publication_id}', 'EmailController@sendEmail');
 });
+

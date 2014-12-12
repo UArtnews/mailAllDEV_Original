@@ -148,7 +148,7 @@ if(!function_exists('excelToArray')){
         });
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->chunk(1000, function($results) use (&$rows){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
                 foreach($results as $row){
                     array_push($rows, $row->toArray());
                 }
@@ -174,7 +174,7 @@ if(!function_exists('excelOneRow')){
         });
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load('public/november-employee-list.xlsx')->limit(1)->chunk(1000, function($results) use (&$rows){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->limit(1)->chunk(1000, function($results) use (&$rows){
                 foreach($results as $row){
                     array_push($rows, $row->toArray());
                 }
