@@ -5,7 +5,7 @@ class ExcelGet {
     function __construct(){
     }
 
-    function toArray($fileName)
+    function asArray($fileName)
     {
         $sheetCount = 0;
         $rows = array();

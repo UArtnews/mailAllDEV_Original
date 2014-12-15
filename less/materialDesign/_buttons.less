@@ -13,14 +13,14 @@
         .shadow-z-2-hover();
     }
     &:active:not(.btn-link):not(.btn-flat) {
-        .shadow-z-2();
+        .shadow-z-3();
     }
     transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     outline: none !important;
 
-    .variations(~":not(.btn-link):not(.btn-flat)", background-color, @btn-default);
-
     .variations(~".btn-flat:not(.btn-link)", color, @lightbg-text);
+
+	.background-variations(~":not(.btn-link):not(.btn-flat)", @btn-default);
 
     &.btn-flat {
         background: none;
@@ -59,7 +59,6 @@
             top: -5px;
         }
     }
-    .btn-shadow();
 }
 
 // This is needed to style buttons which has not a variation suffix (they must be stiled as btn-default)
@@ -77,36 +76,34 @@
 .open > .dropdown-toggle.btn {
     .variations(~"", background-color, @btn-default);
 }
+.btn-group .btn+.btn, .btn-group .btn+.btn-group, .btn-group .btn-group+.btn, .btn-group .btn-group+.btn-group {
+  margin-left: 0;
+}
 .btn-group, .btn-group-vertical {
     position: relative;
     border-radius: 2px;
     margin: 10px 1px;
 
     .btn-shadow();
-    &:hover:not(.btn-link):not(.btn-flat) {
-      .shadow-z-2-hover();
-    }
-
     &.open .dropdown-toggle {
-          box-shadow: none;
-      }
-      &.btn-group-raised {
-          .btn-shadow();
-      }
-      .btn, .btn:active, .btn-group {
-          box-shadow: none !important;
-          margin: 0;
-      }
-      .btn:active .caret { margin-left: -1px; }
+        box-shadow: none;
+    }
+    &.btn-group-raised {
+        .btn-shadow();
+    }
+    .btn, .btn:active, .btn-group {
+        box-shadow: none !important;
+        margin: 0;
+    }
 }
 .btn-group-flat {
     box-shadow: none !important;
 }
 
 .btn-shadow() {
-    .shadow-z-1();
+    .shadow-z-2();
     transition: box-shadow 0.28s cubic-bezier(0.4, 0, 0.2, 1);
     &:active:not(.btn-link) {
-        .shadow-z-2();
+        .shadow-z-3();
     }
 }

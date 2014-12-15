@@ -90,6 +90,7 @@ App::down(function()
 require app_path().'/filters.php';
 
 //Make sure we have this function.  I'll stop doing this soon.
+//TODO:MAKE OWN CLASS + SERVICE PROVIDER
 if(!function_exists('reindexArray')){
     function reindexArray($array, $index, $value)
     {
@@ -130,57 +131,5 @@ if(!function_exists('getInstanceName')){
         }else{
             return Instance::find($id)->name;
         }
-    }
-}
-
-//Make sure we have this function.  I'll stop doing this soon.
-if(!function_exists('excelToArray')){
-    function excelToArray($fileName)
-    {
-        $sheetCount = 0;
-        $rows = array();
-
-        //Get sheet count
-        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
-            foreach($results as $sheet){
-                $sheetCount++;
-            }
-        });
-
-        foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
-                foreach($results as $row){
-                    array_push($rows, $row->toArray());
-                }
-            });
-        }
-
-        return $rows;
-    }
-}
-
-//Make sure we have this function.  I'll stop doing this soon.
-if(!function_exists('excelOneRow')){
-    function excelOneRow($fileName)
-    {
-        $sheetCount = 0;
-        $row = array();
-
-        //Get sheet count
-        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
-            foreach($results as $sheet){
-                $sheetCount++;
-            }
-        });
-
-        foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->limit(1)->chunk(1000, function($results) use (&$rows){
-                foreach($results as $row){
-                    array_push($rows, $row->toArray());
-                }
-            });
-        }
-
-        return $rows;
     }
 }

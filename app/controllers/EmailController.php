@@ -4,10 +4,10 @@ class EmailController extends \BaseController
 {
     private $excel;
 
-    function __constructor(){
+    public function __construct(){
+        //Make ExcelGet stuff available for this Controller
         $this->excel = App::make('ExcelGet');
     }
-
 
     public function sendEmail($instanceName, $publication_id){
 
@@ -137,6 +137,7 @@ class EmailController extends \BaseController
         $mergedHTML = '';
         $sentCount = 0;
         $failCount = 0;
+        $failDetails = array();
         if(Input::has('isTest')){
             //Do a single merge
             $mergedHTML = $inlineHTML;
@@ -156,7 +157,7 @@ class EmailController extends \BaseController
             }
         }else{
             //Do the big-daddy merge
-            $addresses = $this->excel->toArray($mergePath . "/" . $mergeFileName);
+            $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName);
             foreach($addresses as $address) {
                 $addressField = Input::get('addressField');
                 $addressTo = $address[$addressField];
@@ -169,8 +170,11 @@ class EmailController extends \BaseController
                 if (Input::has('addressFrom')) {
                     $validator = Validator::make(array('email' => $addressTo), array('email' => 'email|required'));
                     if($validator->fails()){
-                        $data['error'] = true;
-                        $failCount++;
+                        if(count($address) > 0) {
+                            $failDetails[$failCount] = $address;
+                            $failCount ++;
+                            $data['error'] = true;
+                        }
                     }else{
                         $sentCount++;
                         Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
@@ -185,22 +189,48 @@ class EmailController extends \BaseController
                         $data['success'] = true;
                     }
                 } else {
-                    $failCount++;
-                    $data['error'] = true;
+                    if(count($address) > 0) {
+                        $failDetails[$failCount] = $address;
+                        $failCount++;
+                        $data['error'] = true;
+                    }
                 }
             }
+        }
+
+        //Write out fail log if necessary
+        if($failCount > 0){
+            $logPath = '/web_content/share/mailAllSource/public/logs/'.$instance->name;
+            if(!file_exists($logPath)){
+                mkdir($logPath);
+            }
+
+            $failLog = '';
+            foreach($failDetails as $index => $failDetail){
+                $failLog .= "Error Record #" . ($index+1);
+                $failLog .= "\n\tMerge Details:";
+                foreach($failDetail as $index => $value){
+                    $failLog .= "\n\t\t$index: $value";
+                }
+                $failLog .="\n\n";
+            }
+
+            file_put_contents($logPath . "/mergeErrors".date('Y-m-d').".txt", $failLog);
         }
 
         //Display the results of the last email, might as well, it'll be merged
         $data['isEmail'] = true;
         if($sentCount > 0 && $failCount > 0){
-            return Redirect::back()->withSuccess("$sentCount messages successfully sent!")->withError("$failCount messages encountered an error!");
+            return Redirect::back()
+                ->withSuccess("$sentCount message(s) successfully sent!")
+                ->withError("$failCount message(s) encountered an error! <a href=\"" . URL::to('logs/'.$instance->name.'/mergeErrors'.date('Y-m-d').'.txt') . "\" class=\"btn btn-xs btn-danger\">View Error Log</a>");
         }elseif($sentCount > 0){
-            return Redirect::back()->withSuccess("$sentCount messages successfully sent!");
+            return Redirect::back()->withSuccess("$sentCount message(s) successfully sent!");
         }elseif($failCount > 0){
-            return Redirect::back()->withError("$failCount messages encountered an error!");
+            return Redirect::back()
+                ->withError("$failCount message(s) encountered an error! <a href=\"" . URL::to('logs/'.$instance->name.'/mergeErrors.txt') . "\" class=\"btn btn-xs btn-danger\">View Error Log</a>");
         }else{
-            return Redirect::back()->withSuccess("Message successfully sent!");
+            return Redirect::back()->withSuccess("Message(s) successfully sent!");
         }
     }
 

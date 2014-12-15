@@ -16,12 +16,6 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('test', function(){
-    $excel = App::make('ExcelGet');
-    $excel = $excel->oneRow('public/november-employee-list.xlsx');
-    dd($excel);
-});
-
 Route::group(array('before' => 'auth|force.ssl'), function(){
     Route::get('editors', 'HomeController@editors');
 });
@@ -93,6 +87,12 @@ Route::group(array('before' => 'force.ssl|superAuth'), function() {
 //
 //    File::put('/web_content/share/mailAllSource/log.txt', $log);
 //});
+
+//Show logs
+Route::get('/logs/{instanceName}/{fileName}', function($instanceName, $fileName){
+    echo '/web_content/share/mailAllSource/public/logs/'.$instanceName.'/'.$fileName;die;
+    return file_get_contents('/web_content/share/mailAllSource/public/logs/'.$instanceName.'/'.$fileName);
+});
 
 //Show live publication in stripped down reader
 Route::get('/{instanceName}/', function($instanceName){
