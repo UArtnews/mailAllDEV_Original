@@ -134,18 +134,7 @@ Route::get('/{instanceName}/', function($instanceName){
 
     if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0) {
         //Get most recent live publication
-        $data['publication'] = Publication::where('instance_id', $instance->id)->
-        where('published', 'Y')->
-        where('type', 'regular')->
-        orderBy('publish_date', 'desc')->
-        with(
-            array(
-                'articles' => function ($query) {
-                    $query->orderBy('order', 'asc');
-                }
-            )
-        )->
-        first();
+        $data['publication'] = Publication::where('instance_id', $instance->id)->livePublication()->first();
     }else{
         $data['publication'] = null;
     }
@@ -198,7 +187,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
     //Fetch Instance out of DB
     $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
-    if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
+    if(Publication::where('instance_id',$instance->id)->published()->count() > 0){
 
         $data = array(
             'instance'		=> $instance,
@@ -225,9 +214,7 @@ Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $
         }
 
         //Get this publication
-        $publication = Publication::where('id', $publication_id)->where('published','Y')->with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
+        $publication = Publication::where('id', $publication_id)->published()->withArticles()->first();
 
         //Populate $data
         $data['publication'] = $publication;
@@ -241,7 +228,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
     //Fetch Instance out of DB
     $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
-    if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
+    if(Publication::where('instance_id',$instance->id)->published()->count() > 0){
 
         $data = array(
             'instance'		=> $instance,
@@ -295,7 +282,7 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
         }
 
         //Get some pubs
-        $publications = Publication::where('instance_id',$instance->id)->where('published','Y')->orderBy('publish_date','DESC')->paginate(15);
+        $publications = Publication::where('instance_id',$instance->id)->published()->orderBy('publish_date','DESC')->paginate(15);
 
         //Populate $data
         $data['publications'] = $publications;
@@ -454,6 +441,8 @@ Route::group(array('before' => 'force.ssl'), function(){
     Route::resource('/resource/image', 'ImageController');
 
     Route::post('/resource/publication/updateOrder/{publication_id}', 'PublicationController@updateOrder');
+
+    Route::post('/resource/publication/updateType/{publication_id}', 'PublicationController@updateType');
 
     //Handle Article Carts
     //Add to cart

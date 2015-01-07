@@ -10,13 +10,7 @@ class EditorController extends \BaseController
         //Get most recent live publication
         $data['instance']->id;
 
-        $publication = Publication::where('instance_id', $data['instance']->id)->
-            where('published', 'Y')->
-            where('type', 'regular')->
-            orderBy('publish_date', 'desc')->
-            with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
+        $publication = Publication::where('instance_id', $data['instance']->id)->livePublication()->first();
 
         //Populate $data
         $data['publication'] = $publication;
@@ -74,22 +68,10 @@ class EditorController extends \BaseController
     //  edit/{instanceName}/publications/{subAction}
     ////////////////////////////////////////////////
     public function publications($subAction, $data){
-        $data['publications'] = Publication::where('instance_id', $data['instance']->id)->orderBy(
-            'publish_date',
-            'desc'
-        )->with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->
-        paginate(15);
+        $data['publications'] = Publication::where('instance_id', $data['instance']->id)->orderBy('publish_date','desc')->paginate(15);
 
         //Get most recent live publication
-        $data['currentLivePublication'] = Publication::where('instance_id', $data['instance']->id)->
-        where('published', 'Y')->
-        where('type', 'regular')->
-        with(array('articles' => function($query){
-            $query->orderBy('order', 'asc');
-        }))->
-        orderBy('publish_date', 'desc')->first();
+        $data['currentLivePublication'] = Publication::where('instance_id', $data['instance']->id)->livePublication()->first();
 
         $calPubs = array();
         foreach (Publication::where('instance_id', $data['instance']->id)->get() as $publication) {
@@ -166,10 +148,7 @@ class EditorController extends \BaseController
     ////////////////////////////////////////////////
     public function publication($subAction, $data){
         $data['publication'] = Publication::where('id', $subAction)->
-        where('instance_id', $data['instance']->id)->
-        with(array('articles' => function($query){
-            $query->orderBy('order', 'asc');
-        }))->first();
+        where('instance_id', $data['instance']->id)->withArticles()->first();
 
         //Package submissions
         $data['publication']->submissions = Article::where('instance_id', $data['instance']->id)->where(
@@ -216,6 +195,7 @@ class EditorController extends \BaseController
             'global-background-color',
             'publication-background-color',
             'publication-border-color',
+            'publication-link-decoration',
             'publication-h1-color',
             'publication-h1-font',
             'publication-h1-font-size',
@@ -270,7 +250,8 @@ class EditorController extends \BaseController
         $data['workflowTweakables'] = array(
             'publication-public-view',
             'publication-allow-merge',
-            'global-accepts-submissions'
+            'global-accepts-submissions',
+            'global-allow-raw-html'
         );
 
         //Grab settings profiles for this instance
@@ -284,14 +265,7 @@ class EditorController extends \BaseController
             }
         }
 
-        $publication = Publication::where('instance_id', $data['instance']->id)->
-            where('published', 'Y')->
-            where('type', 'regular')->
-            orderBy('publish_date', 'desc')->
-            with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->
-            first();
+        $publication = Publication::where('instance_id', $data['instance']->id)->livePublication()->first();
 
         $data['publication'] = $publication;
         $data['isEditable'] = false;

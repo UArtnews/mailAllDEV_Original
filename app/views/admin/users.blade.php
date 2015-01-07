@@ -133,8 +133,8 @@
         The available Functions are as follows;
         <ul>
             <li>Super Admin - this only applies if paired with the GLOBAL scope.  This function lets administrators acces this page as well as the Instance administration page</li>
-            <li>Admin - This function allows the user to Edit the publication as well as send emails and publish the publication</li>
-            <li>Edit - This function allows the user to Edit the publication but not send emails</li>
+            <li>Admin - This function allows the user to Edit the publication as well as send emails and edit the settings/configuration of the publication</li>
+            <li>Edit - This function allows the user to Edit the publication but not send emails (includes article editing, publication editing, image upload and submission promotion.</li>
         </ul>
         <br/>
     </div>

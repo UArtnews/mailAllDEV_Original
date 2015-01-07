@@ -25,12 +25,35 @@ class EmailController extends \BaseController
             'shareIcons'               => false,
         );
 
+        //Validate Input
+        $validator = Validator::make(
+            array(
+                'addressTo'     => Input::get('addressTo'),
+                'addressFrom'   => Input::get('addressFrom'),
+                'nameFrom'   => Input::get('nameFrom'),
+                'replyTo'       => Input::get('replyTo'),
+                'subject'       => Input::get('subject')
+            ),
+            array(
+                'addressTo'     => 'required|email',
+                'addressFrom'   => 'required|email',
+                'nameFrom'      => 'required',
+                'replyTo'       => 'required|email',
+                'subject'       => 'required'
+            )
+        );
+
+        if($validator->fails()){
+            $errorMessage = 'Please correct the following:</br>';
+            foreach($validator->messages()->all() as $field => $message){
+                $errorMessage .= ucfirst($message)."</br>";
+            }
+            return Redirect::back()->withError($errorMessage);
+        }
+
         //Get This Publication
         $publication = Publication::where('id', $publication_id)->
-        where('instance_id', $instance->id)->
-        with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
+        where('instance_id', $instance->id)->withArticles()->first();
 
         $data['publication'] = $publication;
         $data['isEmail'] = true;
@@ -44,31 +67,29 @@ class EmailController extends \BaseController
 
         $inlineHTML = $inliner->convert();
 
-        if(Input::has('addressTo') && Input::has('addressFrom')){
-            Mail::send('html', array('html' => $inlineHTML), function($message){
-                    $message->to(Input::get('addressTo'))
-                        ->subject(Input::has('subject') ? Input::get('subject') : '')
-                        ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                });
+        Mail::send('html', array('html' => $inlineHTML), function($message){
+            $message->to(Input::get('addressTo'))
+                ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
+                ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '')
+                ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+        });
 
-            //Publish if this is a real deal publish things
-            if(!Input::has('isTest')){
-                foreach($publication->articles as $article){
-                    $thisArticle = Article::find($article->id);
-                    $thisArticle->published = 'Y';
-                    $thisArticle->save();
-                }
-                $publication->published = 'Y';
-                $publication->save();
+        //Publish if this is a real deal publish things
+        if(!Input::has('isTest')){
+            foreach($publication->articles as $article){
+                $thisArticle = Article::find($article->id);
+                $thisArticle->published = 'Y';
+                $thisArticle->save();
             }
-            return Redirect::back()->withSuccess("Publication successfully sent!");
-        }else{
-            return Redirect::back()->withError("An error occurred, publication was not sent");
+            $publication->published = 'Y';
+            $publication->save();
         }
+        return Redirect::back()->withSuccess("Publication successfully sent!");
     }
 
     public function mergeEmail($instanceName, $publication_id){
         set_time_limit(600);
+//        ini_set('memory_limit','320M');
         $instance = Instance::where('name', $instanceName)->first();
 
         $data = array(
@@ -83,22 +104,45 @@ class EmailController extends \BaseController
             'shareIcons'               => false,
         );
 
+        //Validate Input
+        $validator = Validator::make(
+            array(
+                'addressField'     => Input::get('addressField'),
+                'addressFrom'   => Input::get('addressFrom'),
+                'nameFrom'   => Input::get('nameFrom'),
+                'replyTo'       => Input::get('replyTo'),
+                'subject'       => Input::get('subject')
+            ),
+            array(
+                'addressField'     => 'required',
+                'addressFrom'   => 'required|email',
+                'nameFrom'      => 'required',
+                'replyTo'       => 'required|email',
+                'subject'       => 'required'
+            )
+        );
+
+        if($validator->fails()){
+            $errorMessage = 'Please correct the following:</br>';
+            foreach($validator->messages()->all() as $field => $message){
+                $errorMessage .= ucfirst($message)."</br>";
+            }
+            return Redirect::back()->withError($errorMessage);
+        }
+
         //Get This Publication
         $publication = Publication::where('id', $publication_id)->
-        where('instance_id', $instance->id)->
-        with(array('articles' => function($query){
-                $query->orderBy('order', 'asc');
-            }))->first();
+        where('instance_id', $instance->id)->withArticles()->first();
 
         $data['publication'] = $publication;
         $data['isEmail'] = true;
 
         $mergeFileName = '';
+        $mergePath = "/web_content/share/mailAllSource/docs/" . $instance->name;
 
         //Do File Upload, store as latestMerge.xlsx/xls
         if(Input::hasFile('mergeFile')){
-            if(Input::file('mergeFile')->isValid() && ( Input::file('mergeFile')->getClientOriginalExtension() == 'xls' || Input::file('mergeFile')->getClientOriginalExtension() == 'xlsx' ) ){
-                $mergePath = "/web_content/share/mailAllSource/docs/" . $instance->name;
+            if(Input::file('mergeFile')->isValid() && ( Input::file('mergeFile')->getClientOriginalExtension() == 'xls' || Input::file('mergeFile')->getClientOriginalExtension() == 'xlsx' || Input::file('mergeFile')->getClientOriginalExtension() == 'csv' ) ){
                 if(!file_exists($mergePath)){
                     mkdir($mergePath);
                 }
@@ -148,7 +192,7 @@ class EmailController extends \BaseController
             if(Input::has('testTo') && Input::has('addressFrom')){
                 Mail::send('html', array('html' => $mergedHTML), function($message){
                         $message->to(Input::get('testTo'))
-                            ->subject(Input::has('subject') ? Input::get('subject') : '')
+                            ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
                             ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
                     });
                 $data['success'] = true;
@@ -167,7 +211,8 @@ class EmailController extends \BaseController
                     $mergedHTML = str_replace($pattern, $value, $mergedHTML);
                 }
 
-                if (Input::has('addressFrom')) {
+                if (Input::has('addressFrom') && Input::has('replyTo')) {
+                    $addressTo = trim($addressTo);
                     $validator = Validator::make(array('email' => $addressTo), array('email' => 'email|required'));
                     if($validator->fails()){
                         if(count($address) > 0) {
@@ -179,11 +224,11 @@ class EmailController extends \BaseController
                         $sentCount++;
                         Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
                                 $message->to($addressTo)
-                                    ->subject(Input::has('subject') ? Input::get('subject') : '')
+                                    ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
                                     ->from(
                                         Input::get('addressFrom'),
                                         Input::has('nameFrom') ? Input::get('nameFrom') : ''
-                                    );
+                                    )->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
                             }
                         );
                         $data['success'] = true;
@@ -197,6 +242,10 @@ class EmailController extends \BaseController
                 }
             }
         }
+
+        //Remove the merge file
+        if(file_exists($mergePath . "/" . $mergeFileName))
+            unlink($mergePath . "/" . $mergeFileName);
 
         //Write out fail log if necessary
         if($failCount > 0){

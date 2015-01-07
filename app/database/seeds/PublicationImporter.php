@@ -6,9 +6,9 @@ class PublicationImporter extends Seeder {
     {
         $zipmailInstance = Instance::where('name', 'Zipmail')->first();
         $wayneInstance = Instance::where('name', 'Waynemail')->first();
-        $digestInstance = Instance::where('name', 'Digest')->first();
 
-        $instancesToDelete = Instance::where('name', 'Zipmail')->orWhere('name','Digest')->orWhere('name','Waynemail')->get();
+        $instancesToDelete = Instance::where('name', 'Zipmail')->orWhere('name','Waynemail')->get();
+
         foreach($instancesToDelete as $instanceToDelete){
             Article::where('instance_id', $instanceToDelete->id)->delete();
             $pubs = Publication::where('instance_id', $instanceToDelete->id)->get();
@@ -16,67 +16,68 @@ class PublicationImporter extends Seeder {
                 PublicationOrder::where('publication_id', $pub->id)->delete();
                 $pub->delete();
             }
-
         }
-        //Entire Digest Process
-        $articleMap = array();
-        $pubMap = array();
 
-        $everything = DB::connection('edigest')
-            ->select('SELECT * FROM item_sequence
-                join edigest_items on item_sequence.i_id = edigest_items.id
-                join edigest_header on item_sequence.e_id = edigest_header.digest_id'
-            );
-
-        $total = count($everything);
-
-        echo "\nDigest Progress:     ";
-
-        //Do it
-        foreach($everything as $current => $thing){
-            //Each Article
-            if(!isset($articleMap[$thing->i_id])) {
-                $newArticle = new Article;
-
-                $newArticle->instance_id = $digestInstance->id;
-                $newArticle->title = html_entity_decode($thing->title);
-                $newArticle->content = str_replace('%u25BA','&#x25ba;',html_entity_decode($thing->story));
-                $newArticle->author_id = 1;
-                $newArticle->published = $thing->old;
-                $newArticle->submission = 'N';
-                $newArticle->created_at = $thing->date;
-                $newArticle->issue_dates = json_encode($thing->digest_date);
-
-                $newArticle->save();
-                $articleMap[$thing->i_id] = $newArticle->id;
-            }
-
-            //Each publication
-            if(!isset($pubMap[$thing->digest_id])){
-                $newPub = new Publication;
-
-                $newPub->instance_id = $digestInstance->id;
-                $newPub->publish_date = $thing->digest_date;
-                $newPub->banner_image = 'http://www.uakron.edu/digest/images/digest-header-v1.jpg';
-                $newPub->published = $thing->current_status == 'Live' ? 'Y' : 'N';
-                $newPub->type = strtolower($thing->digest_type);
-
-                $newPub->save();
-                $pubMap[$thing->digest_id] = $newPub->id;
-            }
-
-            //Each Order
-            $newOrder = new PublicationOrder;
-
-            $newOrder->publication_id = $pubMap[$thing->e_id];
-            $newOrder->article_id = $articleMap[$thing->i_id];
-            $newOrder->likeNew = $thing->location == 'N' ? 'Y' : 'N';
-            $newOrder->order = $thing->sequence - 1;
-
-            $newOrder->save();
-
-            $this->drawProgress($current, $total);
-        }
+//Deprecated This Since the launch of the Digest
+//        //Entire Digest Process
+//        $articleMap = array();
+//        $pubMap = array();
+//
+//        $everything = DB::connection('edigest')
+//            ->select('SELECT * FROM item_sequence
+//                join edigest_items on item_sequence.i_id = edigest_items.id
+//                join edigest_header on item_sequence.e_id = edigest_header.digest_id'
+//            );
+//
+//        $total = count($everything);
+//
+//        echo "\nDigest Progress:     ";
+//
+//        //Do it
+//        foreach($everything as $current => $thing){
+//            //Each Article
+//            if(!isset($articleMap[$thing->i_id])) {
+//                $newArticle = new Article;
+//
+//                $newArticle->instance_id = $digestInstance->id;
+//                $newArticle->title = html_entity_decode($thing->title);
+//                $newArticle->content = str_replace('%u25BA','&#x25ba;',html_entity_decode($thing->story));
+//                $newArticle->author_id = 1;
+//                $newArticle->published = $thing->old;
+//                $newArticle->submission = 'N';
+//                $newArticle->created_at = $thing->date;
+//                $newArticle->issue_dates = json_encode($thing->digest_date);
+//
+//                $newArticle->save();
+//                $articleMap[$thing->i_id] = $newArticle->id;
+//            }
+//
+//            //Each publication
+//            if(!isset($pubMap[$thing->digest_id])){
+//                $newPub = new Publication;
+//
+//                $newPub->instance_id = $digestInstance->id;
+//                $newPub->publish_date = $thing->digest_date;
+//                $newPub->banner_image = 'http://www.uakron.edu/digest/images/digest-header-v1.jpg';
+//                $newPub->published = $thing->current_status == 'Live' ? 'Y' : 'N';
+//                $newPub->type = strtolower($thing->digest_type);
+//
+//                $newPub->save();
+//                $pubMap[$thing->digest_id] = $newPub->id;
+//            }
+//
+//            //Each Order
+//            $newOrder = new PublicationOrder;
+//
+//            $newOrder->publication_id = $pubMap[$thing->e_id];
+//            $newOrder->article_id = $articleMap[$thing->i_id];
+//            $newOrder->likeNew = $thing->location == 'N' ? 'Y' : 'N';
+//            $newOrder->order = $thing->sequence - 1;
+//
+//            $newOrder->save();
+//
+//            $this->drawProgress($current, $total);
+//        }
 
         //Entire Zipmail Process
         $articleMap = array();

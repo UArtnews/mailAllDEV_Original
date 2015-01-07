@@ -23,7 +23,7 @@
                     {{ Form::file('mergeFile',null ,array('class' => 'form-control')) }}
                     <br/>
 
-                    {{ Form::label('addressField', 'Address Field Name (eg. uanet_id, email, etc.): ') }}
+                    {{ Form::label('addressField', 'Address Field Name (eg. uanet_id, email, etc. Lowercase, replace punctuation/space(s) with underscore(s)): ') }}
                     {{ Form::text('addressField',null ,array('class' => 'form-control')) }}
                     <br/>
 
@@ -31,7 +31,11 @@
                     {{ Form::text('addressFrom',null ,array('class' => 'form-control')) }}
                     <br/>
 
-                    {{ Form::label('nameFrom', 'From Name: ') }}
+                    {{ Form::label('replyTo', 'Reply-To Address: ') }}
+                    {{ Form::text('replyTo',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('nameFrom', 'From/Reply-To Name: ') }}
                     {{ Form::text('nameFrom',null ,array('class' => 'form-control')) }}
                     <br/>
 
@@ -54,7 +58,6 @@
                         {{ Form::submit('Are you sure you want to publish? ', array('id' => 'publishEmailSubmit'.$publication->id, 'class' => 'btn btn-warning', 'style' => 'display:none;')) }}
                         <span class="btn btn-default" disabled="disabled"><span class="glyphicon glyphicon-send"></span></span>
                     </div>
-
                     {{ Form::close() }}
                     <script>
                         $('#isTest').change(function(){
@@ -78,7 +81,11 @@
                     {{ Form::text('addressFrom',null ,array('class' => 'form-control')) }}
                     <br/>
 
-                    {{ Form::label('nameFrom', 'From Name: ') }}
+                    {{ Form::label('replyTo', 'Reply-To Address: ') }}
+                    {{ Form::text('replyTo',null ,array('class' => 'form-control')) }}
+                    <br/>
+
+                    {{ Form::label('nameFrom', 'From/Reply-To Name: ') }}
                     {{ Form::text('nameFrom',null ,array('class' => 'form-control')) }}
                     <br/>
 

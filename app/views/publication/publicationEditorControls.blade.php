@@ -9,6 +9,7 @@
             @else
                 <button class="btn btn-success pull-left" data-toggle="modal" data-target="#addFromCartModal{{ $publication->id }}">Add Article From Cart</button>
             @endif
+
         </div>
         <div class="col-xs-4">
             @if(Auth::user()->isAdmin($instanceId))
@@ -16,9 +17,19 @@
                 <span class="glyphicon glyphicon-send"></span>&nbsp;
                 Publish Email
             </button>
+            <button class="btn btn-danger" onclick="deletePublication('{{ $publication->id }}')">
+                <span class="glyphicon glyphicon-trash"></span>&nbsp;
+                Delete Publication
+            </button>
             @endif
         </div>
         <div class="col-xs-4">
+            <div class="btn-group">
+                <button id="regularBtn{{ $publication->id }}" class="btn btn-primary" onclick="$('#regularBtnConfirm{{ $publication->id }}').toggle()" @if($publication->type == 'regular')disabled="disabled"@endif>Regular</button>
+                <button id="regularBtnConfirm{{ $publication->id }}" class="btn btn-warning" onclick="publicationType('regular',{{ $publication->id }})" style="display:none;">Are you sure?</button>
+                <button id="specialBtnConfirm{{ $publication->id }}" class="btn btn-warning" onclick="publicationType('special',{{ $publication->id }})" style="display:none;">Are you sure?</button>
+                <button id="specialBtn{{ $publication->id }}" class="btn btn-warning" onclick="$('#specialBtnConfirm{{ $publication->id }}').toggle()" @if($publication->type == 'special') disabled="disabled" @endif>Special</button>
+            </div>
             <div class="btn-group pull-right">
                 <button id="unpublishBtn{{ $publication->id }}" class="btn btn-danger" onclick="$('#unpublishBtnConfirm{{ $publication->id }}').toggle()" @if($publication->published == 'N')disabled="disabled"@endif>Unpublish</button>
                 <button id="unpublishBtnConfirm{{ $publication->id }}" class="btn btn-warning" onclick="unpublishStatus({{ $publication->id }})" style="display:none;">Are you sure?</button>

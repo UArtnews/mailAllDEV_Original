@@ -8,11 +8,22 @@ body {
     position:relative;
 }
 
+.articleContent a, .repeatedArticleContent a, .headline-summary a, publicationHeader a, #publicationFooter a, .publication-headline-summary a {
+    @if(isset($tweakables['publication-link-decoration']) && $tweakables['publication-link-decoration'] == true)
+        color: {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
+        border-bottom: 1px solid {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
+    @elseif(isset($default_tweakbles['publication-link-decoration']) && $default_tweakbles['publication-link-decoration'] == true)
+        color: {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
+        border-bottom: 1px solid {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
+    @endif
+    text-decoration:none;
+}
+
 a {
     text-decoration:none;
 }
 
-p, .article, .aritcleContent {
+p, .article, .aritcleContent, li {
     color:{{$tweakables['publication-p-color'] or $default_tweakables['publication-p-color']}};
     font-family:{{$tweakables['publication-p-font'] or $default_tweakables['publication-p-font']}};
     font-size:{{$tweakables['publication-p-font-size'] or $default_tweakables['publication-p-font-size']}};

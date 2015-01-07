@@ -133,7 +133,8 @@
             $(this).attr('contenteditable', true);
             $(this).ckeditor({
                 "extraPlugins": "imagebrowser,sourcedialog",
-                "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}"
+                "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}",
+                "allowedContent": true
             });
         });
 
@@ -235,7 +236,8 @@
 
         var thisEditor = thisSelector.ckeditor({
             "extraPlugins": "imagebrowser,sourcedialog",
-            "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}"
+            "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}",
+            "allowedContent": true
         });
 
         //Setup Indicator stuff
@@ -698,6 +700,20 @@
 
     }
 
+    function deletePublication(publication_id){
+
+        if(confirm('Are you sure you wish to delete this publication?')){
+            $.ajax({
+                url: '{{ URL::to('resource/publication/') }}/'+publication_id,
+                type: 'DELETE'
+            }).done(function(data){
+                if(data['success']){
+                    location = '{{ URL::to('edit/'.$instance->name.'/publications') }}';
+                }
+            });
+        }
+    }
+
     function publishStatus(publication_id){
 
         $.ajax({
@@ -720,6 +736,20 @@
             type: 'PUT',
             data: {
                 'published': 'N'
+            }
+        }).done(function(data){
+            if(data['success']){
+                location = '{{ URL::to('edit/'.$instance->name.'/publication') }}/'+publication_id;
+            }
+        });
+    }
+
+    function publicationType(type, publication_id){
+        $.ajax({
+            url: '{{ URL::to('resource/publication/updateType/') }}/'+publication_id,
+            type: 'POST',
+            data: {
+                'type': type
             }
         }).done(function(data){
             if(data['success']){

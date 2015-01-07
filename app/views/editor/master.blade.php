@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>The University of Akron Publication Editor</title>
+    <title>{{ $instance->name }} Editor - The University of Akron</title>
 
     {{-- TODO: Conditionally load these js/css resources --}}
     <script type="text/javascript">
@@ -40,15 +40,5 @@
     &nbsp;|&nbsp;
     <a href="{{ URL::to($instance->name) }}">Live Publication View</a>
 </div>
-{{--<div class="row" style="text-align:center;">--}}
-    {{--<ul class="list-group">--}}
-    {{--@foreach(DB::getQueryLog() as $query)--}}
-        {{--<li class="list-group-item">--}}
-            {{--{{ var_dump($query) }}--}}
-            {{--{{ $query['query'] }} : @foreach($query['bindings'] as $bind){{ $bind }},@endforeach : {{ $query['time'] }}ms--}}
-        {{--</li>--}}
-    {{--@endforeach--}}
-    {{--</ul>--}}
-{{--</div>--}}
 </body>
 </html>

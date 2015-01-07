@@ -47,7 +47,7 @@
             </table>
         </div>
         <div class="panel-footer" id="publicationPanelFoot">
-            Published on {{ $publication->publish_date }} |  <a href="{{ URL::to($instance->name.'/archive') }}">Archive</a>
+            <a href="{{ URL::to($instance->name) }}">Digest Home</a> |  <a href="{{ URL::to($instance->name.'/archive') }}">Archive</a>
         </div>
     </div>
 </div>

@@ -4,6 +4,10 @@
         text-decoration:none;
     }
 
+    li {
+        font-size
+    }
+
     body {
         background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
         margin-top: 8px;

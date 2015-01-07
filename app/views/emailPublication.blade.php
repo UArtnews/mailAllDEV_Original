@@ -22,12 +22,20 @@
                     @endif
                         <td class="contentDiv" id="publication{{ $publication->id }}" >
                             @if(strlen($publication->banner_image) > 0)
-                            <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}"/>
+                            <table style="margin:0px auto;text-align:center;" align="center">
+                                <tr>
+                                    <td>
+                                        <img class="publicationBanner img-responsive" src="{{$publication->banner_image}}" align="center" />
+                                    </td>
+                                </tr>
+                            </table>
                             @endif
                             @include('publication.publicationWebHeader')
                             @if((isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 'center')
                                 @if(isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary'] == 1)
-                                    @include('publication.headlineSummary')
+                                    <span class="publication-headline-summary">
+                                        @include('publication.headlineSummary')
+                                    </span>
                                 @endif
                             @endif
                             @include('publication.publicationHeader')
@@ -35,7 +43,9 @@
                             {{-- Conditional Separator --}}
                             @if((isset($tweakables['publication-repeat-separator-toggle']) && $tweakables['publication-repeat-separator-toggle'] == 1 ) || $default_tweakables['publication-repeat-separator-toggle'] == 1 )
                                 @if(isset($tweakables['publication-repeat-separator']))
-                                    {{ $tweakables['publication-repeat-separator'] }}
+                                    @if($publication->hasRepeat())
+                                        {{ $tweakables['publication-repeat-separator'] }}
+                                    @endif
                                 @endif
                             @endif
                             @include('publication.repeatContainer')

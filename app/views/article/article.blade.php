@@ -29,8 +29,10 @@
     @endif
     {{-- Email Article Content Body --}}
     @if($isEmail && $isRepeat && $hideRepeat)
-        <div class="repeatedArticleContent">This article originally appeared on
-            <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
+        <div class="repeatedArticleContent">
+            <p>This article originally appeared on
+                <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
+            </p>
         </div>
     @elseif($isEmail && $isRepeat)
         <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}"><p>{{ stripslashes($article->content) }}</p></div>

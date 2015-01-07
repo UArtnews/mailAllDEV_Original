@@ -18,6 +18,7 @@ class CreatePublicationTable extends Migration {
 			$table->date('publish_date');
 			$table->string('banner_image');
 			$table->enum('published',array('Y','N'));
+			$table->bool('is_raw')->default(false);
 			$table->text('type');
 			$table->timestamps();
 		});

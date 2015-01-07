@@ -84,7 +84,11 @@
     <ul class="list-group">
     @if(count($publications) > 0)
         @foreach($publications as $publication)
-        <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date, in_array($publication->publish_date,$issue_dates)) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
+            @if(isset($issue_dates))
+            <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date, in_array($publication->publish_date,$issue_dates)) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
+            @else
+            <li class="list-group-item">{{ Form::checkbox('publish_dates', $publication->publish_date) }}&nbsp;&nbsp;{{ date('m/d/Y', strtotime($publication->publish_date)) }}</li>
+            @endif
         @endforeach
     @else
         <li class="list-group-item">No upcoming publications!</li>

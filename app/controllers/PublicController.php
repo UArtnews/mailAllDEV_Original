@@ -14,7 +14,7 @@ class PublicController extends \BaseController {
         //Fetch Instance out of DB
         $instance = Instance::where('name',strtolower($instanceName))->firstOrFail();
 
-        if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0){
+        if(Publication::where('instance_id',$instance->id)->published()->count() > 0){
 
             $data = array(
                 'instance'		=> $instance,

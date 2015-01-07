@@ -127,7 +127,11 @@ class PublicationController extends \BaseController
      */
     public function destroy($id)
     {
-        //
+        Publication::where('id', $id)->delete();
+
+        PublicationOrder::where('publication_id', $id)->delete();
+
+        return Response::json(array('success' => 'Publication Successfully Deleted!'));
     }
 
     public function updateOrder()
@@ -159,6 +163,20 @@ class PublicationController extends \BaseController
         }
 
         return Response::json(array('success' => 'Publication Order Successfully Saved!'));
+    }
+
+    public function updateType($id){
+        if(Input::has('type')) {
+            $publication = Publication::where('id', $id)->first();
+
+            $publication->type = Input::get('type');
+
+            $publication->save();
+
+            return Response::json(array('success' => 'Publication Type Successfully Saved!'));
+        }else{
+            return Response::json(array('error' => 'Type must be defined!'));
+        }
     }
 
 }

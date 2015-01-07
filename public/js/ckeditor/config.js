@@ -15,7 +15,8 @@ CKEDITOR.editorConfig = function( config ) {
         { name: 'insert', items: [ 'Image', 'Flash', 'HorizontalRule', 'SpecialChar'] },
         '/',
         { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ], items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat' ] },
-        { name: 'styles', items: ['Format', 'FontSize' ] },
+        { name: 'styles', items: ['Format', 'FontSize'] },
+        { name: 'colors', items: ['TextColor']},
         { name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
         { name: 'others', items: [ '-' ] },
         { name: 'about', items: [ 'About' ] }
@@ -33,6 +34,7 @@ CKEDITOR.editorConfig = function( config ) {
         '/',
         { name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
         { name: 'styles' },
+        { name: 'colors' },
         { name: 'tools' },
         { name: 'others' },
         { name: 'about' }

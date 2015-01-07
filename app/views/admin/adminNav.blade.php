@@ -25,6 +25,11 @@
                     <span class="glyphicon glyphicon-th-list"></span>&nbsp&nbspInstances
                 </a>
                 </li>
+                <li @if($action == 'editors')class="active"@endif>
+                <a id="articles-nav-link" href="{{ URL::secure('/editors') }}">
+                    <span class="glyphicon glyphicon-home"></span>&nbsp&nbspEditor Home
+                </a>
+                </li>
             </ul><!-- End Main Tab Links -->
         </div>
         <!-- /.navbar-collapse -->

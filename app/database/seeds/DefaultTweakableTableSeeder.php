@@ -11,13 +11,13 @@ class DefaultTweakableTableSeeder extends Seeder {
         $tweakables = array(
             //Mail Merge Options   "regular" "merge"
             'publication-show-titles'               => array('Show Titles', true, 'bool'),
-            'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
-            'publication-public-view'               => array('Public Archive/Homepage?', true, 'bool'),
 
             //CSS First
             'global-background-color'               => array('Editor Background Color', '#19223B', 'color'),
             'publication-background-color'          => array('Article Background Color', '#FFFFFF', 'color'),
             'publication-border-color'              => array('Publication Border Color', '#C8BC9A', 'color'),
+
+            'publication-link-decoration'           => array('Publication Link Underlining', false, 'bool'),
 
             'publication-h1-color'                  => array('H1 Color', '#19223B', 'color'),
             'publication-h1-font'                   => array('H1 Font', "'Helvetica Neue', Helvetica, Arial, sans-serif", 'font'),
@@ -67,10 +67,13 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),
             'publication-headline-summary-header'   => array('Headline Summary Header', '<h4>Today\'s Headlines</h4>', 'textarea'),
             'publication-headline-summary-footer'   => array('Headline Summary Footer', '', 'textarea'),
-            'publication-headline-summary-style'   => array('Summary Headline Styling', '- **HEADLINE**', 'textarea'),
+            'publication-headline-summary-style'    => array('Summary Headline Styling', '- **HEADLINE**', 'textarea'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),
+            'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
+            'publication-public-view'               => array('Public Archive/Homepage?', true, 'bool'),
+            'global-allow-raw-html'                 => array('Allow Raw Unsanitized HTML', false,'bool'),
         );
 
         foreach ($tweakables as $parameter => $value)
