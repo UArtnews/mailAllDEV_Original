@@ -395,7 +395,7 @@ Route::get('/json/{instanceName}/images', function($instanceName){
 
     //Grab all the images for that instance and send them to the user
     $images = array();
-    foreach(Image::where('instance_id',$instance->id)->get() as $image){
+    foreach(Image::where('instance_id',$instance->id)->orderBy('created_at', 'desc')->get() as $image){
         $imageLocation = str_replace('https','http', URL::to('images/'.preg_replace('/[^\w]+/', '_', $instance->name).'/'.$image->filename));
         array_push($images,array(
                 'image'  => $imageLocation,

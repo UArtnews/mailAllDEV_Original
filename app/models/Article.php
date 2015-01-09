@@ -1,13 +1,15 @@
 <?php
 
-class Article extends Eloquent {
-	protected $guarded = array('id');
+class Article extends Eloquent
+{
 
-	protected $table = 'article';
+    protected $guarded = array('id');
+
+    protected $table = 'article';
 
     protected $softDelete = true;
 
-	public $timestamps = true;
+    public $timestamps = true;
 
     //Statics to improve querying
     private $isPublished;
@@ -18,21 +20,21 @@ class Article extends Eloquent {
 
     public function publications()
     {
-        return $this->belongsToMany('Publication','publication_order');
+        return $this->belongsToMany('Publication', 'publication_order');
     }
 
     public function isPublished($thisPublicationId = '')
     {
-        if($this->isPublished != null){
+        if ($this->isPublished != null) {
             return $this->isPublished;
-        }else{
+        } else {
             $count = $this->publishCount();
 
-            if($thisPublicationId == $this->originalPublication()){
+            if ($thisPublicationId == $this->originalPublication()) {
                 $this->isPublished = false;
-            }elseif($count > 0){
+            } elseif ($count > 0) {
                 $this->isPublished = true;
-            }else{
+            } else {
                 $this->isPublished = false;
             }
 
@@ -40,14 +42,15 @@ class Article extends Eloquent {
         }
     }
 
-    public function publishCount(){
-        if($this->publishCount != null){
+    public function publishCount()
+    {
+        if ($this->publishCount != null) {
             return $this->publishCount;
-        }else{
+        } else {
             $this->publishCount = DB::table('publication')
-                ->join('publication_order','publication.id','=','publication_order.publication_id')
-                ->where('publication.published','=','Y')
-                ->where('publication_order.article_id','=',$this->id)
+                ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                ->where('publication.published', '=', 'Y')
+                ->where('publication_order.article_id', '=', $this->id)
                 ->count();
             return $this->publishCount;
         }
@@ -55,12 +58,12 @@ class Article extends Eloquent {
 
     public function likeNew($thisPublicationId = '')
     {
-        if($this->likeNew != null){
+        if ($this->likeNew != null) {
             return $this->likeNew;
-        }else{
+        } else {
             $this->likeNew = DB::table('publication_order')
-                ->where('publication_order.publication_id','=',$thisPublicationId)
-                ->where('publication_order.article_id','=',$this->id)
+                ->where('publication_order.publication_id', '=', $thisPublicationId)
+                ->where('publication_order.article_id', '=', $this->id)
                 ->pluck('likeNew');
             return $this->likeNew;
         }
@@ -68,14 +71,14 @@ class Article extends Eloquent {
 
     public function originalPublication()
     {
-        if($this->originalPublication != null){
+        if ($this->originalPublication != null) {
             return $this->originalPublication;
-        }else{
+        } else {
             $this->originalPublication = DB::table('publication')
-                ->join('publication_order','publication.id','=','publication_order.publication_id')
-                ->where('publication.published','=','Y')
-                ->where('publication_order.article_id','=',$this->id)
-                ->orderBy('publication.publish_date','ASC')
+                ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                ->where('publication.published', '=', 'Y')
+                ->where('publication_order.article_id', '=', $this->id)
+                ->orderBy('publication.publish_date', 'ASC')
                 ->pluck('publication.id');
             return $this->originalPublication;
         }
@@ -83,16 +86,47 @@ class Article extends Eloquent {
 
     public function originalPublishDate()
     {
-        if($this->originalPublishDate != null){
+        if ($this->originalPublishDate != null) {
             return $this->originalPublishDate;
-        }else{
+        } else {
             $this->originalPublishDate = DB::table('publication')
-                ->join('publication_order','publication.id','=','publication_order.publication_id')
-                ->where('publication.published','=','Y')
-                ->where('publication_order.article_id','=',$this->id)
-                ->orderBy('publication.publish_date','ASC')
+                ->join('publication_order', 'publication.id', '=', 'publication_order.publication_id')
+                ->where('publication.published', '=', 'Y')
+                ->where('publication_order.article_id', '=', $this->id)
+                ->orderBy('publication.publish_date', 'ASC')
                 ->pluck('publication.publish_date');
             return $this->originalPublishDate;
         }
+    }
+
+    //Gets sanitized content preview i.e. Stuff before the "read more" link
+    public function getContentPreview()
+    {
+        $matches = array();
+        //Set default offset
+        $offset = 200;
+        if (preg_match('/\*\*BREAK\*\*/', $this->content, $matches, PREG_OFFSET_CAPTURE) == 0) {
+            preg_match('/\s/', substr($this->content, $offset), $matches, PREG_OFFSET_CAPTURE);
+        }
+
+        //Capture Offset and Set it, or leave it at the default
+        if (count($matches) > 0) {
+            $offset = $matches[0][1];
+        }
+
+        return substr($this->content, $offset);
+    }
+
+    //Gets the entire article content with any **BREAK**s removed
+    public function getContent()
+    {
+        return stripslashes(preg_replace('/\*\*BREAK\*\*/', '', $this->content));
+
+    }
+
+    //Gets the Article Title with slashes and tagsremoved
+    public function getTitle()
+    {
+        return stripslashes($this->title);
     }
 }

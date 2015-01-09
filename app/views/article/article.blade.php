@@ -1,25 +1,35 @@
 @if(!$isEmail)
 <div class="article" id="article{{ $article->id }}">
 @endif
+    {{--                        --}}
+    {{--     ARTICLE TITLES     --}}
+    {{--                        --}}
     {{-- Setup Href Headlines for Repeats --}}
     @if( $isEmail && ( isset($tweakables['publication-show-titles']) ? $tweakables['publication-show-titles'] : $default_tweakables['publication-show-titles'] ) == false)
+        {{-- Suppress titles --}}
     @elseif($isRepeat && $hideRepeat && !$isEditable)
-        <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#article'.$article->id) }}">
-            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->title) }}</h1>
+        <a name="articleTitle{{ $article->id }}"></a>
+        <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#article'.$article->id), 1) }}">
+            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ $article->getTitle() }}</h1>
         </a>
     {{-- Setup Href Headlines for Emails --}}
     @elseif($isEmail)
-        <a href="{{ URL::to($instanceName.'/archive/'.$publication->id.'#article'.$article->id) }}">
-            <h1 id="articleTitle{{ $article->id }}" class="articleTitle">{{ stripslashes($article->title) }}</h1>
+        <a name="articleTitle{{ $article->id }}"></a>
+        <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$publication->id.'#article'.$article->id), 1) }}">
+            <h1 id="articleTitle{{ $article->id }}" class="articleTitle">{{ $article->getTitle() }}</h1>
         </a>
     @elseif($isEditable)
-        <h1 id="articleTitle{{ $article->id }}" class="articleTitle editable">{{ stripslashes($article->title) }}</h1>
+        <a name="articleTitle{{ $article->id }}"></a>
+        <h1 id="articleTitle{{ $article->id }}" class="articleTitle editable">{{ $article->getTitle() }}</h1>
     @else
-        <a href="{{ URL::to($instanceName.'/article/'.$article->id) }}">
-            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->title) }}</h1>
+        <a name="articleTitle{{ $article->id }}"></a>
+        <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/article/'.$article->id), 1) }}">
+            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ $article->getTitle() }}</h1>
         </a>
     @endif
+    {{--                               --}}
     {{-- Conditional HR's after Titles --}}
+    {{--                               --}}
     @if(isset($tweakables['publication-hr-titles']))
         @if($tweakables['publication-hr-titles'] == 1)
             <hr/>
@@ -27,34 +37,44 @@
     @elseif($default_tweakables['publication-hr-titles'] == 1)
         <hr/>
     @endif
+    {{--                        --}}
+    {{--  ARTICLE CONTENT BODY  --}}
+    {{--                        --}}
     {{-- Email Article Content Body --}}
     @if($isEmail && $isRepeat && $hideRepeat)
         <div class="repeatedArticleContent">
             <p>This article originally appeared on
-                <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
+                <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
             </p>
         </div>
-    @elseif($isEmail && $isRepeat)
-        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}"><p>{{ stripslashes($article->content) }}</p></div>
     @elseif($isEmail)
-        <div id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}"><p>{{ stripslashes($article->content) }}</p></div>
+        <div id="articleContent{{ $article->id }}" class="articleContent">
+            <p>
+                {{ $article->getContentPreview() }}&nbsp;&nbsp;
+                <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$publication->id.'#article'.$article->id), 1) }}">[Read More]</a>
+            </p>
+        </div>
     {{-- Non-Email Article Content Body --}}
     @elseif($isRepeat)
         <{{ $isEditable ? 'div' : 'div' }} class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on
-            <a href="{{ URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
+            <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
             @if($isEditable)
                 <button type="button" class="btn btn-xs btn-default" onclick="unhideRepeated({{ $article->id }}, '{{ $publication->id or ''}}');">Show Full Article</button>
             @endif
         </{{ $isEditable ? 'div' : 'div' }}>
-        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ stripslashes($article->content) }}</{{ $isEditable ? 'div' : 'div' }}>
+        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
     @else
-        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ stripslashes($article->content) }}</{{ $isEditable ? 'div' : 'div' }}>
+        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
     @endif
+    {{--                         --}}
     {{-- Conditional Share Icons --}}
+    {{--                         --}}
     @if($shareIcons)
-        @include('public.share', array('shareURL' => URL::to($instanceName.'/article/'.$article->id),'shareTitle' => stripslashes(strip_tags($article->title)) ) )
+        @include('public.share', array('shareURL' => preg_replace('/https/','http', URL::to($instanceName.'/article/'.$article->id), 1),'shareTitle' => (strip_tags($article->getTitle()) ) ))
     @endif
+    {{--                 --}}
     {{-- Editor Controls --}}
+    {{--                 --}}
     @if($isEditable)
         <div id="articleIndicator{{ $article->id }}" class="side-indicator">
             <div id="articleIndicator{{ $article->id }}" class="side-indicator-hitbox">
