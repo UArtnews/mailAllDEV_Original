@@ -55,13 +55,16 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-padding'                   => array('Publication Padding', '5px', 'text'),
             'publication-hr-articles'               => array('Horizontal Rule After Articles', true, 'bool'),
             'publication-hr-titles'                 => array('Horizontal Rule After Titles', false, 'bool'),
+            'publication-email-content-preview'     => array('Truncated articles with a "read more" link to article', false, 'bool'),
+            'publication-content-preview-offset'    => array('Default offset for article truncation', '200', 'text'),
             'publication-headline-summary'          => array('Automatically Generate and Place Headline Summary', false, 'bool'),
             'publication-headline-summary-position' => array("Positioning of Headline Summary (will always appear center or right while in \"settings\")", 'center', 'select'),
             'publication-headline-summary-width'    => array('Width of Headline Summary (when on left or right)', '225px', 'text'),
 
             //Header Footer Textareas
-            'publication-web-header'                => array('Web Only Header Content', '<h4>**DATE**</h4>', 'textarea'),
-            'publication-header'                    => array('Email Header Content', '', 'textarea'),
+            'publication-web-header'                => array('Header Content', '<h4>**DATE**</h4>', 'textarea'),
+            'publication-email-header'              => array('Email ONLY header Content', '', 'textarea'),
+            'publication-header'                    => array('New Articles Header', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),

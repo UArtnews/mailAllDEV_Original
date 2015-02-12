@@ -231,6 +231,8 @@ class EditorController extends \BaseController
             'publication-padding',
             'publication-hr-articles',
             'publication-hr-titles',
+            'publication-email-content-preview',
+            'publication-content-preview-offset',
             'publication-headline-summary',
             'publication-headline-summary-position',
             'publication-headline-summary-width',
@@ -239,6 +241,7 @@ class EditorController extends \BaseController
 
         $data['headerFooterTweakables'] = array(
             'publication-web-header',
+            'publication-email-header',
             'publication-header',
             'publication-footer',
             'publication-repeat-separator',

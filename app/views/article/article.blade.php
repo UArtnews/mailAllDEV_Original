@@ -50,8 +50,12 @@
     @elseif($isEmail)
         <div id="articleContent{{ $article->id }}" class="articleContent">
             <p>
+            @if(( isset($tweakables['publication-email-content-preview']) ? $tweakables['publication-email-content-preview'] : $default_tweakables['publication-email-content-preview'] ) == true)
                 {{ $article->getContentPreview() }}&nbsp;&nbsp;
                 <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$publication->id.'#article'.$article->id), 1) }}">[Read More]</a>
+            @else
+                {{ $article->getContent() }}
+            @endif
             </p>
         </div>
     {{-- Non-Email Article Content Body --}}

@@ -11,12 +11,9 @@
     @endif
     @include('publication.publicationHeader')
     @include('publication.articleContainer')
-    {{-- Conditional HR's after Titles --}}
-    @if( (isset($tweakables['publication-headline-summary-position']) ? $tweakables['publication-headline-summary-position'] : $default_tweakables['publication-headline-summary-position']) == 1)
-        @if(isset($tweakables['publication-repeat-separator']))
-            @if($publication->hasRepeat())
-            {{ $tweakables['publication-repeat-separator'] }}
-            @endif
+    @if( (isset($tweakables['publication-repeat-separator']) ? $tweakables['publication-repeat-separator'] : $default_tweakables['publication-repeat-separator']) == true)
+        @if($publication->hasRepeat())
+        {{ $tweakables['publication-repeat-separator'] }}
         @endif
     @endif
     @include('publication.repeatContainer')

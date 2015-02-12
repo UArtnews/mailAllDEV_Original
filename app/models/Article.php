@@ -100,28 +100,26 @@ class Article extends Eloquent
     }
 
     //Gets sanitized content preview i.e. Stuff before the "read more" link
-    public function getContentPreview()
+    public function getContentPreview($offset = 200)
     {
         $matches = array();
-        //Set default offset
-        $offset = 200;
+
         if (preg_match('/\*\*BREAK\*\*/', $this->content, $matches, PREG_OFFSET_CAPTURE) == 0) {
             preg_match('/\s/', substr($this->content, $offset), $matches, PREG_OFFSET_CAPTURE);
         }
 
-        //Capture Offset and Set it, or leave it at the default
         if (count($matches) > 0) {
-            $offset = $matches[0][1];
+            $offset = $offset + $matches[0][1];
         }
+        //Capture Offset and Set it, or leave it at the default
 
-        return substr($this->content, $offset);
+        return stripslashes(preg_replace('/\*\*BREAK\*\*/','', substr($this->content, 0, $offset)));
     }
 
     //Gets the entire article content with any **BREAK**s removed
     public function getContent()
     {
         return stripslashes(preg_replace('/\*\*BREAK\*\*/', '', $this->content));
-
     }
 
     //Gets the Article Title with slashes and tagsremoved

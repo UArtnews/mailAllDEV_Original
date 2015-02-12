@@ -4,6 +4,8 @@ class PublicationImporter extends Seeder {
 
     public function run()
     {
+        //Let's be careful about this for now
+        //TODO:  Fix this process
         $zipmailInstance = Instance::where('name', 'Zipmail')->first();
         $wayneInstance = Instance::where('name', 'Waynemail')->first();
 

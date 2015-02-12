@@ -8,7 +8,7 @@ body {
     position:relative;
 }
 
-.articleContent a, .repeatedArticleContent a, .headline-summary a, publicationHeader a, #publicationFooter a, .publication-headline-summary a {
+.articleContent a, .repeatedArticleContent a, .headline-summary a, publicationHeader a, #publicationFooter a, .publication-headline-summary a, .publicationWebHeader a {
     @if(isset($tweakables['publication-link-decoration']) && $tweakables['publication-link-decoration'] == true)
         color: {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
         border-bottom: 1px solid {{$tweakables['publication-h1-color'] or $default_tweakables['publication-h1-color']}};
@@ -144,3 +144,9 @@ h4 {
     left:{{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }};
 }
 
+{{-- MOBILE ONLY RULES --}}
+@media all and (max-width: {{ $tweakables['publication-width'] or $default_tweakables['publication-width'] }}) {
+    .contentDiv {
+        width:100%;
+    }
+}
