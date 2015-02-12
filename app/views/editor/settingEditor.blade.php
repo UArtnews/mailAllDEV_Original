@@ -74,7 +74,7 @@
                     <script>
                         $(document).ready(function(){
                             $('.editableSetting').ckeditor({
-                                "extraPlugins": "imagebrowser,sourcedialog",
+                                "extraPlugins": "imagebrowser,sourcedialog,openlink",
                                 "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}"
                             });
                         });

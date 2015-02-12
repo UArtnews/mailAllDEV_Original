@@ -132,7 +132,7 @@
         $('.newEditable').click(function(){
             $(this).attr('contenteditable', true);
             $(this).ckeditor({
-                "extraPlugins": "imagebrowser,sourcedialog",
+                "extraPlugins": "imagebrowser,sourcedialog,openlink",
                 "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}",
                 "allowedContent": true
             });
@@ -235,7 +235,7 @@
         thisSelector.attr('contenteditable', true);
 
         var thisEditor = thisSelector.ckeditor({
-            "extraPlugins": "imagebrowser,sourcedialog",
+            "extraPlugins": "imagebrowser,sourcedialog,openlink",
             "imageBrowser_listUrl": "{{ URL::to('json/'.$instanceName.'/images') }}",
             "allowedContent": true
         });
