@@ -10,7 +10,7 @@
     @elseif($isRepeat && $hideRepeat && !$isEditable)
         <a name="articleTitle{{ $article->id }}"></a>
         <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#article'.$article->id), 1) }}">
-            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ $article->getTitle() }}<br/><small>Read this article in its original publication</small></h1>
+            <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ $article->getTitle() }}<small>Read this article in its original publication</small></h1>
         </a>
     {{-- Setup Href Headlines for Emails --}}
     @elseif($isEmail)
