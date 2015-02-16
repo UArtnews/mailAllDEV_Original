@@ -9,7 +9,17 @@ if(isset($action) && $action == 'settings'){
 @if($isEmail)
     {{ isset($tweakables['publication-headline-summary-header']) ? str_replace('**DATE**',date('F j, Y', strtotime($publication->publish_date)), $tweakables['publication-headline-summary-header']) : str_replace('**DATE**',date('F j, Y', strtotime($publication->publish_date)), $default_tweakables['publication-headline-summary-header']) }}
     @foreach($publication->articles as $article)
-        {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+        @if(!$article->isPublished($publication->id))
+            {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+        @elseif( $article->isPublished($publication->id) && $article->likeNew($publication->id) == 'Y' )
+            {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+        @endif
+    @endforeach
+    @foreach($publication->articles as $article)
+        @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
+            {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+            <?break;?>
+        @endif
     @endforeach
     {{ isset($tweakables['publication-headline-summary-footer']) ? $tweakables['publication-headline-summary-footer'] : $default_tweakables['publication-headline-summary-footer']}}
 @elseif( (isset($tweakables['publication-headline-summary']) ? $tweakables['publication-headline-summary'] : $default_tweakables['publication-headline-summary']) == 1)

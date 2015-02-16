@@ -45,6 +45,7 @@
                             @if((isset($tweakables['publication-repeat-separator-toggle']) && $tweakables['publication-repeat-separator-toggle'] == 1 ) || $default_tweakables['publication-repeat-separator-toggle'] == 1 )
                                 @if($publication->hasRepeat())
                                     {{ $tweakables['publication-repeat-separator'] }}
+                                        <p>Click the headlines to read the articles in their original publications</p>
                                 @endif
                             @endif
                             @include('publication.repeatContainer')
