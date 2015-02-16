@@ -29,6 +29,7 @@ if(isset($action) && $action == 'settings'){
             @foreach($publication->articles as $article)
                 @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
                     {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+                @endif
             @endforeach
             {{ isset($tweakables['publication-headline-summary-footer']) ? $tweakables['publication-headline-summary-footer'] : $default_tweakables['publication-headline-summary-footer']}}
         </div>
