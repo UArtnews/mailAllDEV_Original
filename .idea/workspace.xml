@@ -237,11 +237,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="article.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="article.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/article/article.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33298862" vertical-offset="1203" max-vertical-offset="2700">
-              <caret line="61" column="21" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="21" />
+            <state vertical-scroll-proportion="-18.75" vertical-offset="1050" max-vertical-offset="2700">
+              <caret line="63" column="89" selection-start-line="63" selection-start-column="89" selection-end-line="63" selection-end-column="89" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DefaultTweakableTableSeeder.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.5208333" vertical-offset="1125" max-vertical-offset="2500">
+              <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -281,9 +291,7 @@
         <option value="$PROJECT_DIR$/app/Libraries/ArticleTools.php" />
         <option value="$PROJECT_DIR$/app/views/publication/publicationWebHeader.blade.php" />
         <option value="$PROJECT_DIR$/app/models/Article.php" />
-        <option value="$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php" />
         <option value="$PROJECT_DIR$/app/views/emailPublication.blade.php" />
-        <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
         <option value="$PROJECT_DIR$/app/views/publication/publicationEmailHeader.blade.php" />
         <option value="$PROJECT_DIR$/app/views/public/master.blade.php" />
         <option value="$PROJECT_DIR$/app/views/tweakableStyle.blade.php" />
@@ -301,6 +309,8 @@
         <option value="$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php" />
         <option value="$PROJECT_DIR$/app/views/publication/publicationContent.blade.php" />
         <option value="$PROJECT_DIR$/app/views/article/article.blade.php" />
+        <option value="$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php" />
+        <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
       </list>
     </option>
   </component>
@@ -781,12 +791,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/controllers/EditorController.php</url>
-          <line>283</line>
+          <line>284</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/controllers/EditorController.php</url>
-          <line>449</line>
+          <line>450</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -940,25 +950,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="4682" max-vertical-offset="6550">
-          <caret line="251" column="0" selection-start-line="251" selection-start-column="0" selection-end-line="251" selection-end-column="0" />
-          <folding>
-            <element signature="n#articles#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#article#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#submissions#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#newPublication#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#images#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#search#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#help#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#save#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#deleteProfile#0;n#EditorController#0;n#!!top" expanded="false" />
-            <element signature="n#loadProfile#0;n#EditorController#0;n#!!top" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/publication/master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="350">
@@ -1019,13 +1010,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.59799" vertical-offset="2955" max-vertical-offset="3950">
           <caret line="142" column="10" selection-start-line="142" selection-start-column="10" selection-end-line="142" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.67839193" vertical-offset="1125" max-vertical-offset="2475">
-          <caret line="72" column="119" selection-start-line="72" selection-start-column="119" selection-end-line="72" selection-end-column="119" />
         </state>
       </provider>
     </entry>
@@ -1190,8 +1174,37 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/article/article.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33298862" vertical-offset="1203" max-vertical-offset="2700">
-          <caret line="61" column="21" selection-start-line="61" selection-start-column="13" selection-end-line="61" selection-end-column="21" />
+        <state vertical-scroll-proportion="-18.75" vertical-offset="1050" max-vertical-offset="2700">
+          <caret line="63" column="89" selection-start-line="63" selection-start-column="89" selection-end-line="63" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.3798995" vertical-offset="2807" max-vertical-offset="6575">
+          <caret line="247" column="43" selection-start-line="247" selection-start-column="43" selection-end-line="247" selection-end-column="43" />
+          <folding>
+            <element signature="n#articles#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#article#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#submissions#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#newPublication#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#images#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#search#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#help#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#save#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#deleteProfile#0;n#EditorController#0;n#!!top" expanded="false" />
+            <element signature="n#loadProfile#0;n#EditorController#0;n#!!top" expanded="false" />
+            <marker date="1424098339629" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1424098339629" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5208333" vertical-offset="1125" max-vertical-offset="2500">
+          <caret line="66" column="60" selection-start-line="66" selection-start-column="60" selection-end-line="66" selection-end-column="60" />
           <folding />
         </state>
       </provider>

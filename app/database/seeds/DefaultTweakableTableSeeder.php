@@ -66,6 +66,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-email-header'              => array('Email ONLY header Content', '', 'textarea'),
             'publication-header'                    => array('New Articles Header', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
+            'publication-email-footer'              => array('Email ONLY Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),
             'publication-headline-summary-header'   => array('Headline Summary Header', '<h4>Today\'s Headlines</h4>', 'textarea'),

@@ -244,6 +244,7 @@ class EditorController extends \BaseController
             'publication-email-header',
             'publication-header',
             'publication-footer',
+            'publication-email-footer',
             'publication-repeat-separator',
             'publication-headline-summary-header',
             'publication-headline-summary-footer',
