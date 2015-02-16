@@ -28,6 +28,9 @@
 </div>
 @endif
 <div class="well col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
+    <h1>
+        Submission Policy/Agreement/Waiver/Clause/Disclaimer
+    </h1>
     <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus venenatis orci sed sem rutrum, eget sagittis augue sollicitudin. Cras placerat aliquam nibh, at lobortis turpis consectetur id. Maecenas ligula augue, congue suscipit malesuada nec, auctor varius quam. In vel urna sit amet tellus elementum ornare id et felis. Etiam condimentum erat neque, vitae consectetur elit semper vitae. Donec ullamcorper odio ac semper consectetur. Cras nec finibus ligula.
     </p>
