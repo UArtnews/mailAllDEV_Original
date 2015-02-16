@@ -44,7 +44,13 @@
         Donec eu ornare urna. Maecenas scelerisque urna vitae maximus imperdiet. Praesent congue sit amet dui consectetur faucibus. Vestibulum pulvinar semper mauris in tempor. Fusce ut arcu sed ante dapibus malesuada at et augue. Aenean id egestas diam. Suspendisse vestibulum accumsan enim, sed hendrerit mauris rutrum at. Nulla imperdiet aliquam odio sit amet luctus.
     </p>
     <hr/>
-    <a type="button" class="btn btn-danger btn-lg" href="{{ URL::to($instanceName) }}">I Do Not Agree</a>
-    <a type="button" class="btn btn-primary btn-lg" href="{{ URL::to('submit/'.$instanceName) }}">I Agree</a>
+    <div class="row">
+        <div class="col-xs-6">
+            <a type="button" class="btn btn-danger btn-block" href="{{ URL::to($instanceName) }}">I Do Not Agree</a>
+        </div>
+        <div class="col-xs-6">
+            <a type="button" class="btn btn-primary btn-block" href="{{ URL::to('submit/'.$instanceName) }}">I Agree</a>
+        </div>
+    </div>
 </div>
 @stop
