@@ -42,11 +42,11 @@
     {{--                        --}}
     {{-- Email Article Content Body --}}
     @if($isEmail && $isRepeat && $hideRepeat)
-        <div class="repeatedArticleContent">
-            <p>This article originally appeared on
-                <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
-            </p>
-        </div>
+        {{--<div class="repeatedArticleContent">--}}
+            {{--<p>This article originally appeared on--}}
+                {{--<a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>--}}
+            {{--</p>--}}
+        {{--</div>--}}
     @elseif($isEmail)
         <div id="articleContent{{ $article->id }}" class="articleContent">
             <p>
@@ -60,13 +60,13 @@
         </div>
     {{-- Non-Email Article Content Body --}}
     @elseif($isRepeat)
-        <{{ $isEditable ? 'div' : 'div' }} class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on
-            <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>
-            @if($isEditable)
-                <button type="button" class="btn btn-xs btn-default" onclick="unhideRepeated({{ $article->id }}, '{{ $publication->id or ''}}');">Show Full Article</button>
-            @endif
-        </{{ $isEditable ? 'div' : 'div' }}>
-        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
+        {{--<{{ $isEditable ? 'div' : 'div' }} class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on--}}
+            {{--<a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>--}}
+            {{--@if($isEditable)--}}
+                {{--<button type="button" class="btn btn-xs btn-default" onclick="unhideRepeated({{ $article->id }}, '{{ $publication->id or ''}}');">Show Full Article</button>--}}
+            {{--@endif--}}
+        {{--</{{ $isEditable ? 'div' : 'div' }}>--}}
+        {{--<{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>--}}
     @else
         <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
     @endif
