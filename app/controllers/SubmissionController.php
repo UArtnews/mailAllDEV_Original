@@ -44,6 +44,39 @@ class SubmissionController extends BaseController {
         return View::make('public.submission', $data);
 	}
 
+    public function preSubmit(){
+        //Grab Instance Name from URI
+        $instanceName = urldecode(Request::segment(2));
+
+        //Fetch Instance out of DB
+        $instance = Instance::where('name', strtolower($instanceName))->firstOrFail();
+
+        $data = array(
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'isEdit'                   => false
+        );
+
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
+        return View::make('public.preSubmission', $data);
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

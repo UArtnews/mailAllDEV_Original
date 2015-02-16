@@ -413,6 +413,7 @@ Route::get('/json/{instanceName}/images', function($instanceName){
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl'), function(){
+    Route::get('/presubmit/{instanceName}', 'SubmissionController@preSubmit');
     Route::get('/submit/{instanceName}', 'SubmissionController@index');
 });
 

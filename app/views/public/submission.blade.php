@@ -32,7 +32,7 @@
     <h3>Your Announcement <small>Click on the Headline or Body to begin editing</small></h3>
     <div class="well colorPanel">
         <div class="contentDiv">
-            <img src="{{ isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : $default_tweakables['publication-banner-image']  }}"/>
+            <img src="{{ isset($tweakables['publication-banner-image']) ? $tweakables['publication-banner-image'] : $default_tweakables['publication-banner-image']  }}" class="img-responsive"/>
             <div class="article" id="article">
                 <h1 id="articleTitle" class="submissionEditor articleTitle" contenteditable="true">
                 @if(isset($article))
