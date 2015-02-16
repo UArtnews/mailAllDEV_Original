@@ -25,10 +25,10 @@ if(isset($action) && $action == 'settings'){
                     {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
                 @endif
             @endforeach
-            <h3>Repeated Items</h3>
             @foreach($publication->articles as $article)
                 @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
-                    {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">'.strip_tags(stripslashes($article->title)).'</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+                    {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">Repeated Articles</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+                    {{break;}}
                 @endif
             @endforeach
             {{ isset($tweakables['publication-headline-summary-footer']) ? $tweakables['publication-headline-summary-footer'] : $default_tweakables['publication-headline-summary-footer']}}
