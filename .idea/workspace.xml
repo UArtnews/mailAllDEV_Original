@@ -260,14 +260,14 @@
       <file leaf-file-name="headlineSummary.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60301507" vertical-offset="150" max-vertical-offset="1325">
-              <caret line="30" column="68" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.57788944" vertical-offset="150" max-vertical-offset="1300">
+              <caret line="29" column="106" selection-start-line="29" selection-start-column="106" selection-end-line="29" selection-end-column="106" />
               <folding>
-                <marker date="1424096429201" expanded="true" signature="812:1094" placeholder="..." />
-                <marker date="1424096429201" expanded="true" signature="2304:2586" placeholder="..." />
-                <marker date="1424096429201" expanded="true" signature="2739:3021" placeholder="..." />
-                <marker date="1424096429201" expanded="true" signature="3273:3531" placeholder="..." />
-                <marker date="1424096429201" expanded="true" signature="4652:4934" placeholder="..." />
+                <marker date="1424096581481" expanded="true" signature="812:1094" placeholder="..." />
+                <marker date="1424096581481" expanded="true" signature="2304:2586" placeholder="..." />
+                <marker date="1424096581481" expanded="true" signature="2739:3021" placeholder="..." />
+                <marker date="1424096581481" expanded="true" signature="3273:3524" placeholder="..." />
+                <marker date="1424096581481" expanded="true" signature="4544:4826" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1226,14 +1226,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60301507" vertical-offset="150" max-vertical-offset="1325">
-          <caret line="30" column="68" selection-start-line="30" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.57788944" vertical-offset="150" max-vertical-offset="1300">
+          <caret line="29" column="106" selection-start-line="29" selection-start-column="106" selection-end-line="29" selection-end-column="106" />
           <folding>
-            <marker date="1424096429201" expanded="true" signature="812:1094" placeholder="..." />
-            <marker date="1424096429201" expanded="true" signature="2304:2586" placeholder="..." />
-            <marker date="1424096429201" expanded="true" signature="2739:3021" placeholder="..." />
-            <marker date="1424096429201" expanded="true" signature="3273:3531" placeholder="..." />
-            <marker date="1424096429201" expanded="true" signature="4652:4934" placeholder="..." />
+            <marker date="1424096581481" expanded="true" signature="812:1094" placeholder="..." />
+            <marker date="1424096581481" expanded="true" signature="2304:2586" placeholder="..." />
+            <marker date="1424096581481" expanded="true" signature="2739:3021" placeholder="..." />
+            <marker date="1424096581481" expanded="true" signature="3273:3524" placeholder="..." />
+            <marker date="1424096581481" expanded="true" signature="4544:4826" placeholder="..." />
           </folding>
         </state>
       </provider>

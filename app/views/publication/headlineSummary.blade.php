@@ -27,8 +27,7 @@ if(isset($action) && $action == 'settings'){
             @endforeach
             @foreach($publication->articles as $article)
                 @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
-                    {{ str_replace('**HEADLINE**', '<h3><a href="#articleTitle'.$article->id.'">Repeated Articles</a></h3>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
-                    {{--<h3><a href="#articleTitle{{ $article->id }}">Repeated Articles</a></h3>--}}
+                    {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
                     <?break;?>
                 @endif
             @endforeach
