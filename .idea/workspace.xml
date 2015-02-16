@@ -260,14 +260,13 @@
       <file leaf-file-name="headlineSummary.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.60301507" vertical-offset="150" max-vertical-offset="1300">
-              <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.5025126" vertical-offset="225" max-vertical-offset="1300">
+              <caret line="29" column="90" selection-start-line="29" selection-start-column="90" selection-end-line="29" selection-end-column="90" />
               <folding>
-                <marker date="1424096116065" expanded="true" signature="812:1094" placeholder="..." />
-                <marker date="1424096116065" expanded="true" signature="2304:2586" placeholder="..." />
-                <marker date="1424096116065" expanded="true" signature="2739:3021" placeholder="..." />
-                <marker date="1424096116065" expanded="true" signature="3273:3530" placeholder="..." />
-                <marker date="1424096116065" expanded="true" signature="4550:4832" placeholder="..." />
+                <marker date="1424096242697" expanded="true" signature="812:1094" placeholder="..." />
+                <marker date="1424096242697" expanded="true" signature="2304:2586" placeholder="..." />
+                <marker date="1424096242697" expanded="true" signature="2739:3021" placeholder="..." />
+                <marker date="1424096242697" expanded="true" signature="4346:4628" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -1226,14 +1225,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.60301507" vertical-offset="150" max-vertical-offset="1300">
-          <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.5025126" vertical-offset="225" max-vertical-offset="1300">
+          <caret line="29" column="90" selection-start-line="29" selection-start-column="90" selection-end-line="29" selection-end-column="90" />
           <folding>
-            <marker date="1424096116065" expanded="true" signature="812:1094" placeholder="..." />
-            <marker date="1424096116065" expanded="true" signature="2304:2586" placeholder="..." />
-            <marker date="1424096116065" expanded="true" signature="2739:3021" placeholder="..." />
-            <marker date="1424096116065" expanded="true" signature="3273:3530" placeholder="..." />
-            <marker date="1424096116065" expanded="true" signature="4550:4832" placeholder="..." />
+            <marker date="1424096242697" expanded="true" signature="812:1094" placeholder="..." />
+            <marker date="1424096242697" expanded="true" signature="2304:2586" placeholder="..." />
+            <marker date="1424096242697" expanded="true" signature="2739:3021" placeholder="..." />
+            <marker date="1424096242697" expanded="true" signature="4346:4628" placeholder="..." />
           </folding>
         </state>
       </provider>
