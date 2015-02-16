@@ -60,6 +60,7 @@
         </div>
     {{-- Non-Email Article Content Body --}}
     @elseif($isRepeat)
+        isRepeat no email
         {{--<{{ $isEditable ? 'div' : 'div' }} class="repeatedArticleContent" style="{{ $hideRepeat?'':'display:none;' }}">This article originally appeared on--}}
             {{--<a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#articleTitle'.$article->id), 1) }}">{{ date('n-d-Y',strtotime($article->originalPublishDate())); }}</a>--}}
             {{--@if($isEditable)--}}
