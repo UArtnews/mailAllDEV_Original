@@ -66,7 +66,7 @@
                 {{--<button type="button" class="btn btn-xs btn-default" onclick="unhideRepeated({{ $article->id }}, '{{ $publication->id or ''}}');">Show Full Article</button>--}}
             {{--@endif--}}
         {{--</{{ $isEditable ? 'div' : 'div' }}>--}}
-        {{--<{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>--}}
+        <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}" style="{{ $hideRepeat?'display:none;':'' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
     @else
         <{{ $isEditable ? 'div' : 'div' }} id="articleContent{{ $article->id }}" class="articleContent{{ $isEditable ? ' editable' : '' }}">{{ $article->getContent() }}</{{ $isEditable ? 'div' : 'div' }}>
     @endif
