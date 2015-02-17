@@ -200,7 +200,8 @@ class EmailController extends \BaseController
                 Mail::send('html', array('html' => $mergedHTML), function($message){
                         $message->to(Input::get('testTo'))
                             ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
-                            ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                            ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '')
+                            ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
                     });
                 $data['success'] = true;
             }else{
@@ -232,12 +233,9 @@ class EmailController extends \BaseController
                         Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
                                 $message->to($addressTo)
                                     ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
-                                    ->from(
-                                        Input::get('addressFrom'),
-                                        Input::has('nameFrom') ? Input::get('nameFrom') : ''
-                                    )->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                            }
-                        );
+                                    ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '')
+                                    ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                            });
                         $data['success'] = true;
                     }
                 } else {
