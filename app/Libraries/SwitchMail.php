@@ -9,7 +9,7 @@ class SwitchMail {
             'uamail' => 'bwzrshsf89'
         );
         if(array_key_exists($username, $passwords)){
-            $transport = SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl');
+            $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl');
             $transport->setUsername($username);
             $transport->setPassword($passwords[$username]);
 
