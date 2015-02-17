@@ -91,15 +91,8 @@ class EmailController extends \BaseController
     }
 
     public function mergeEmail($instanceName, $publication_id){
-
-        echo "Subject: ".Input::has('subject');
-        echo "<br/>From Address: ".Input::get('addressFrom');
-        echo "<br/>From Name: ".Input::get('nameFrom');
-        echo "<br/>ReplyTo Address: ".Input::get('replyTo');
-        die;
-
         set_time_limit(600);
-//        ini_set('memory_limit','320M');
+        //ini_set('memory_limit','320M');
         $instance = Instance::where('name', $instanceName)->first();
 
         $data = array(
