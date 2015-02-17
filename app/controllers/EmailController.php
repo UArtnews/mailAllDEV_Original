@@ -92,12 +92,6 @@ class EmailController extends \BaseController
 
     public function mergeEmail($instanceName, $publication_id){
 
-        Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
-            $message->to($addressTo)
-                ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
-                ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '')
-                ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-        });
         echo "Subject: ".Input::has('subject');
         echo "<br/>From Address: ".Input::get('addressFrom');
         echo "<br/>From Name: ".Input::get('nameFrom');
