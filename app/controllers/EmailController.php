@@ -7,6 +7,7 @@ class EmailController extends \BaseController
     public function __construct(){
         //Make ExcelGet stuff available for this Controller
         $this->excel = App::make('ExcelGet');
+        $this->switchMail = App::make('SwitchMail');
     }
 
     public function sendEmail($instanceName, $publication_id){

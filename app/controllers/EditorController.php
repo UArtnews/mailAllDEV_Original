@@ -252,6 +252,7 @@ class EditorController extends \BaseController
         );
 
         $data['workflowTweakables'] = array(
+            'publication-email-address',
             'publication-public-view',
             'publication-allow-merge',
             'global-accepts-submissions',

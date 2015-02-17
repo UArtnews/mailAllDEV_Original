@@ -78,6 +78,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
             'publication-public-view'               => array('Public Archive/Homepage?', true, 'bool'),
             'global-allow-raw-html'                 => array('Allow Raw Unsanitized HTML', false,'bool'),
+            'publication-email-address'             => array('Sending Email Address <br/>(@zips.uakron.edu is assumed)', 'uazipmail','text'),
         );
 
         foreach ($tweakables as $parameter => $value)
