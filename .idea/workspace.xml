@@ -288,8 +288,8 @@
       <file leaf-file-name="SwitchMail.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Libraries/SwitchMail.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.025536261" vertical-offset="0" max-vertical-offset="979">
-              <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.3319714" vertical-offset="0" max-vertical-offset="979">
+              <caret line="13" column="59" selection-start-line="13" selection-start-column="59" selection-end-line="13" selection-end-column="59" />
               <folding />
             </state>
           </provider>
@@ -383,7 +383,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="50" />
-    <option name="y" value="52" />
+    <option name="y" value="-1028" />
     <option name="width" value="1869" />
     <option name="height" value="1027" />
   </component>
@@ -794,7 +794,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="50" y="52" width="1869" height="1027" extended-state="0" />
+    <frame x="50" y="-1028" width="1869" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -1277,8 +1277,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Libraries/SwitchMail.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.025536261" vertical-offset="0" max-vertical-offset="979">
-          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.3319714" vertical-offset="0" max-vertical-offset="979">
+          <caret line="13" column="59" selection-start-line="13" selection-start-column="59" selection-end-line="13" selection-end-column="59" />
           <folding />
         </state>
       </provider>

@@ -10,7 +10,7 @@ class SwitchMail {
         );
         if(array_key_exists($username, $passwords)){
             $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl');
-            $transport->setUsername($username);
+            $transport->setUsername($username.'@zips.uakron.edu');
             $transport->setPassword($passwords[$username]);
 
             $gmail = new Swift_Mailer($transport);
