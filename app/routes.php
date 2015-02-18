@@ -378,7 +378,7 @@ Route::get('/{instanceName}/search', function($instanceName){
             ->where('publication.publish_date','LIKE','%'.$data['year'].'-'.date('m',strtotime('2014-'.$data['month'].'-01')).'%');
         $data['querySummary'] .= ' published in <strong>' . $data['months'][$data['month']] . '</strong> of <strong>' . $data['year'] . '</strong>.';
     }
-    Instance::where('name', 'flargle')->get();
+    Instance::paginate(1);
     $data['articleResults'] = $data['articleResults']->orderBy('publication.publish_date', 'DESC')->paginate(15);
     foreach($data['articleResults'] as $article){
         $thisArticle = Article::find($article->article_id);
