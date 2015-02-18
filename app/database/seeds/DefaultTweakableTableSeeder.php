@@ -72,6 +72,7 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-headline-summary-header'   => array('Headline Summary Header', '<h4>Today\'s Headlines</h4>', 'textarea'),
             'publication-headline-summary-footer'   => array('Headline Summary Footer', '', 'textarea'),
             'publication-headline-summary-style'    => array('Summary Headline Styling', '- **HEADLINE**', 'textarea'),
+            'publication-submission-splash'         => array('Subsmission Splash Message', '', 'textarea'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),

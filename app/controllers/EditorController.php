@@ -248,7 +248,8 @@ class EditorController extends \BaseController
             'publication-repeat-separator',
             'publication-headline-summary-header',
             'publication-headline-summary-footer',
-            'publication-headline-summary-style'
+            'publication-headline-summary-style',
+            'publication-email-address'
         );
 
         $data['workflowTweakables'] = array(
