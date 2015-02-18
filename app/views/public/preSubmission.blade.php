@@ -28,6 +28,15 @@
 </div>
 @endif
 <div class="well col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
-    {{ isset($tweakables['publication-submission-splash']) ? stripslashes($tweakables['publication-submission-splash']) : stripslashes($default_tweakables['publication-submission-splash']) }}
+    {{ isset($tweakables['publication-headline-summary']) ? stripslashes($tweakables['publication-headline-summary']) : stripslashes($default_tweakables['publication-headline-summary']) }}
+
+    <div class="row">
+        <div class="col-xs-6">
+            <a type="button" class="btn btn-danger btn-block" href="{{ URL::to($instanceName) }}">I Do Not Agree</a>
+        </div>
+        <div class="col-xs-6">
+            <a type="button" class="btn btn-primary btn-block" href="{{ URL::to('submit/'.$instanceName) }}">I Agree</a>
+        </div>
+    </div>
 </div>
 @stop
