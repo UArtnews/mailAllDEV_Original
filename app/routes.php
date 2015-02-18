@@ -228,7 +228,10 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
     //Fetch Instance out of DB
     $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
 
-    if(Publication::where('instance_id',$instance->id)->published()->count() > 0){
+    //Get some pubs
+    $publications = Publication::where('instance_id',$instance->id)->published()->orderBy('publish_date','DESC')->paginate(15);
+
+    if(count($publications) > 0){
 
         $data = array(
             'instance'		=> $instance,
@@ -280,9 +283,6 @@ Route::get('/{instanceName}/archive/', function($instanceName) {
                 $data['submission'] = false;
             }
         }
-
-        //Get some pubs
-        $publications = Publication::where('instance_id',$instance->id)->published()->orderBy('publish_date','DESC')->paginate(15);
 
         //Populate $data
         $data['publications'] = $publications;
