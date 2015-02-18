@@ -51,9 +51,6 @@ class SubmissionController extends BaseController {
         //Fetch Instance out of DB
         $instance = Instance::where('name', strtolower($instanceName))->firstOrFail();
 
-        if(isset($tweakables['publication-submission-splash']) ? $tweakables['publication-submission-splash'] : $default_tweakables['publication-submission-splash'] == ''){
-            return Redirect::to('/presubmit/'.$instanceName);
-        }
 
         $data = array(
             'instance'                 => $instance,
@@ -63,6 +60,9 @@ class SubmissionController extends BaseController {
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'isEdit'                   => false
         );
+        if(isset($data['tweakables']['publication-submission-splash']) ? $data['tweakables']['publication-submission-splash'] : $data['default_tweakables']['publication-submission-splash'] == ''){
+            return Redirect::to('/presubmit/'.$instanceName);
+        }
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
             if($data['tweakables']['global-accepts-submissions']){
