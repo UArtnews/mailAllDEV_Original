@@ -326,8 +326,8 @@
       <file leaf-file-name="SubmissionController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/SubmissionController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.48654243" vertical-offset="1105" max-vertical-offset="8650">
-              <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.4606625" vertical-offset="1105" max-vertical-offset="8650">
+              <caret line="62" column="190" selection-start-line="62" selection-start-column="190" selection-end-line="62" selection-end-column="190" />
               <folding />
             </state>
           </provider>
@@ -1287,8 +1287,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/SubmissionController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.48654243" vertical-offset="1105" max-vertical-offset="8650">
-          <caret line="63" column="40" selection-start-line="63" selection-start-column="40" selection-end-line="63" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.4606625" vertical-offset="1105" max-vertical-offset="8650">
+          <caret line="62" column="190" selection-start-line="62" selection-start-column="190" selection-end-line="62" selection-end-column="190" />
           <folding />
         </state>
       </provider>

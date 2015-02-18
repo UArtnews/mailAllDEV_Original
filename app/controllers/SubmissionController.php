@@ -60,7 +60,7 @@ class SubmissionController extends BaseController {
             'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
             'isEdit'                   => false
         );
-        if(isset($data['tweakables']['publication-submission-splash']) ? $data['tweakables']['publication-submission-splash'] : $data['default_tweakables']['publication-submission-splash'] == ''){
+        if((isset($data['tweakables']['publication-submission-splash']) ? $data['tweakables']['publication-submission-splash'] : $data['default_tweakables']['publication-submission-splash']) == ''){
             return Redirect::to('/submit/'.$instanceName);
         }
 
