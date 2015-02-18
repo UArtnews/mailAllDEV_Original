@@ -308,16 +308,16 @@
       <file leaf-file-name="EditorController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5191898" vertical-offset="4988" max-vertical-offset="11050">
-              <caret line="259" column="35" selection-start-line="259" selection-start-column="35" selection-end-line="259" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.30597016" vertical-offset="4988" max-vertical-offset="11075">
+              <caret line="251" column="42" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
               <folding>
                 <element signature="n#articles#0;n#EditorController#0;n#!!top" expanded="false" />
                 <element signature="n#article#0;n#EditorController#0;n#!!top" expanded="false" />
                 <element signature="n#submissions#0;n#EditorController#0;n#!!top" expanded="false" />
                 <element signature="n#newPublication#0;n#EditorController#0;n#!!top" expanded="false" />
                 <element signature="n#images#0;n#EditorController#0;n#!!top" expanded="false" />
-                <marker date="1424265503082" expanded="true" signature="4881:4902" placeholder="..." />
-                <marker date="1424265503082" expanded="true" signature="5041:5096" placeholder="..." />
+                <marker date="1424265697058" expanded="true" signature="4881:4902" placeholder="..." />
+                <marker date="1424265697058" expanded="true" signature="5041:5096" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -367,8 +367,8 @@
         <option value="$PROJECT_DIR$/app/Libraries/SwitchMail.php" />
         <option value="$PROJECT_DIR$/app/controllers/EmailController.php" />
         <option value="$PROJECT_DIR$/app/database/seeds/DefaultTweakableTableSeeder.php" />
-        <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
         <option value="$PROJECT_DIR$/app/views/editor/settingEditor.blade.php" />
+        <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
       </list>
     </option>
   </component>
@@ -889,12 +889,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/controllers/EditorController.php</url>
-          <line>286</line>
+          <line>287</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/controllers/EditorController.php</url>
-          <line>452</line>
+          <line>453</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -1291,16 +1291,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/EditorController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5191898" vertical-offset="4988" max-vertical-offset="11050">
-          <caret line="259" column="35" selection-start-line="259" selection-start-column="35" selection-end-line="259" selection-end-column="35" />
+        <state vertical-scroll-proportion="0.30597016" vertical-offset="4988" max-vertical-offset="11075">
+          <caret line="251" column="42" selection-start-line="251" selection-start-column="42" selection-end-line="251" selection-end-column="42" />
           <folding>
             <element signature="n#articles#0;n#EditorController#0;n#!!top" expanded="false" />
             <element signature="n#article#0;n#EditorController#0;n#!!top" expanded="false" />
             <element signature="n#submissions#0;n#EditorController#0;n#!!top" expanded="false" />
             <element signature="n#newPublication#0;n#EditorController#0;n#!!top" expanded="false" />
             <element signature="n#images#0;n#EditorController#0;n#!!top" expanded="false" />
-            <marker date="1424265503082" expanded="true" signature="4881:4902" placeholder="..." />
-            <marker date="1424265503082" expanded="true" signature="5041:5096" placeholder="..." />
+            <marker date="1424265697058" expanded="true" signature="4881:4902" placeholder="..." />
+            <marker date="1424265697058" expanded="true" signature="5041:5096" placeholder="..." />
           </folding>
         </state>
       </provider>

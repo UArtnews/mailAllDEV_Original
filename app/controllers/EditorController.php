@@ -249,7 +249,7 @@ class EditorController extends \BaseController
             'publication-headline-summary-header',
             'publication-headline-summary-footer',
             'publication-headline-summary-style',
-            'publication-email-address'
+            'publication-submission-splash'
         );
 
         $data['workflowTweakables'] = array(
@@ -257,7 +257,8 @@ class EditorController extends \BaseController
             'publication-public-view',
             'publication-allow-merge',
             'global-accepts-submissions',
-            'global-allow-raw-html'
+            'global-allow-raw-html',
+            'publication-email-address'
         );
 
         //Grab settings profiles for this instance
