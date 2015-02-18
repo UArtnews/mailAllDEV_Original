@@ -316,8 +316,8 @@
       <file leaf-file-name="preSubmission.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/public/preSubmission.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6635611" vertical-offset="159" max-vertical-offset="1175">
-              <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.61180127" vertical-offset="159" max-vertical-offset="1175">
+              <caret line="30" column="185" selection-start-line="30" selection-start-column="185" selection-end-line="30" selection-end-column="185" />
               <folding />
             </state>
           </provider>
@@ -1287,8 +1287,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/public/preSubmission.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6635611" vertical-offset="159" max-vertical-offset="1175">
-          <caret line="32" column="21" selection-start-line="32" selection-start-column="21" selection-end-line="32" selection-end-column="21" />
+        <state vertical-scroll-proportion="0.61180127" vertical-offset="159" max-vertical-offset="1175">
+          <caret line="30" column="185" selection-start-line="30" selection-start-column="185" selection-end-line="30" selection-end-column="185" />
           <folding />
         </state>
       </provider>

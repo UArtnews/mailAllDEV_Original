@@ -28,7 +28,7 @@
 </div>
 @endif
 <div class="well col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-12">
-    {{ isset($tweakables['publication-headline-summary']) ? stripslashes($tweakables['publication-headline-summary']) : stripslashes($default_tweakables['publication-headline-summary']) }}
+    {{ isset($tweakables['publication-submission-splash']) ? stripslashes($tweakables['publication-submission-splash']) : stripslashes($default_tweakables['publication-submission-splash']) }}
 
     <div class="row">
         <div class="col-xs-6">
