@@ -51,6 +51,10 @@ class SubmissionController extends BaseController {
         //Fetch Instance out of DB
         $instance = Instance::where('name', strtolower($instanceName))->firstOrFail();
 
+        if(isset($tweakables['publication-submission-splash']) ? $tweakables['publication-submission-splash'] : $default_tweakables['publication-submission-splash'] == ''){
+            return Redirect::to('/presubmit/'.$instanceName);
+        }
+
         $data = array(
             'instance'                 => $instance,
             'instanceId'               => $instance->id,
