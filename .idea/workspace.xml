@@ -241,7 +241,7 @@
         <entry file="file://$PROJECT_DIR$/app/routes.php">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.7276551" vertical-offset="8508" max-vertical-offset="16700">
-              <caret line="381" column="107" selection-start-line="381" selection-start-column="107" selection-end-line="381" selection-end-column="107" />
+              <caret line="381" column="100" selection-start-line="381" selection-start-column="100" selection-end-line="381" selection-end-column="100" />
               <folding />
             </state>
           </provider>
@@ -1216,7 +1216,7 @@
     <entry file="file://$PROJECT_DIR$/app/routes.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.7276551" vertical-offset="8508" max-vertical-offset="16700">
-          <caret line="381" column="107" selection-start-line="381" selection-start-column="107" selection-end-line="381" selection-end-column="107" />
+          <caret line="381" column="100" selection-start-line="381" selection-start-column="100" selection-end-line="381" selection-end-column="100" />
           <folding />
         </state>
       </provider>
