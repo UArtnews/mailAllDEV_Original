@@ -379,7 +379,7 @@ Route::get('/{instanceName}/search', function($instanceName){
         $data['querySummary'] .= ' published in <strong>' . $data['months'][$data['month']] . '</strong> of <strong>' . $data['year'] . '</strong>.';
     }
     Instance::where('id','>',-1)->paginate(1);
-    $data['articleResults'] = $data['articleResults']->orderBy('publication.publish_date', 'DESC')->paginate(15);
+    $data['articleResults'] = $data['articleResults']->orderBy('publication.publish_date', 'DESC')->simplePaginate(15);
     foreach($data['articleResults'] as $article){
         $thisArticle = Article::find($article->article_id);
         $article->original_publish_date = $thisArticle->originalPublishDate();
