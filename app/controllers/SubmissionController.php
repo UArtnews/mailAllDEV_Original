@@ -61,7 +61,7 @@ class SubmissionController extends BaseController {
             'isEdit'                   => false
         );
         if(isset($data['tweakables']['publication-submission-splash']) ? $data['tweakables']['publication-submission-splash'] : $data['default_tweakables']['publication-submission-splash'] == ''){
-            return Redirect::to('/presubmit/'.$instanceName);
+            return Redirect::to('/submit/'.$instanceName);
         }
 
         if(isset($data['tweakables']['global-accepts-submissions'])){
