@@ -25,13 +25,9 @@ Route::group(array('before' => 'auth|force.ssl'), function(){
 // 1.  SuperAdmin Routes        //
 //                              //
 //////////////////////////////////
-Route::group(array('before' => 'force.ssl|superAuth'), 'AdminController@route');
-
-//Route::group(array('before' => 'force.ssl|superAuth'), function() {
-//    Route::any('admin/{action?}/{subAction?}/{id?}',function ($action = null, $subAction = null, $id = null) {
-//        }
-//    );
-//});
+Route::group(array('before' => 'force.ssl|superAuth'), function() {
+    Route::any('admin/{action?}/{subAction?}/{id?}', 'AdminController@route');
+});
 
 
 //////////////////////////
