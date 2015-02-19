@@ -36,91 +36,11 @@ Route::group(array('before' => 'force.ssl|superAuth'), function() {
 //                      //
 //////////////////////////
 
-////POST route for Bitbucket WebHook
-//Route::any('/bitbucket/{token}', function($token){
-//    $input = Input::get('payload');
-//    $input = str_replace('\\"','"',$input);
-//    $input = json_decode($input);
-//    $log = '';
-//    $msgs = '';
-//
-//    if(isset($input->commits) && $token == '5237239250'){
-//        $commits = $input->commits;
-//        $doPull = false;
-//        foreach($commits as $commit) {
-//            if ($commit->branch == 'dev') {
-//                $doPull = true;
-//                $msgs .= $commit->author . ' - ' . $commit->message;
-//            }
-//        }
-//        if($doPull) {
-//            $log .= "Automated git pull of branch dev on " . date("F j, Y, g:i a", strtotime('5 hours ago')) . "\n";
-//            $log .= $msgs . "\n";
-//            sleep(10);
-//            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
-//            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
-//            $log .= shell_exec('git pull origin dev');
-//            shell_exec('chgrp -R webapps /web_content/share/mailAllSource');
-//            shell_exec('chmod 775 -R /web_content/share/mailAllSource');
-//        }
-//    }
-//
-//    File::put('/web_content/share/mailAllSource/log.txt', $log);
-//});
-
 //Show logs
-Route::get('/logs/{instanceName}/{fileName}', function($instanceName, $fileName){
-    echo '/web_content/share/mailAllSource/public/logs/'.$instanceName.'/'.$fileName;die;
-    return file_get_contents('/web_content/share/mailAllSource/public/logs/'.$instanceName.'/'.$fileName);
-});
+Route::get('/logs/{instanceName}/{fileName}', 'MiscController@showLogs');
 
 //Show live publication in stripped down reader
-Route::get('/{instanceName}/', function($instanceName){
-
-    //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
-
-
-    $data = array(
-        'instance'		=> $instance,
-        'instanceId'	=> $instance->id,
-        'instanceName'	=> $instance->name,
-        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        'isPublication'            => true
-    );
-
-    if(isset($data['tweakables']['publication-public-view']) && !$data['tweakables']['publication-public-view']){
-        return Redirect::to('/')->withError('This publication does not have a public archive.');
-    }else if(!$data['default_tweakables']['publication-public-view']){
-        return Redirect::to('/')->withError('This publication does not have a public archive.');
-    }
-
-    if(isset($data['tweakables']['global-accepts-submissions'])){
-        if($data['tweakables']['global-accepts-submissions']){
-            $data['submission'] = true;
-        }else{
-            $data['submission'] = false;
-        }
-    }else{
-        if($data['default_tweakables']['global-accepts-submissions']){
-            $data['submission'] = true;
-        }else{
-            $data['submission'] = false;
-        }
-    }
-
-    if(Publication::where('instance_id',$instance->id)->where('published','Y')->count() > 0) {
-        //Get most recent live publication
-        $data['publication'] = Publication::where('instance_id', $instance->id)->livePublication()->first();
-    }else{
-        $data['publication'] = null;
-    }
-
-    return View::make('public.publication')->with($data);
-});
+Route::get('/{instanceName}/', 'PublicController@showPublicHome');
 
 //Show this article with share buttons and stuff
 Route::get('/{instanceName}/article/{article_id}', function($instanceName, $article_id){
