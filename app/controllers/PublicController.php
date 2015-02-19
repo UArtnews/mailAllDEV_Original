@@ -124,6 +124,103 @@ class PublicController extends \BaseController {
         return View::make('public.publication')->with($data);
     }
 
+    public function search($instanceName){
+        $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
+        $data = array(
+            'instance'		=> $instance,
+            'instanceId'	=> $instance->id,
+            'instanceName'	=> $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
+            'searchValue'              => Input::get('search'),
+            'year'                     => Input::has('year') ? Input::get('year') : '--',
+            'month'                    => Input::has('month') ? Input::get('month') : '--',
+            'querySummary'             => ''
+        );
+
+        //Setup dropdowns for searching
+        $data['years'] = array('--' => '--');
+
+        foreach($data['years'] as $index => $value){
+            $index = $value;
+        }
+
+        foreach(range(date('Y'), date('Y')-5) as $year){
+            $data['years'][$year] = $year;
+        }
+
+        $data['months'] = array(
+            '--' => '--',
+            '1' => 'January',
+            '2' => 'February',
+            '3' => 'March',
+            '4' => 'April',
+            '5' => 'May',
+            '6' => 'June',
+            '7' => 'July',
+            '8' => 'August',
+            '9' => 'September',
+            '10' => 'October',
+            '11' => 'November',
+            '12' => 'December'
+        );
+
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
+        $data['articleResults'] = DB::table('article')
+            ->join('publication_order', 'article.id', '=', 'publication_order.article_id')
+            ->join('publication', 'publication_order.publication_id', '=', 'publication.id')
+            ->select('article.id as article_id',
+                'article.title as title',
+                'article.updated_at as updated_at',
+                'article.created_at as created_at',
+                'publication.id as publication_id',
+                'publication.published',
+                'publication.publish_date'
+            )->where('publication.instance_id', $instance->id);
+
+        if($data['searchValue'] != ''){
+            $data['articleResults'] = $data['articleResults']->where(function ($query) {
+                $query->Where('article.title', 'LIKE', '%' . Input::get('search') . '%')
+                    ->orWhere('article.content', 'LIKE', '%' . Input::get('search') . '%');
+            });
+            $data['querySummary'] .= ' where the article contains <strong>' . $data['searchValue'] . '</strong> ';
+        }
+
+        if($data['year'] != '--' && $data['month'] == '--'){
+            $data['articleResults'] = $data['articleResults']
+                ->where('publication.publish_date','LIKE','%'.$data['year'].'%');
+            $data['querySummary'] .= ' published in <strong>' . $data['year'] . '</strong>.';
+        }elseif($data['year'] != '--' && $data['month'] != '--'){
+            $data['articleResults'] = $data['articleResults']
+                ->where('publication.publish_date','LIKE','%'.$data['year'].'-'.date('m',strtotime('2014-'.$data['month'].'-01')).'%');
+            $data['querySummary'] .= ' published in <strong>' . $data['months'][$data['month']] . '</strong> of <strong>' . $data['year'] . '</strong>.';
+        }
+        Instance::where('id','>',-1)->paginate(1);
+        $data['articleResults'] = $data['articleResults']->orderBy('publication.publish_date', 'DESC')->paginate(15);
+        foreach($data['articleResults'] as $article){
+            $thisArticle = Article::find($article->article_id);
+            $article->original_publish_date = $thisArticle->originalPublishDate();
+            $article->original_publication_id = $thisArticle->originalPublication();
+        }
+
+        return View::make('public.search')->with($data);
+    }
+
     public function showArchive($instanceName){
         //Fetch Instance out of DB
         $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
