@@ -43,44 +43,7 @@ Route::get('/logs/{instanceName}/{fileName}', 'MiscController@showLogs');
 Route::get('/{instanceName}/', 'PublicController@showPublicHome');
 
 //Show this article with share buttons and stuff
-Route::get('/{instanceName}/article/{article_id}', function($instanceName, $article_id){
-    //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
-
-    $data = array(
-        'instance'		=> $instance,
-        'instanceId'	=> $instance->id,
-        'instanceName'	=> $instance->name,
-        'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-        'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-        'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-        'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        'isArticle'                => true
-    );
-
-    if(isset($data['tweakables']['global-accepts-submissions'])){
-        if($data['tweakables']['global-accepts-submissions']){
-            $data['submission'] = true;
-        }else{
-            $data['submission'] = false;
-        }
-    }else{
-        if($data['default_tweakables']['global-accepts-submissions']){
-            $data['submission'] = true;
-        }else{
-            $data['submission'] = false;
-        }
-    }
-
-    //Get this publication
-    $article = Article::where('instance_id',$instance->id)->where('id',$article_id)->firstOrFail();
-
-    //Populate $data
-    $data['article'] = $article;
-
-    return View::make('public.article')->with($data);
-});
-
+Route::get('/{instanceName}/article/{article_id}', 'PublicController@showArticle');
 
 //Show this publication in stripped down reader
 Route::get('/{instanceName}/archive/{publication_id}', function($instanceName, $publication_id){
