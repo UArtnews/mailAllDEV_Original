@@ -2,7 +2,7 @@
 Debugbar::stopMeasure('globalToRoutes');
 
 Debugbar::startMeasure('routeToNowhere', "Literally from one line to the next inside routes.php");
-Debugbar::startMeasure('routeToNowhere');
+Debugbar::stopMeasure('routeToNowhere');
 Debugbar::startMeasure('routesToController', "From routes.php to controller constructor");
 
 /*
