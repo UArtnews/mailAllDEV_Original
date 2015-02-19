@@ -84,6 +84,46 @@ class PublicController extends \BaseController {
         return View::make('public.article')->with($data);
     }
 
+    public function showPublication($instanceName, $publication_id){
+        //Fetch Instance out of DB
+        $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
+
+        //Get this publication
+        $publication = Publication::where('id', $publication_id)->published()->withArticles()->first();
+
+        if(count($publication) > 0){
+
+            $data = array(
+                'instance'		=> $instance,
+                'instanceId'	=> $instance->id,
+                'instanceName'	=> $instance->name,
+                'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+                'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+                'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
+                'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name')
+            );
+
+            if(isset($data['tweakables']['global-accepts-submissions'])){
+                if($data['tweakables']['global-accepts-submissions']){
+                    $data['submission'] = true;
+                }else{
+                    $data['submission'] = false;
+                }
+            }else{
+                if($data['default_tweakables']['global-accepts-submissions']){
+                    $data['submission'] = true;
+                }else{
+                    $data['submission'] = false;
+                }
+            }
+
+            //Populate $data
+            $data['publication'] = $publication;
+        }
+
+        return View::make('public.publication')->with($data);
+    }
+
 	public function index()
 	{
         $data['publication_id'] = urldecode(Request::segment(4)) ? urldecode(Request::segment(4)) : '';
