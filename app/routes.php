@@ -49,72 +49,7 @@ Route::get('/{instanceName}/article/{article_id}', 'PublicController@showArticle
 Route::get('/{instanceName}/archive/{publication_id}', 'PublicController@showPublication');
 
 //Show archives
-Route::get('/{instanceName}/archive/', function($instanceName) {
-    //Fetch Instance out of DB
-    $instance = Instance::where('name',strtolower(urldecode($instanceName)))->firstOrFail();
-
-    //Get some pubs
-    $publications = Publication::where('instance_id',$instance->id)->published()->orderBy('publish_date','DESC')->paginate(15);
-
-    if(count($publications) > 0){
-
-        $data = array(
-            'instance'		=> $instance,
-            'instanceId'	=> $instance->id,
-            'instanceName'	=> $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-            'tweakables_types'         => reindexArray(DefaultTweakable::all(), 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray(DefaultTweakable::all(), 'parameter', 'display_name'),
-        );
-
-        //Setup dropdowns for searching
-        $data['years'] = array('--' => '--');
-
-        foreach($data['years'] as $index => $value){
-            $index = $value;
-        }
-
-        foreach(range(date('Y'), date('Y')-10) as $year){
-            $data['years'][$year] = $year;
-        }
-
-        $data['months'] = array(
-            '--' => '--',
-            '1' => 'January',
-            '2' => 'February',
-            '3' => 'March',
-            '4' => 'April',
-            '5' => 'May',
-            '6' => 'June',
-            '7' => 'July',
-            '8' => 'August',
-            '9' => 'September',
-            '10' => 'October',
-            '11' => 'November',
-            '12' => 'December'
-        );
-
-        if(isset($data['tweakables']['global-accepts-submissions'])){
-            if($data['tweakables']['global-accepts-submissions']){
-                $data['submission'] = true;
-            }else{
-                $data['submission'] = false;
-            }
-        }else{
-            if($data['default_tweakables']['global-accepts-submissions']){
-                $data['submission'] = true;
-            }else{
-                $data['submission'] = false;
-            }
-        }
-
-        //Populate $data
-        $data['publications'] = $publications;
-
-    }
-    return View::make('public.archive')->with($data);
-});
+Route::get('/{instanceName}/archive/', 'PublicController@showArchive');
 
 //Show search results for public users
 Route::get('/{instanceName}/search', function($instanceName){
