@@ -3,6 +3,67 @@
 class EditorController extends \BaseController
 {
 
+    public function route($instanceName, $action = null, $subAction = null){
+        $app = app();
+        $editorController = $app->make('EditorController');
+
+        //Fetch Instance out of DB
+        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
+
+        //Stuff parameters into array
+        $parameters = array(
+            'subAction' => $subAction,
+            'data'      => array()
+        );
+
+        $defaultTweakable = DefaultTweakable::all();
+
+        //Gather Data Common to all editor views
+        $parameters['data'] = array(
+            'action'                   => $action,
+            'subAction'                => $subAction,
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray($defaultTweakable, 'parameter', 'value'),
+            'tweakables_types'         => reindexArray($defaultTweakable, 'parameter', 'type'),
+            'default_tweakables_names' => reindexArray($defaultTweakable, 'parameter', 'display_name'),
+        );
+
+        //Stuff session data into data parameter
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+
+            if (isset($cart[$instance->id])) {
+                $parameters['data']['cart'] = $cart[$instance->id];
+            }
+        }
+
+        //Stuff tweakables into data parameter
+        if (isset($parameters['data']['tweakables']['global-accepts-submissions'])) {
+            if ($parameters['data']['tweakables']['global-accepts-submissions']) {
+                $parameters['data']['submission'] = true;
+            } else {
+                $parameters['data']['submission'] = false;
+            }
+        } else {
+            if ($parameters['data']['default_tweakables']['global-accepts-submissions']) {
+                $parameters['data']['submission'] = true;
+            } else {
+                $parameters['data']['submission'] = false;
+            }
+        }
+
+        //Route to correct method in EditorController
+        //Default Editor Route
+        if($action == null){
+            return $editorController->callAction('index', $parameters);
+        }else{
+            return $editorController->callAction($action, $parameters);
+        }
+    }
+
     ////////////////////////
     //  edit/{instanceName}
     ///////////////////////

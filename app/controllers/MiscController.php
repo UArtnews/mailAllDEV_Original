@@ -114,4 +114,32 @@ class MiscController extends BaseController {
             }
         }
     }
+
+    public function articleAJAX($article_id, $publication_id = ''){
+        $article = Article::findOrFail($article_id);
+        //Grab instance ID from article
+
+        $instanceId = $article->instance_id;
+
+        $instance = Instance::findOrFail($instanceId);
+
+        $data = array(
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'article'                  => $article,
+            'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
+            'hideRepeat'               => $article->isPublished($publication_id) ? true : false,
+            'isEmail'                  => false,
+            'isEditable'               => true,
+            'shareIcons'               => false,
+        );
+
+        if($publication_id != ''){
+            $data['publication'] = Publication::where('id', $publication_id)->first();
+        }
+        return View::make('article.article', $data);
+    }
 }

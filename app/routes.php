@@ -105,48 +105,8 @@ Route::group(array('before' => 'force.ssl'), function(){
     Route::post('/cart/{instanceName}/clear', 'MiscController@cartClear');
 
     //Post routes so AJAX can grab editable regions
-    Route::any('/editable/article/{article_id}/{publication_id?}', function($article_id, $publication_id = ''){
-            $article = Article::findOrFail($article_id);
-            //Grab instance ID from article
+    Route::any('/editable/article/{article_id}/{publication_id?}', 'MiscController@articleAJAX');
 
-            $instanceId = $article->instance_id;
-
-            $instance = Instance::findOrFail($instanceId);
-
-            $data = array(
-                'instance'                 => $instance,
-                'instanceId'               => $instance->id,
-                'instanceName'             => $instance->name,
-                'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-                'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
-                'article'                  => $article,
-                'isRepeat'                 => $article->isPublished($publication_id) ? true : false,
-                'hideRepeat'               => $article->isPublished($publication_id) ? true : false,
-                'isEmail'                  => false,
-                'isEditable'               => true
-            ,
-                'shareIcons'               => false,
-            );
-
-            if($publication_id != ''){
-                $data['publication'] = Publication::where('id', $publication_id)->first();
-            }
-            return View::make('article.article', $data);
-        });
-
-    Route::get('admin/login', array('before' => 'force.ssl', function(){
-            $name = 'mailAllSession';
-
-            $date = date('Y-m-d');
-
-            $value = md5('mailAll500P3RS3kR3T'.$date);
-
-            return Redirect::to('/')->withCookie(Cookie::make($name, $value,time()+3600*2*1));
-        }));
-
-    Route::get('admin/logout', function(){
-            return Redirect::guest('/')->withCookie(Cookie::forget('urlSession'));
-        });
 });
 
 
@@ -157,66 +117,7 @@ Route::group(array('before' => 'force.ssl'), function(){
 //                              //
 //////////////////////////////////
 Route::group(array('before' => 'force.ssl|editAuth'), function(){
-    Route::get('/edit/{instanceName}/{action?}/{subAction?}', function($instanceName, $action = null, $subAction = null) {
-        $app = app();
-        $editorController = $app->make('EditorController');
-
-        //Fetch Instance out of DB
-        $instance = Instance::where('name', strtolower(urldecode($instanceName)))->firstOrFail();
-
-        //Stuff parameters into array
-        $parameters = array(
-            'subAction' => $subAction,
-            'data'      => array()
-        );
-
-        $defaultTweakable = DefaultTweakable::all();
-
-        //Gather Data Common to all editor views
-        $parameters['data'] = array(
-            'action'                   => $action,
-            'subAction'                => $subAction,
-            'instance'                 => $instance,
-            'instanceId'               => $instance->id,
-            'instanceName'             => $instance->name,
-            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
-            'default_tweakables'       => reindexArray($defaultTweakable, 'parameter', 'value'),
-            'tweakables_types'         => reindexArray($defaultTweakable, 'parameter', 'type'),
-            'default_tweakables_names' => reindexArray($defaultTweakable, 'parameter', 'display_name'),
-        );
-
-        //Stuff session data into data parameter
-        if (Session::has('cart')) {
-            $cart = Session::get('cart');
-
-            if (isset($cart[$instance->id])) {
-                $parameters['data']['cart'] = $cart[$instance->id];
-            }
-        }
-
-        //Stuff tweakables into data parameter
-        if (isset($parameters['data']['tweakables']['global-accepts-submissions'])) {
-            if ($parameters['data']['tweakables']['global-accepts-submissions']) {
-                $parameters['data']['submission'] = true;
-            } else {
-                $parameters['data']['submission'] = false;
-            }
-        } else {
-            if ($parameters['data']['default_tweakables']['global-accepts-submissions']) {
-                $parameters['data']['submission'] = true;
-            } else {
-                $parameters['data']['submission'] = false;
-            }
-        }
-
-        //Route to correct method in EditorController
-        //Default Editor Route
-        if($action == null){
-            return $editorController->callAction('index', $parameters);
-        }else{
-            return $editorController->callAction($action, $parameters);
-        }
-    });
+    Route::get('/edit/{instanceName}/{action?}/{subAction?}', 'EditorController@route');
 
     //Specific Saving Controller for things in the editor like saving settings
     Route::get('/deleteProfile/{instanceName}/{profileName}', 'EditorController@deleteProfile');
