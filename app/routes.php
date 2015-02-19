@@ -13,10 +13,11 @@
  * 6.  Editor Logged In Routes
  *
  */
-Debugbar::stopMeasure('appRunToRoutes');
-Debugbar::startMeasure('routeToController', 'From Router to Controller Constructor');
+
+//Public landing page
 Route::get('/', 'HomeController@index');
 
+//Editor landing page
 Route::group(array('before' => 'auth|force.ssl'), function(){
     Route::get('editors', 'HomeController@editors');
 });
@@ -29,7 +30,6 @@ Route::group(array('before' => 'auth|force.ssl'), function(){
 Route::group(array('before' => 'force.ssl|superAuth'), function() {
     Route::any('admin/{action?}/{subAction?}/{id?}', 'AdminController@route');
 });
-
 
 //////////////////////////
 //                      //
