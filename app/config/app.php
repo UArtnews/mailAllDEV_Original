@@ -106,7 +106,6 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
-        'Way\Generators\GeneratorsServiceProvider',
         'Makzumi\Calendar\CalendarServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
         'ExcelGetServiceProvider',
