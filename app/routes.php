@@ -1,5 +1,5 @@
 <?php
-Debugbar::stopMeasuare('globalToRoutes');
+Debugbar::stopMeasure('globalToRoutes');
 Debugbar::startMeasure('routesToController', "From routes.php to controller constructor");
 
 /*
