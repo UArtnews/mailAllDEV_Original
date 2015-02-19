@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+Debugbar::startMeasure('appRunToRoutes', 'From $app->run() to routes.php');
 
 /*
 |--------------------------------------------------------------------------
