@@ -13,7 +13,8 @@
  * 6.  Editor Logged In Routes
  *
  */
-Debugbar::startMeasure('routeToController', 'Router Hit!');
+Debugbar::stopMeasure('appRunToRoutes');
+Debugbar::startMeasure('routeToController', 'From Router to Controller Constructor');
 Route::get('/', 'HomeController@index');
 
 Route::group(array('before' => 'auth|force.ssl'), function(){
