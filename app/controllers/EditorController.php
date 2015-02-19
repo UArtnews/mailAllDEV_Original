@@ -2,6 +2,9 @@
 
 class EditorController extends \BaseController
 {
+    public function __construct(){
+        Debugbar::stopMeasure('routeToController');
+    }
 
     public function route($instanceName, $action = null, $subAction = null){
         $app = app();

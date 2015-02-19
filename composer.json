@@ -11,17 +11,6 @@
         "maatwebsite/excel": "1.2.2",
 		"barryvdh/laravel-debugbar": "~1.8"
 	},
-    "require-dev": {
-        "fzaninotto/faker": "dev-master",
-        "zizaco/testcases-laravel": "dev-master",
-        "behat/behat": "3.0.*",
-        "behat/mink": "1.5.*",
-        "behat/mink-extension": "2.*",
-        "behat/mink-goutte-driver": "*",
-        "behat/mink-selenium-driver": "*",
-        "behat/mink-selenium2-driver": "*",
-		"way/generators": "1.1"
-    },
 	"autoload": {
 		"classmap": [
 			"app/commands",
