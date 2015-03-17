@@ -74,7 +74,6 @@
     <span id='end_time_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('end_time', isset($article) ? $article->end_time : null, array('class' => 'timePicker form-control')) }}
     <br/>
-
     {{ Form::label('location', 'Where will your event be held? ') }}
     <span id='location_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('location', isset($article) ? $article->location : null, array('class' => 'form-control')) }}
