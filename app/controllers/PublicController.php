@@ -3,7 +3,6 @@
 class PublicController extends \BaseController {
 
     public function __construct(){
-        Debugbar::stopMeasure('routesToController');
     }
 
     public function showPublicHome($instanceName){

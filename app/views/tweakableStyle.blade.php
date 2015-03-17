@@ -1,4 +1,4 @@
-<?
+<?php
 $summaryWidth = str_replace('px','',isset($tweakables['publication-headline-summary-width']) ? $tweakables['publication-headline-summary-width'] : $default_tweakables['publication-headline-summary-width']);
 ?>
 

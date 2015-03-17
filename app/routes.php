@@ -1,7 +1,4 @@
 <?php
-Debugbar::stopMeasure('globalToRoutes');
-Debugbar::startMeasure('routesToController', "From routes.php to controller constructor");
-
 /*
  * 1.  Super Admin Routes
 

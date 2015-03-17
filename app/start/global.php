@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-Debugbar::startMeasure('globalToRoutes', "From global.php to routes.php");
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader

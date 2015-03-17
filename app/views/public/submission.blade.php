@@ -55,27 +55,27 @@
     <br/>
 
     <h3>Announcement Information</h3>
-    {{ Form::label('event_start_date', 'Start Date: ') }}
+    {{ Form::label('event_start_date', 'What day is your event starting? ') }}
     <span id='event_start_date_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('event_start_date', isset($article) ? $article->event_start_date : null, array('class' => 'datePicker form-control')) }}
     <br/>
 
-    {{ Form::label('event_end_date', 'End Date: ') }}
+    {{ Form::label('event_end_date', 'What day is your event ending? ') }}
     <span id='event_end_date_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('event_end_date', isset($article) ? $article->event_end_date : null, array('class' => 'datePicker form-control')) }}
     <br/>
 
-    {{ Form::label('start_time', 'Start Time: ') }}
+    {{ Form::label('start_time', 'When does your event start? ') }}
     <span id='start_time_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('start_time', isset($article) ? $article->start_time : null, array('class' => 'timePicker form-control')) }}
     <br/>
 
-    {{ Form::label('end_time', 'End Time: ') }}
+    {{ Form::label('end_time', 'When does your event end? ') }}
     <span id='end_time_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('end_time', isset($article) ? $article->end_time : null, array('class' => 'timePicker form-control')) }}
     <br/>
 
-    {{ Form::label('location', 'Location: ') }}
+    {{ Form::label('location', 'Where will your event be held? ') }}
     <span id='location_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('location', isset($article) ? $article->location : null, array('class' => 'form-control')) }}
     <br/>
@@ -96,6 +96,10 @@
     </ul>
     <br/>
     <h3>Your Information</h3>
+    {{ Form::checkbox('publish_contact_info', false, array('class' => 'form-control')) }}
+    {{ Form::label('publish_contact_info', 'I want to publish this contact information: ') }}
+    <br/>
+
     {{ Form::label('name', 'Name: ') }}
     <span id='name_error' class="label label-danger" style="display:none;"></span>
     {{ Form::text('name', isset($_SERVER['cn']) ? $_SERVER['cn'] : null, array('class' => 'form-control')) }}
@@ -111,16 +115,8 @@
     {{ Form::text('phone', isset($article) ? $article->phone : null, array('class' => 'form-control')) }}
     <br/>
 
-    {{ Form::label('organization', 'Registered Student Organization: ') }}
+    {{ Form::label('organization', 'Office, Department or Student Organization: ') }}
     {{ Form::text('organization', isset($article) ? $article->organization : null, array('class' => 'form-control')) }}
-    <br/>
-
-    {{ Form::label('department', 'Campus Department: ') }}
-    {{ Form::text('department', isset($article) ? $article->department : null, array('class' => 'form-control')) }}
-    <br/>
-
-    {{ Form::checkbox('publish_contact_info', false, array('class' => 'form-control')) }}
-    {{ Form::label('publish_contact_info', 'I want to publish this contact information: ') }}
     <br/>
     <br/>
     {{ Form::close() }}
