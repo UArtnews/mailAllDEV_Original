@@ -121,6 +121,8 @@ h4 {
 
 .headline-summary p{
     margin-bottom:12px;
+    font-size: 9pt;
+    line-height:120%;
 }
 
 .headline-summary-table {
