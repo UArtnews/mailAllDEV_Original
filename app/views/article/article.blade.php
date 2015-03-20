@@ -23,7 +23,6 @@
         <a name="articleTitle{{ $article->id }}"></a>
         <h1 id="articleTitle{{ $article->id }}" class="articleTitle editable">{{ $article->getTitle() }}</h1>
         <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$publication->id.'#article'.$article->id), 1) }}">
-            <p>[Click to read more]</p>
         </a>
     @else
         <a name="articleTitle{{ $article->id }}"></a>
