@@ -11,7 +11,7 @@
         <a name="articleTitle{{ $article->id }}"></a>
         <a href="{{ preg_replace('/https/','http', URL::to($instanceName.'/archive/'.$article->originalPublication().'#article'.$article->id), 1) }}">
             <h1 id="articleTitle{{ $article->id }}" class="articleTitle{{ $isEditable ? ' editable' : '' }}">{{ $article->getTitle() }}
-                <small>[Click to read more]</small>
+                <br/><small>[Click to read more]</small>
             </h1>
         </a>
     {{-- Setup Href Headlines for Emails --}}
