@@ -125,7 +125,7 @@ class SubmissionController extends BaseController {
             $submission->email = Input::get('email');
             $submission->phone = Input::get('phone');
             $submission->organization = Input::get('organization');
-            $submission->department = Input::get('department');
+            $submission->department = '';
             $submission->publish_contact_info = Input::get('publish_contact_info');
 
             $submission->save();
