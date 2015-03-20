@@ -17,7 +17,7 @@ if(isset($action) && $action == 'settings'){
     @endforeach
     @foreach($publication->articles as $article)
         @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
-            {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+            {{ str_replace('**HEADLINE**', '<a href="#repeat-container-header">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
             <?break;?>
         @endif
     @endforeach
@@ -37,7 +37,7 @@ if(isset($action) && $action == 'settings'){
             @endforeach
             @foreach($publication->articles as $article)
                 @if($article->isPublished($publication->id) && $article->likeNew($publication->id) == 'N' )
-                    {{ str_replace('**HEADLINE**', '<a href="#articleTitle'.$article->id.'">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
+                    {{ str_replace('**HEADLINE**', '<a href="#repeat-container-header">Repeated Items</a><br/>', isset($tweakables['publication-headline-summary-style']) ? $tweakables['publication-headline-summary-style'] : $default_tweakables['publication-headline-summary-style']) }}
                     <?break;?>
                 @endif
             @endforeach
