@@ -119,7 +119,7 @@ h4 {
     position:relative;
 }
 
-.headline-summary a{
+.headline-summary p{
     margin-bottom:12px;
 }
 
