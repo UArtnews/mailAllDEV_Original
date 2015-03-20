@@ -110,8 +110,6 @@ Route::group(array('before' => 'force.ssl'), function(){
 
 });
 
-
-
 //////////////////////////////////
 //                              //
 // 6.  Editor Logged In Routes  //

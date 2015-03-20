@@ -31,10 +31,7 @@
     {{ isset($tweakables['publication-submission-splash']) ? stripslashes($tweakables['publication-submission-splash']) : stripslashes($default_tweakables['publication-submission-splash']) }}
 
     <div class="row">
-        <div class="col-xs-6">
-            <a type="button" class="btn btn-danger btn-block" href="{{ URL::to($instanceName) }}">I Do Not Agree</a>
-        </div>
-        <div class="col-xs-6">
+        <div class="col-xs-12">
             <a type="button" class="btn btn-primary btn-block" href="{{ URL::to('submit/'.$instanceName) }}">I Agree</a>
         </div>
     </div>
