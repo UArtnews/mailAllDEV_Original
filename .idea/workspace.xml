@@ -249,11 +249,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="headlineSummary.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="headlineSummary.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.58841777" vertical-offset="256" max-vertical-offset="1550">
-              <caret line="33" column="112" selection-start-line="33" selection-start-column="112" selection-end-line="33" selection-end-column="112" />
+            <state vertical-scroll-proportion="-7.821429" vertical-offset="256" max-vertical-offset="1550">
+              <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
               <folding>
                 <marker date="1426860633531" expanded="true" signature="870:1252" placeholder="..." />
                 <marker date="1426860633531" expanded="true" signature="1389:1771" placeholder="..." />
@@ -263,6 +263,16 @@
                 <marker date="1426860633531" expanded="true" signature="4539:4785" placeholder="..." />
                 <marker date="1426860633531" expanded="true" signature="5805:6087" placeholder="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="tweakableStyle.blade.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/tweakableStyle.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.43640125" vertical-offset="2628" max-vertical-offset="4050">
+              <caret line="122" column="23" selection-start-line="122" selection-start-column="23" selection-end-line="122" selection-end-column="23" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -372,7 +382,6 @@
         <option value="$PROJECT_DIR$/app/config/database.php" />
         <option value="$PROJECT_DIR$/app/config/app.php" />
         <option value="$PROJECT_DIR$/bootstrap/start.php" />
-        <option value="$PROJECT_DIR$/app/views/tweakableStyle.blade.php" />
         <option value="$PROJECT_DIR$/app/controllers/EditorController.php" />
         <option value="$PROJECT_DIR$/app/controllers/PublicController.php" />
         <option value="$PROJECT_DIR$/app/start/global.php" />
@@ -383,6 +392,7 @@
         <option value="$PROJECT_DIR$/app/views/publication/publicationContent.blade.php" />
         <option value="$PROJECT_DIR$/app/views/emailPublication.blade.php" />
         <option value="$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php" />
+        <option value="$PROJECT_DIR$/app/views/tweakableStyle.blade.php" />
       </list>
     </option>
   </component>
@@ -397,7 +407,7 @@
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="49" />
-    <option name="y" value="-1056" />
+    <option name="y" value="24" />
     <option name="width" value="1871" />
     <option name="height" value="1056" />
   </component>
@@ -797,7 +807,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="49" y="-1056" width="1871" height="1056" extended-state="6" />
+    <frame x="49" y="24" width="1871" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
@@ -1136,13 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/tweakableStyle.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.07537688" vertical-offset="275" max-vertical-offset="3950">
-          <caret line="14" column="93" selection-start-line="14" selection-start-column="93" selection-end-line="14" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bootstrap/start.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.35515872" vertical-offset="42" max-vertical-offset="1725">
@@ -1261,8 +1264,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/publication/headlineSummary.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.58841777" vertical-offset="256" max-vertical-offset="1550">
-          <caret line="33" column="112" selection-start-line="33" selection-start-column="112" selection-end-line="33" selection-end-column="112" />
+        <state vertical-scroll-proportion="-7.821429" vertical-offset="256" max-vertical-offset="1550">
+          <caret line="19" column="44" selection-start-line="19" selection-start-column="44" selection-end-line="19" selection-end-column="44" />
           <folding>
             <marker date="1426860633531" expanded="true" signature="870:1252" placeholder="..." />
             <marker date="1426860633531" expanded="true" signature="1389:1771" placeholder="..." />
@@ -1272,6 +1275,14 @@
             <marker date="1426860633531" expanded="true" signature="4539:4785" placeholder="..." />
             <marker date="1426860633531" expanded="true" signature="5805:6087" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/tweakableStyle.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.43640125" vertical-offset="2628" max-vertical-offset="4050">
+          <caret line="122" column="23" selection-start-line="122" selection-start-column="23" selection-end-line="122" selection-end-column="23" />
+          <folding />
         </state>
       </provider>
     </entry>

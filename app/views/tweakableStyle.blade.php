@@ -119,6 +119,10 @@ h4 {
     position:relative;
 }
 
+.headline-summary a{
+    margin-bottom:12px;
+}
+
 .headline-summary-table {
     background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
     padding:{{ $tweakables['publication-padding'] or $default_tweakables['publication-padding'] }};
