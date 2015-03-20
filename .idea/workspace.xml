@@ -310,8 +310,8 @@
       <file leaf-file-name="submission.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/public/submission.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.33298862" vertical-offset="2128" max-vertical-offset="5400">
-              <caret line="98" column="50" selection-start-line="98" selection-start-column="50" selection-end-line="98" selection-end-column="50" />
+            <state vertical-scroll-proportion="0.30713546" vertical-offset="2128" max-vertical-offset="5400">
+              <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
               <folding />
             </state>
           </provider>
@@ -1280,8 +1280,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/public/submission.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33298862" vertical-offset="2128" max-vertical-offset="5400">
-          <caret line="98" column="50" selection-start-line="98" selection-start-column="50" selection-end-line="98" selection-end-column="50" />
+        <state vertical-scroll-proportion="0.30713546" vertical-offset="2128" max-vertical-offset="5400">
+          <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
           <folding />
         </state>
       </provider>

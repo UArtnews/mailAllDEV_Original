@@ -95,8 +95,8 @@
     </ul>
     <br/>
     <h3>Your Information</h3>
-    {{ Form::checkbox('publish_contact_info', false, array('class' => 'form-control')) }}
-    {{ Form::label('publish_contact_info', '&nbps;I want to publish this contact information ') }}
+    {{ Form::checkbox('publish_contact_info', false, array('class' => 'form-control')) }}&nbsp;&nbsp;
+    {{ Form::label('publish_contact_info', 'I want to publish this contact information ') }}
     <br/>
 
     {{ Form::label('name', 'Name: ') }}
