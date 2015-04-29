@@ -8,6 +8,8 @@ class EmailController extends \BaseController
         //Make ExcelGet stuff available for this Controller
         $this->excel = App::make('ExcelGet');
         $this->switchMail = App::make('SwitchMail');
+        ini_set('memory_limit', '256M');
+        ini_set('max_execution_time','2400');
     }
 
     public function sendEmail($instanceName, $publication_id){
