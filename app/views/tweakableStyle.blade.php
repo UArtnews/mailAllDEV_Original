@@ -119,11 +119,11 @@ h4 {
     position:relative;
 }
 
-.headline-summary p{
-    margin-bottom:12px;
-    font-size: 9pt;
-    line-height:120%;
-}
+{{--.headline-summary p{--}}
+    {{--margin-bottom:12px;--}}
+    {{--font-size: 9pt;--}}
+    {{--line-height:120%;--}}
+{{--}--}}
 
 .headline-summary-table {
     background-color:{{ $tweakables['publication-background-color'] or $default_tweakables['publication-background-color'] }};
