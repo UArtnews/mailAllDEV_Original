@@ -292,8 +292,8 @@
       <file leaf-file-name="EmailController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/EmailController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7714581" vertical-offset="4029" max-vertical-offset="7550">
-              <caret line="191" column="82" selection-start-line="191" selection-start-column="75" selection-end-line="191" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.71975183" vertical-offset="4029" max-vertical-offset="7550">
+              <caret line="189" column="34" selection-start-line="189" selection-start-column="34" selection-end-line="189" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -1157,8 +1157,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/EmailController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7714581" vertical-offset="4029" max-vertical-offset="7550">
-          <caret line="191" column="82" selection-start-line="191" selection-start-column="75" selection-end-line="191" selection-end-column="82" />
+        <state vertical-scroll-proportion="0.71975183" vertical-offset="4029" max-vertical-offset="7550">
+          <caret line="189" column="34" selection-start-line="189" selection-start-column="34" selection-end-line="189" selection-end-column="34" />
           <folding />
         </state>
       </provider>
