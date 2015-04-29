@@ -189,7 +189,7 @@ class EmailController extends \BaseController
         //Scan for replacements
         $replaceColumns = array();
         $replacePattern = '/\*\*.*\*\*/';
-        preg_match_all($replacePattern, $inlineHTML, &$replaceColumns);
+        preg_match_all($replacePattern, $inlineHTML, &$replaceColumns, PREG_PATTERN_ORDER);
         dd($replaceColumns);
         return count($replaceColumns)." matches found";
 
