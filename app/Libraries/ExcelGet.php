@@ -28,8 +28,8 @@ class ExcelGet {
                         }
                     }
                     array_push($rows, $tmpArray);
-                    dd($rows);
                 }
+                dd($rows);
             });
         }
 
