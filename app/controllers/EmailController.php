@@ -8,8 +8,6 @@ class EmailController extends \BaseController
         //Make ExcelGet stuff available for this Controller
         $this->excel = App::make('ExcelGet');
         $this->switchMail = App::make('SwitchMail');
-        ini_set('memory_limit', '256M');
-        ini_set('max_execution_time','2400');
     }
 
     public function sendEmail($instanceName, $publication_id){
@@ -93,8 +91,8 @@ class EmailController extends \BaseController
     }
 
     public function mergeEmail($instanceName, $publication_id){
-        set_time_limit(600);
-        //ini_set('memory_limit','320M');
+        ini_set('memory_limit', '256M');
+        ini_set('max_execution_time','2400');
         $instance = Instance::where('name', $instanceName)->first();
 
         $data = array(
