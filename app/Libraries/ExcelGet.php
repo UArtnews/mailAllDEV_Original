@@ -5,7 +5,7 @@ class ExcelGet {
     function __construct(){
     }
 
-    function asArray($fileName)
+    function asArray($fileName, $columnNames)
     {
         $sheetCount = 0;
         $rows = array();
@@ -20,6 +20,7 @@ class ExcelGet {
         foreach(range(0, $sheetCount-1) as $sheetIndex){
             Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
                 foreach($results as $row){
+                    dd($row);
                     array_push($rows, $row->toArray());
                 }
             });

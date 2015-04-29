@@ -197,7 +197,8 @@ class EmailController extends \BaseController
             $matcher = str_replace('*','',$matcher);
             $matcher = strtolower($matcher);
         }
-        dd($replaceColumns);
+
+        //Mail Switching
         //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
         //$this->switchMail->gmail($sendingAddress);
 
@@ -221,7 +222,7 @@ class EmailController extends \BaseController
             }
         }else{
             //Do the big-daddy merge
-            $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName);
+            $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName, $replaceColumns);
             //For each recipient/row in the merge file
             foreach($addresses as $address) {
                 $addressField = Input::get('addressField');
