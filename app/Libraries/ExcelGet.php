@@ -17,7 +17,7 @@ class ExcelGet {
             }
         });
 
-        dd($sheetCount);
+        dd(Excel::filter('chunk')->load($fileName)->getSheetCount());
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
             Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows, &$columnNames){
