@@ -193,7 +193,7 @@ class EmailController extends \BaseController
         $replaceColumns = $replaceColumns[0];
         array_push($replaceColumns, Input::get('addressField'));
         //Strip the asterisks
-        foreach($replaceColumns as $matcher){
+        foreach($replaceColumns as &$matcher){
             $matcher = str_replace('*','',$matcher);
             $matcher = strtolower($matcher);
         }
