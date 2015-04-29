@@ -226,7 +226,7 @@ class EmailController extends \BaseController
             dd($addresses);
             //For each recipient/row in the merge file
             foreach($addresses as $address) {
-                $addressField = Input::get('addressField');
+                $addressField = strtolower(Input::get('addressField'));
                 $addressTo = $address[$addressField];
                 $mergedHTML = $inlineHTML;
                 //For each column in this row try to replace the contents of the file
