@@ -189,8 +189,8 @@ class EmailController extends \BaseController
         //Scan for replacements
         $replaceColumns = array();
         $replacePattern = '/\*\*.*\*\*/';
-        preg_match_all($replacePattern, $inlineHTML, $replaceColumns, PREG_SET_ORDER);
-        dd($replaceColumns);
+        preg_match_all($replacePattern, $inlineHTML, &$replaceColumns);
+        return count($replaceColumns)." matches found";
 
         //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
         //$this->switchMail->gmail($sendingAddress);
