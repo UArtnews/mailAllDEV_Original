@@ -190,7 +190,7 @@ class EmailController extends \BaseController
         $replaceColumns = array();
         $replacePattern = '/\*\*.*?\*\*/';
         preg_match_all($replacePattern, $inlineHTML, &$replaceColumns, PREG_PATTERN_ORDER);
-        dd($replaceColumns);
+        dd($replaceColumns[0]);
         return count($replaceColumns)." matches found";
 
         //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
