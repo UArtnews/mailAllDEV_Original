@@ -8,8 +8,7 @@
         "makzumi/calendar": "dev-master",
         "tijsverkoyen/css-to-inline-styles": "1.3.0",
         "tijsverkoyen/css-to-inline-styles": "1.5.0",
-        "maatwebsite/excel": "1.2.2",
-		"barryvdh/laravel-debugbar": "~1.8"
+        "maatwebsite/excel": "1.2.2"
 	},
 	"autoload": {
 		"classmap": [
