@@ -20,8 +20,8 @@ class ExcelGet {
         foreach(range(0, $sheetCount-1) as $sheetIndex){
             Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
                 foreach($results as $row){
-                    foreach($row as $col){
-                        dd($col);
+                    foreach($row as $colName => $value){
+                        dd($colName);
                     }
                     array_push($rows, $row->toArray());
                 }
