@@ -17,6 +17,8 @@ class ExcelGet {
             }
         });
 
+        dd($sheetCount);
+
         foreach(range(0, $sheetCount-1) as $sheetIndex){
             Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows, &$columnNames){
                 foreach($results as $row){
@@ -30,8 +32,8 @@ class ExcelGet {
                     array_push($rows, $tmpArray);
                 }
             });
+            dd($rows);
         }
-        dd($rows);
 
         return $rows;
     }
