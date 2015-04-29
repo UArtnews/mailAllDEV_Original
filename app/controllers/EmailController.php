@@ -186,6 +186,12 @@ class EmailController extends \BaseController
         $failCount = 0;
         $failDetails = array();
 
+        //Scan for replacements
+        $replaceColumns = array();
+        $replacePattern = '/\*\*.*\*\*/';
+        preg_match_all($replacePattern, $inlineHTML, $replaceColumns);
+        dd($replaceColumns);
+
         //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
         //$this->switchMail->gmail($sendingAddress);
 
