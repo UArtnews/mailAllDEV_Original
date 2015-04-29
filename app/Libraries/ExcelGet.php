@@ -27,7 +27,6 @@ class ExcelGet {
                 }
             });
         }
-        dd($rows);
 
         return $rows;
     }
