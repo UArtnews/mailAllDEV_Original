@@ -190,9 +190,12 @@ class EmailController extends \BaseController
         $replaceColumns = array();
         $replacePattern = '/\*\*.*?\*\*/';
         preg_match_all($replacePattern, $inlineHTML, &$replaceColumns, PREG_PATTERN_ORDER);
-        dd($replaceColumns[0]);
-        return count($replaceColumns)." matches found";
+        $output = '';
 
+        foreach($replaceColumns[0] as $matcher){
+            $output .= $matcher.', ';
+        }
+        return $output;
         //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
         //$this->switchMail->gmail($sendingAddress);
 
