@@ -223,6 +223,7 @@ class EmailController extends \BaseController
         }else{
             //Do the big-daddy merge
             $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName, $replaceColumns);
+            dd($addresses);
             //For each recipient/row in the merge file
             foreach($addresses as $address) {
                 $addressField = Input::get('addressField');

@@ -18,12 +18,16 @@ class ExcelGet {
         });
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows, &$columnNames){
                 foreach($results as $row){
+                    $tmpArray = array();
                     foreach($row as $colName => $value){
-                        dd($colName);
+                        $colName = strtolower(str_replace(' ','_',$colName));
+                        if(in_array($colName, $columnNames)){
+                            $tmpArray[$colName] = $value;
+                        }
                     }
-                    array_push($rows, $row->toArray());
+                    array_push($rows, $tmpArray);
                 }
             });
         }
