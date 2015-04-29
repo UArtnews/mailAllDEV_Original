@@ -68,8 +68,8 @@ class EmailController extends \BaseController
 
         $inlineHTML = $inliner->convert();
 
-        $sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
-        $this->switchMail->gmail($sendingAddress);
+        //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
+        //$this->switchMail->gmail($sendingAddress);
         Mail::send('html', array('html' => $inlineHTML), function($message){
             $message->to(Input::get('addressTo'))
                 ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
@@ -186,8 +186,8 @@ class EmailController extends \BaseController
         $failCount = 0;
         $failDetails = array();
 
-        $sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
-        $this->switchMail->gmail($sendingAddress);
+        //$sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
+        //$this->switchMail->gmail($sendingAddress);
 
         if(Input::has('isTest')){
             //Do a single merge
