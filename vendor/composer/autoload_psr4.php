@@ -8,5 +8,4 @@ $baseDir = dirname($vendorDir);
 return array(
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
-    'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
 );

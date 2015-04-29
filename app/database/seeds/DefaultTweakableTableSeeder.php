@@ -66,17 +66,20 @@ class DefaultTweakableTableSeeder extends Seeder {
             'publication-email-header'              => array('Email ONLY header Content', '', 'textarea'),
             'publication-header'                    => array('New Articles Header', '', 'textarea'),
             'publication-footer'                    => array('Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
+            'publication-email-footer'              => array('Email ONLY Footer Content', 'This publication has been produced by The University of Akron', 'textarea'),
             'publication-repeat-separator'          => array('Repeated Items Separator', '', 'textarea'),
             'publication-repeat-separator-toggle'   => array('Repeated Items Separator', true, 'bool'),
             'publication-headline-summary-header'   => array('Headline Summary Header', '<h4>Today\'s Headlines</h4>', 'textarea'),
             'publication-headline-summary-footer'   => array('Headline Summary Footer', '', 'textarea'),
             'publication-headline-summary-style'    => array('Summary Headline Styling', '- **HEADLINE**', 'textarea'),
+            'publication-submission-splash'         => array('Subsmission Splash Message', '', 'textarea'),
 
             //Workflow and Features
             'global-accepts-submissions'            => array('Article Submission Enabled', false,'bool'),
             'publication-allow-merge'               => array('Allow Mail Merge', false, 'bool'),
             'publication-public-view'               => array('Public Archive/Homepage?', true, 'bool'),
             'global-allow-raw-html'                 => array('Allow Raw Unsanitized HTML', false,'bool'),
+            'publication-email-address'             => array('Sending Email Address (@zips.uakron.edu is assumed)', 'uazipmail','text'),
         );
 
         foreach ($tweakables as $parameter => $value)

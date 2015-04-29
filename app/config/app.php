@@ -13,7 +13,7 @@ return array(
     |
     */
 
-    'debug'     => false,
+    'debug'     => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ return array(
     |
     */
 
-    'url'       => 'http://localhost',
+    'url'       => 'http://share.uakron.edu/mailAll',
 
     /*
     |--------------------------------------------------------------------------
@@ -106,7 +106,6 @@ return array(
         'Illuminate\Validation\ValidationServiceProvider',
         'Illuminate\View\ViewServiceProvider',
         'Illuminate\Workbench\WorkbenchServiceProvider',
-        'Way\Generators\GeneratorsServiceProvider',
         'Makzumi\Calendar\CalendarServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
         'ExcelGetServiceProvider',

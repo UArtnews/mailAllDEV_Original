@@ -5,22 +5,25 @@ class ExcelGet {
     function __construct(){
     }
 
-    function asArray($fileName)
+    function asArray($fileName, $columnNames)
     {
         $sheetCount = 0;
         $rows = array();
 
-        //Get sheet count
-        Excel::filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$sheetCount){
-            foreach($results as $sheet){
-                $sheetCount++;
-            }
-        });
+
+        $sheetCount = Excel::filter('chunk')->load($fileName)->getSheetCount();
 
         foreach(range(0, $sheetCount-1) as $sheetIndex){
-            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows){
+            Excel::selectSheetsByIndex($sheetIndex)->filter('chunk')->load($fileName)->chunk(1000, function($results) use (&$rows, &$columnNames){
                 foreach($results as $row){
-                    array_push($rows, $row->toArray());
+                    $tmpArray = array();
+                    foreach($row as $colName => $value){
+                        $colName = strtolower(str_replace(' ','_',$colName));
+                        if(in_array($colName, $columnNames)){
+                            $tmpArray[$colName] = $value;
+                        }
+                    }
+                    array_push($rows, $tmpArray);
                 }
             });
         }

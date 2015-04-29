@@ -14,7 +14,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 @if($submission)
-                <li ><a href="{{URL::to('submit/'.$instanceName)}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Submit New Article/Announcement</a></li>
+                <li ><a href="{{URL::to('presubmit/'.$instanceName)}}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Submit New Article/Announcement</a></li>
                 @endif
             </ul>
             <form id="searchForm" class="navbar-form navbar-right" role="search" action="{{ URL::to("$instanceName/search") }}" method="GET">

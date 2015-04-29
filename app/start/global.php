@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
 /*
 |--------------------------------------------------------------------------
 | Register The Laravel Class Loader

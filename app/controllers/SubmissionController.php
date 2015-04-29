@@ -44,6 +44,43 @@ class SubmissionController extends BaseController {
         return View::make('public.submission', $data);
 	}
 
+    public function preSubmit(){
+        //Grab Instance Name from URI
+        $instanceName = urldecode(Request::segment(2));
+
+        //Fetch Instance out of DB
+        $instance = Instance::where('name', strtolower($instanceName))->firstOrFail();
+
+
+        $data = array(
+            'instance'                 => $instance,
+            'instanceId'               => $instance->id,
+            'instanceName'             => $instance->name,
+            'tweakables'               => reindexArray($instance->tweakables()->get(), 'parameter', 'value'),
+            'default_tweakables'       => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+            'isEdit'                   => false
+        );
+        if((isset($data['tweakables']['publication-submission-splash']) ? $data['tweakables']['publication-submission-splash'] : $data['default_tweakables']['publication-submission-splash']) == ''){
+            return Redirect::to('/submit/'.$instanceName);
+        }
+
+        if(isset($data['tweakables']['global-accepts-submissions'])){
+            if($data['tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }else{
+            if($data['default_tweakables']['global-accepts-submissions']){
+                $data['submission'] = true;
+            }else{
+                $data['submission'] = false;
+            }
+        }
+
+        return View::make('public.preSubmission', $data);
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -88,7 +125,7 @@ class SubmissionController extends BaseController {
             $submission->email = Input::get('email');
             $submission->phone = Input::get('phone');
             $submission->organization = Input::get('organization');
-            $submission->department = Input::get('department');
+            $submission->department = '';
             $submission->publish_contact_info = Input::get('publish_contact_info');
 
             $submission->save();

@@ -2,6 +2,27 @@
 
 class AdminController extends BaseController {
 
+    public function route($action = null, $subAction = null, $id = null){
+        $app = app();
+        $adminController = $app->make('AdminController');
+
+        $parameters = array(
+            'data'  => array(
+                'default_tweakables'    => reindexArray(DefaultTweakable::all(), 'parameter', 'value'),
+                'tweakables'            => array(),
+                'action'                => $action,
+                'subAction'             => $subAction,
+                'id'                    => $id
+            )
+        );
+
+        if($action == null){
+            return $adminController->callAction('index', $parameters);
+        }else{
+            return $adminController->callAction($action, $parameters);
+        }
+    }
+
     public function index($data)
     {
         return Redirect::to('admin/instances');

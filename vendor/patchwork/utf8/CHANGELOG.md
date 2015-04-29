@@ -1,3 +1,27 @@
+## v1.1.29 (2015-04-26)
+
+- fix ucwords to be functionally the same as in-built PHP version
+- fix iconv_set_encoding deprecation notice in PHP 5.6.0
+- remove legacy test for HHVM/PHP7
+
+## v1.1.28 (2015-01-12)
+
+- fix mbstring shim for html-entities
+
+## v1.1.27 (2015-01-11)
+
+- update to Unicode 7.0
+- fix iconv shim compat layer
+
+## v1.1.26 (2014-11-08)
+
+- tweak composer.json
+
+## v1.1.25 (2014-08-05)
+
+- update travis matrix
+- add composer branch alias
+
 ## v1.1.24 (2014-06-17)
 
 - update tests for latest HHVM fixes

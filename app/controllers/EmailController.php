@@ -7,6 +7,7 @@ class EmailController extends \BaseController
     public function __construct(){
         //Make ExcelGet stuff available for this Controller
         $this->excel = App::make('ExcelGet');
+        $this->switchMail = App::make('SwitchMail');
     }
 
     public function sendEmail($instanceName, $publication_id){
@@ -67,6 +68,8 @@ class EmailController extends \BaseController
 
         $inlineHTML = $inliner->convert();
 
+        $sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
+        $this->switchMail->gmail($sendingAddress);
         Mail::send('html', array('html' => $inlineHTML), function($message){
             $message->to(Input::get('addressTo'))
                 ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
@@ -88,8 +91,8 @@ class EmailController extends \BaseController
     }
 
     public function mergeEmail($instanceName, $publication_id){
-        set_time_limit(600);
-//        ini_set('memory_limit','320M');
+        ini_set('memory_limit', '256M');
+        ini_set('max_execution_time','2400');
         $instance = Instance::where('name', $instanceName)->first();
 
         $data = array(
@@ -182,6 +185,23 @@ class EmailController extends \BaseController
         $sentCount = 0;
         $failCount = 0;
         $failDetails = array();
+
+        //Scan for replacements
+        $replaceColumns = array();
+        $replacePattern = '/\*\*.*?\*\*/';
+        preg_match_all($replacePattern, $inlineHTML, $replaceColumns, PREG_PATTERN_ORDER);
+        $replaceColumns = $replaceColumns[0];
+        array_push($replaceColumns, strtolower(Input::get('addressField')));
+        //Strip the asterisks
+        foreach($replaceColumns as &$matcher){
+            $matcher = str_replace('*','',$matcher);
+            $matcher = strtolower($matcher);
+        }
+
+        //Mail Switching
+        $sendingAddress = isset($data['tweakables']['publication-email-address']) ? $data['tweakables']['publication-email-address'] : $data['default_tweakables']['publication-email-address'];
+        $this->switchMail->gmail($sendingAddress);
+
         if(Input::has('isTest')){
             //Do a single merge
             $mergedHTML = $inlineHTML;
@@ -193,7 +213,8 @@ class EmailController extends \BaseController
                 Mail::send('html', array('html' => $mergedHTML), function($message){
                         $message->to(Input::get('testTo'))
                             ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
-                            ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                            ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : 'noreply@uakron.edu')
+                            ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
                     });
                 $data['success'] = true;
             }else{
@@ -201,11 +222,14 @@ class EmailController extends \BaseController
             }
         }else{
             //Do the big-daddy merge
-            $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName);
+            $addresses = $this->excel->asArray($mergePath . "/" . $mergeFileName, $replaceColumns);
+
+            //For each recipient/row in the merge file
             foreach($addresses as $address) {
-                $addressField = Input::get('addressField');
+                $addressField = strtolower(Input::get('addressField'));
                 $addressTo = $address[$addressField];
                 $mergedHTML = $inlineHTML;
+                //For each column in this row try to replace the contents of the file
                 foreach ($address as $index => $value) {
                     $pattern = '**' . $index . '**';
                     $mergedHTML = str_replace($pattern, $value, $mergedHTML);
@@ -225,12 +249,9 @@ class EmailController extends \BaseController
                         Mail::send('html',array('html' => $mergedHTML),function ($message) use($addressTo) {
                                 $message->to($addressTo)
                                     ->subject(Input::has('subject') ? stripslashes(Input::get('subject')) : '')
-                                    ->from(
-                                        Input::get('addressFrom'),
-                                        Input::has('nameFrom') ? Input::get('nameFrom') : ''
-                                    )->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
-                            }
-                        );
+                                    ->from(Input::get('addressFrom'), Input::has('nameFrom') ? Input::get('nameFrom') : '')
+                                    ->replyTo(Input::get('replyTo'), Input::has('nameFrom') ? Input::get('nameFrom') : '');
+                            });
                         $data['success'] = true;
                     }
                 } else {

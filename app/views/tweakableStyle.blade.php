@@ -1,4 +1,4 @@
-<?
+<?php
 $summaryWidth = str_replace('px','',isset($tweakables['publication-headline-summary-width']) ? $tweakables['publication-headline-summary-width'] : $default_tweakables['publication-headline-summary-width']);
 ?>
 
@@ -117,6 +117,12 @@ h4 {
 
 .headline-summary {
     position:relative;
+}
+
+.headline-summary p{
+    margin-bottom:12px;
+    font-size: 9pt;
+    line-height:120%;
 }
 
 .headline-summary-table {
