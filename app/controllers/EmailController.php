@@ -191,7 +191,7 @@ class EmailController extends \BaseController
         $replacePattern = '/\*\*.*?\*\*/';
         preg_match_all($replacePattern, $inlineHTML, $replaceColumns, PREG_PATTERN_ORDER);
         $replaceColumns = $replaceColumns[0];
-        array_push($replaceColumns, Input::get('addressField'));
+        array_push($replaceColumns, strtolower(Input::get('addressField')));
         //Strip the asterisks
         foreach($replaceColumns as &$matcher){
             $matcher = str_replace('*','',$matcher);
