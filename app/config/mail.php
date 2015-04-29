@@ -28,8 +28,8 @@ return array(
 	|
 	*/
 
-	'host' => 'smtp.gmail.com',
-//	'host' => 'sinister.uakron.edu',
+//	'host' => 'smtp.gmail.com',
+	'host' => 'sinister.uakron.edu',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -42,8 +42,8 @@ return array(
 	|
 	*/
 
-	'port' => 465,
-//	'port' => 1025,
+//	'port' => 465,
+	'port' => 1025,
 
 	/*
 	|--------------------------------------------------------------------------
@@ -69,7 +69,7 @@ return array(
 	|
 	*/
 
-	'encryption' => 'ssl',
+//	'encryption' => 'ssl',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -82,8 +82,8 @@ return array(
 	|
 	*/
 
-	'username' => 'uazipmail@zips.uakron.edu',
-//	'username' => '',
+//	'username' => 'uazipmail@zips.uakron.edu',
+	'username' => '',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -96,8 +96,8 @@ return array(
 	|
 	*/
 
-	'password' => 'nhriuxis3911',
-//	'password' => '',
+//	'password' => 'nhriuxis3911',
+	'password' => '',
 
 	/*
 	|--------------------------------------------------------------------------
